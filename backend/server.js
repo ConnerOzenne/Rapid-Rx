@@ -5,7 +5,6 @@ const mysql = require('mysql');
 const cors = require('cors');
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
 // const mysqlConnect = require('./db');
-const routes = require('./routes');
 
 // set up some configs for express.
 const config = {
@@ -28,7 +27,14 @@ app.use(cors({
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 //include routes
-routes(app, logger);
+
+const user = require('./routes/user');
+user(app, logger);
+
+// GET /
+app.get('/', (req, res) => {
+  res.status(200).send('Go to 0.0.0.0:3000.');
+});
 
 // connecting the express object to listen on a particular port as defined in the config object.
 app.listen(config.port, config.host, (e) => {
