@@ -28,7 +28,24 @@ app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 //include routes
 
+const address = require('./routes/address');
+const appointment = require('./routes/appointment');
+const inventory = require('./routes/inventory');
+const medication = require('./routes/medication');
+const notification = require('./routes/notification');
+const order = require('./routes/order');
+const pharmacy = require('./routes/pharmacy');
+const request = require('./routes/request');
 const user = require('./routes/user');
+
+address(app, logger);
+appointment(app, logger);
+inventory(app, logger);
+medication(app, logger);
+notification(app, logger);
+order(app, logger);
+pharmacy(app, logger);
+request(app, logger);
 user(app, logger);
 
 // GET /
