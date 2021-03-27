@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
+import { Login } from './pages/Login.jsx'
+import { CreateAccount } from './pages/CreateAccount.jsx'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+// import { Home } from ./pages/Home.jsx
+
+
 
 // React functional component
 function App () {
   // state for storage of the information on the webpage of forms and list, uses hooks
   const [number, setNumber] = useState("")
   const [values, setValues] = useState([])
-
+  
   // ENTER YOUR EC2 PUBLIC IP/URL HERE
   const ec2_url = ''
   // CHANGE THIS TO TRUE IF HOSTING ON EC2, MAKE SURE TO ADD IP/URL ABOVE
@@ -66,21 +72,45 @@ function App () {
     fetchVals();
   }, [])
 
+  // return (
+  //   <div className="App">
+  //     <header className="App-header">
+  //       <button onClick={fetchBase} style={{marginBottom: '1rem'}}> {`GET: http://${url}:8000/`} </button>
+  //       <button onClick={reset}> Reset DB </button>
+  //       <form onSubmit={handleSubmit}>
+  //         <input type="text" value={number} onChange={handleChange}/>
+  //         <br/>
+  //         <input type="submit" value="Submit" />
+  //       </form>
+  //       <ul>
+  //         { values.map((value, i) => <li key={i}>{value.value}</li>) }
+  //       </ul>
+  //     </header>
+  //   </div>
+  // );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={fetchBase} style={{marginBottom: '1rem'}}> {`GET: http://${url}:8000/`} </button>
-        <button onClick={reset}> Reset DB </button>
-        <form onSubmit={handleSubmit}>
-          <input type="text" value={number} onChange={handleChange}/>
-          <br/>
-          <input type="submit" value="Submit" />
-        </form>
-        <ul>
-          { values.map((value, i) => <li key={i}>{value.value}</li>) }
-        </ul>
-      </header>
+    <div>
+      <Router>
+        {/* <div path="/login" component={Login}/> */}
+        <Switch>
+            <Route path="/create" component={CreateAccount}/>
+            {/* <Route path= "/distInfo/:listingID" component={DistContact}/>
+            <Route path="/orders/:orderId" component={OrderHistory}/>
+            // <Route path="/home" component={Home}/>
+            <Route path="/listing/:id" component={ListingEditor}/>
+            <Route path="/createListing" component={PostListing}/>
+            <Route path="/user/edit/:userId" component={EditProfile}/>
+            <Route path="/user/:userId" component={UserProfile}/>
+            <Route path="/orders/:userId" component={OrderHistory}/>
+            <Route path="/distributors/:userId" component={DistributorListings}/>
+            <Route path="/cart" component={MyCart}/> */}
+            <Route path="/" render={() => <Login />}/>
+        </Switch>
+      </Router>
+        
     </div>
+    
   );
 }
 

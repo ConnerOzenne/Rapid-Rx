@@ -1,0 +1,38 @@
+/* .btn.btn-primary.btn-block.btn-login {
+    margin: 1em 0em 1em;
+} */
+
+* {
+    margin: 10px;
+    padding: 5px;
+}
+
+.form-control {
+    margin-bottom: 1em;
+}
+
+/* .btn.btn-link.text-link {
+    padding: 0em;
+    margin: 0em;
+} */
+
+h3 {
+    text-align: center;
+}
+
+label {
+    display: block;
+}
+
+button, input {
+    width: 100%;
+    background-color: rgb(157, 96, 255);
+    font-size: 24px;
+    color: white;
+    /* margin: 10px; */
+}
+
+button {
+    background-color: green;
+    border-radius: .25px;
+ }
