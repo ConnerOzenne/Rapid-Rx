@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+//import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 
 export class HomePage extends React.Component {
@@ -8,7 +8,8 @@ export class HomePage extends React.Component {
     medInfo = ["Name","Description","Side Effects","Not compatible with","More Information"];
 
     state = {
-        firstName: "Michael"
+        firstName: "Mitch",
+        isLoggedIn: false
     };
 
     render() {
@@ -22,14 +23,14 @@ export class HomePage extends React.Component {
                 <h1>Rapid RX</h1>
                 <h2>Welcome {this.state.firstName}!</h2>
                 <button>Get Started</button>
-                <a>View Prescriptions</a>
-                <a>Pharmacies</a>
+                <a href="/prescriptions">View Prescriptions</a>
+                <a href="/pharmacies">Pharmacies</a>
 
                 <div>
                     <h1>My Medications</h1>
                     <table>
                         <thead>
-                            <tr>
+                            <tr>   
                                 {this.days.map(day => <td>{day}</td>)}
                             </tr>
                         </thead>
