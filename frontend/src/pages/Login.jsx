@@ -2,15 +2,15 @@ import axios from 'axios';
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import './Login.css';
-// import {Repository} from '../api/repository';
+import {Repository} from '../api/repository';
 
  export class Login extends React.Component {
 
-    // repo = new Repository();
+    repo = new Repository();
 
     state = {
 
-      email: "",
+      username: "",
       password: "",
       accountType: "",
       success: false,
@@ -21,7 +21,7 @@ import './Login.css';
     }
 
     printLogin = () => {
-        console.log(this.state.email, this.state.password)
+        console.log(this.state.username, this.state.password)
     }
 
     handleLogin = () => {
@@ -29,23 +29,21 @@ import './Login.css';
       this.checkError();
       if (!this.state.error) {
         this.printLogin()
-        // this.repo.login(this.state.email, this.state.password).then(data => {
-        //     if (data == "invalid") {
-        //         this.setState({error: true, errorMsg: "Invalid username or password"});
-        //         return;
-        //     }
-        //     this.setState({uid: data.data.split(":")[0]});
-        //     window.cookie = data.data;
-        //     setTimeout(() => {
-        //         this.props.onLogin(this.state.uid);
-        //         this.setState({success: true});
-        //   }, 1000);
-        // })
-        // .catch( e => {
-        //   this.setState({error: true, errorMsg: "Invalid username or password"});
-        // });
-        
-        
+        this.repo.login(this.state.username, this.state.password).then(data => {
+            if (data == "invalid") {
+                this.setState({error: true, errorMsg: "Invalid username or password"});
+                return;
+            }
+            this.setState({uid: data.data.split(":")[0]});
+            window.cookie = data.data;
+            setTimeout(() => {
+                this.props.onLogin(this.state.uid);
+                this.setState({success: true});
+          }, 1000);
+        })
+        .catch( e => {
+          this.setState({error: true, errorMsg: "Invalid username or password"});
+        });
       }
     }
 
@@ -62,13 +60,13 @@ import './Login.css';
       return (
         <div className="container">
           <h3>Login</h3>
-          <label htmlFor="email">Email </label>
+          <label htmlFor="username">Username </label>
           <input className="form-control" 
             type="text" 
-            name="email" 
-            id="email"
-            value={this.state.email}
-            onChange={e => this.setState({email: e.target.value})}
+            name="username" 
+            id="username"
+            value={this.state.username}
+            onChange={e => this.setState({username: e.target.value})}
           />
           <br></br>
           <label htmlFor="password">Password </label>

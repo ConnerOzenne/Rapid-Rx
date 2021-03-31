@@ -1,17 +1,18 @@
 import React from 'react'
 import {Link, Redirect} from 'react-router-dom';
-// import { Repository } from '../api/repository';
+import { Repository } from '../api/repository';
 
 export class CreateAccount extends React.Component {
 
-    // repo = new Repository();
+    repo = new Repository();
 
     state = {
 
         email: "",
         password: "",
+        username: "",
         confirmPassword: "",
-        accountType: "",
+        authorityLevel: "",
         phoneNumber: "",
         name: "",
         country: "",
@@ -26,9 +27,9 @@ export class CreateAccount extends React.Component {
 
     typeToInt = (typeStr) => {
         if (typeStr === "Customer")
-            return 1;
+            return 0;
         else if (typeStr === "Pharmacist")
-            return 2;
+            return 1;
     }
 
     handleCreate = () => {
@@ -43,17 +44,15 @@ export class CreateAccount extends React.Component {
             return;
     
         let json = {
+            name: this.state.name,
+            username: this.state.username,
             email: this.state.email,
             password: this.state.password,
-            type: this.typeToInt(this.state.accountType),
-            phone: this.state.phoneNumber,
-            country: this.state.country,
-            address: this.state.country,
-            territory: "",
-            postalcode: 0,
-            name: this.state.name
+            authorityLevel: this.typeToInt(this.state.authorityLevel),
+            phone: this.state.phoneNumber
         }
-        // this.repo.addAccount(json);
+        console.log(json)
+        this.repo.addAccount(json);
         
 
     }
@@ -61,6 +60,9 @@ export class CreateAccount extends React.Component {
     evalErrors = () => {
 
         //Return a string for error codes during creation
+        if (this.state.username == "") {
+            return "You must fill in your username"
+        }
         if (this.state.email == "") {
             return "You must fill in your email address"
         }
@@ -69,9 +71,6 @@ export class CreateAccount extends React.Component {
         }
         if (this.state.confirmPassword == "") {
             return "You must confirm your password"
-        }
-        if (this.state.accountType == "") {
-            return "You must choose an account type"
         }
         if (this.state.name == "") {
             return "You must fill out a name"
@@ -104,6 +103,15 @@ export class CreateAccount extends React.Component {
                     onChange={e => this.setState({email: e.target.value})}
                     />
 
+                    <label htmlFor="acct-username">Username</label>
+                    <input className="form-control"
+                    type="text" 
+                    name="username" 
+                    id="acct-username"
+                    value={this.state.username}
+                    onChange={e => this.setState({username: e.target.value})}
+                    />
+
                     <label htmlFor="password">Password</label>
                     <input className="form-control" 
                     type="password" 
@@ -120,10 +128,11 @@ export class CreateAccount extends React.Component {
                     value={this.state.confirmPassword}
                     onChange={e => this.setState({confirmPassword: e.target.value})}/>
 
-                    <label htmlFor="account-type">Account Type</label>
-                    <select className="form-control col-6" id="account-type"
-                        value={this.state.accountType}
-                        onChange={e => this.setState({accountType: e.target.value})}>
+                    <label htmlFor="authorityLevel">Account Type</label>
+                    <select className="form-control col-6" 
+                        id="authorityLevel"
+                        value={this.state.authorityLevel}
+                        onChange={e => this.setState({authorityLevel: e.target.value})}>
 
                         <option></option>
                         <option>Customer</option>
