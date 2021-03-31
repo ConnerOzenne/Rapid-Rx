@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
 import { Login } from './pages/Login.jsx'
+import { Navbar } from './components/Navbar.jsx'
+import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // import { Home } from ./pages/Home.jsx
@@ -91,6 +93,7 @@ function App () {
 
   return (
     <div>
+      <Navbar></Navbar>
       <Router>
         {/* <div path="/login" component={Login}/> */}
         <Switch>
@@ -105,7 +108,8 @@ function App () {
             <Route path="/orders/:userId" component={OrderHistory}/>
             <Route path="/distributors/:userId" component={DistributorListings}/>
             <Route path="/cart" component={MyCart}/> */}
-            <Route path="/" render={() => <Login />}/>
+            <Route path="/login" render={() => <Login />}/>
+            <Route path="/" component={HomePage}/>
         </Switch>
       </Router>
         
