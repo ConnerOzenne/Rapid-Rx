@@ -1,4 +1,4 @@
-//import React, { Component } from 'react';
+import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 
 export class HomePage extends React.Component {
