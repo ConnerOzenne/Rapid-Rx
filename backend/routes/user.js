@@ -72,8 +72,8 @@ module.exports = function user(app, logger) {
         });
     });
 
-    // POST /login
-    app.post('/login', (req, res) => {
+    // get /login
+    app.get('/login', (req, res) => {
         console.log(req.body.username,req.body.password);
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -86,6 +86,35 @@ module.exports = function user(app, logger) {
                 var password = req.body.password
                 // if there is no issue obtaining a connection, execute query
                 connection.query('SELECT userID, username, name, isEmployee FROM `rapidrx`.`users` WHERE EXISTS(SELECT * FROM `rapidrx`.`users` AS u WHERE u.username = ? AND u.password = ?)', [username, password], function (err, rows, fields) {
+                    if (err) { 
+                        // if there is an error with the query, release the connection instance and log the error
+                        connection.release()
+                        logger.error("Error while creating user: \n", err); 
+                        res.status(400).json({
+                            "data": [],
+                            "error": "MySQL error"
+                        })
+                    } else{
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+//user story 7.3
+    app.get('/medications', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                // if there is no issue obtaining a connection, execute query
+                connection.query('select users.name as user, medications.name as medication, pharmacies.name as pharmacy, orderDetails.refillDate,orderDetails.quantity,orderDetails.price from users join orders on users.userID =orders.userID join orderDetails on orders.orderID = orderDetails.orderID join medications on medications.medicationID = orderDetails.medicationID join pharmacies on orders.pharmacyID = pharmacies.pharmacyID', function (err, rows, fields) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
