@@ -4,11 +4,11 @@ export class Repository {
 
     url = false ? 'http://3.129.6.230:8000' : 'http://localhost:8000';
 
-    // config = {
-    //     headers: {
-    //         Authorization: '*'
-    //     }
-    // }
+    config = {
+        headers: {
+            Authorization: '*'
+        }
+    }
 
     //Account stuff    path = /account
     //POST /account on DB side
@@ -28,13 +28,12 @@ export class Repository {
     }
 
     //logging in 
-    login(username, password){
+    login(state){
         return new Promise((resolve, reject) => {
-            console.log('trying to login');
-            axios.post(`${this.url}/login`, {username: username, password: password})
-            .then(response => {
-                resolve(response);
-                
+            console.log(state)
+            axios.post(`${this.url}/login`, state, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
             })
             .catch(e => {
                 console.log("error");
@@ -42,6 +41,18 @@ export class Repository {
             });
         })
     }
+
+    // getAccountInfo(id) {
+    //     return new Promise((resolve, reject) => {
+    //         //axios.get(`${this.url}/account/${id}`)
+    //         axios.get(`${this.url}/account/${id}`, this.config)
+    //         .then(x => resolve(x.data))
+    //         .catch(e => {
+    //             alert(e);
+    //             reject();
+    //         });
+    //     })
+    // }
 /*
     getAccount(id) {
         return new Promise((resolve, reject) => {

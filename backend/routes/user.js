@@ -35,7 +35,7 @@ module.exports = function user(app, logger) {
     
     // POST /users/create
     app.post('/users/create', (req, res) => {
-        console.log(req.body.username,req.body.password, req.body.email, req.body.authorityLevel, req.body.phone);
+        console.log(req.body.username, req.body.password, req.body.email, req.body.authorityLevel, req.body.name, req.body.phone);
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -72,9 +72,9 @@ module.exports = function user(app, logger) {
         });
     });
 
-    // POST /login
+    // post /login
     app.post('/login', (req, res) => {
-        console.log(req.body.username,req.body.password);
+        console.log(req.body)
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -85,20 +85,22 @@ module.exports = function user(app, logger) {
                 var username = req.body.username
                 var password = req.body.password
                 // if there is no issue obtaining a connection, execute query
-                connection.query('SELECT userID, username, name, authorityLevel FROM `rapidrx`.`users` WHERE EXISTS(SELECT * FROM `rapidrx`.`users` AS u WHERE u.username = ? AND u.password = ?)', [username, password], function (err, rows, fields) {
+                connection.query('SELECT userID, username, name, authorityLevel FROM `rapidrx`.`users` WHERE username = ? AND password = ?', [username, password], function (err, rows, fields) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating user: \n", err); 
+                        logger.error("Error loggin in user: \n", err); 
 
                         res.status(400).json({
                             "data": [],
-                            "error": "MySQL error"
+                            "error": "MySQL error",
+                            "response" : false
                         })
                     } else{
-                        console.log(rows)
+                        // console.log(rows)
                         res.status(200).json({
-                            "data": rows
+                            "data": rows,
+                            "response": true
                         });
                     }
                 });

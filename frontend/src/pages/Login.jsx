@@ -12,12 +12,10 @@ import {Repository} from '../api/repository';
 
       username: "",
       password: "",
-      accountType: "",
       success: false,
       error: false,
       errorMsg: "",
-      uid: -1
-
+      userID: -1
     }
 
     printLogin = () => {
@@ -28,22 +26,40 @@ import {Repository} from '../api/repository';
 
       this.checkError();
       if (!this.state.error) {
-        this.printLogin()
-        this.repo.login(this.state.username, this.state.password).then(data => {
-            if (data == "invalid") {
-                this.setState({error: true, errorMsg: "Invalid username or password"});
-                return;
-            }
-            this.setState({uid: data.data.split(":")[0]});
-            window.cookie = data.data;
-            setTimeout(() => {
-                this.props.onLogin(this.state.uid);
-                this.setState({success: true});
-          }, 1000);
+        let json = {
+          username: this.state.username,
+          password: this.state.password,
+        }
+        this.repo.login(json).then(data => {
+          const res = data.data
+          console.log("response.response", res.response)
+          console.log("response.data[0]", res.data[0])
+          
+          if (res.data[0]) {
+            console.log("Login was successful")
+            console.log("userID:", res.data[0].userID)
+            this.setState({userID: res.data[0].userID})
+            // this.props.onLogin(this.state.userID)
+            this.setState({success: true, error: false})
+          }
+          else {
+            console.log('No user found')
+            this.setState({error: true, success: false, errorMsg: "Invalid username or password"})
+          }
+          // if (data == "invalid") {
+          //     this.setState({error: true, errorMsg: "Invalid username or password"});
+          //     return;
+          // }
+          // this.setState({uid: data.data.split(":")[0]});
+          // window.cookie = data.data;
+          // setTimeout(() => {
+          //     this.props.onLogin(this.state.uid);
+          //     this.setState({success: true});
+          // }, 1000);
         })
-        .catch( e => {
-          this.setState({error: true, errorMsg: "Invalid username or password"});
-        });
+        // .catch( e => {
+        //   this.setState({error: true, errorMsg: "Invalid username or password"});
+        // });
       }
     }
 
@@ -85,7 +101,8 @@ import {Repository} from '../api/repository';
           <Link to="/create">
             Create Account
           </Link>
-          {this.state.success && <Redirect to="/home"/>}
+          {this.state.success && console.log('THE LOGIN WAS SUCCESSFUL')}
+          {/* {this.state.success && <Redirect to="/home"/>} */}
         </div>
       );
 
