@@ -110,8 +110,8 @@ function App () {
             <Route path="/distributors/:userId" component={DistributorListings}/>
             <Route path="/cart" component={MyCart}/> */}
             <Route path="/login" render={() => <Login />}/>
-            <Route path="/" component={HomePage}/>
             <Route path="/medlist" component={MedList}/>
+            <Route path="/" component={HomePage}/>
         </Switch>
       </Router>
         

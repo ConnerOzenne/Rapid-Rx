@@ -8,19 +8,17 @@ export class MedList extends React.Component {
 
     constructor(props) {
         super(props);
+        const {user} = this.props;
         this.state = {
-            username: this.props.name,
-            refillDate: "04/28/21",
-            todaysDate: "04/28/21",
-            medName: "Ibuprofen",
-            dosage: "400mg"
+            // username: user.name,
+            username: "Betsy",
         }
     }
 
 
     listMeds = () => {
         // populate table with med information
-        // axios.get(`http://${url}:8000//order/${this.props.orderid}/details'`).then((res)=>{
+        // axios.get(`http://${url}:8000//order/${user.orderID}/details'`).then((res)=>{
         //     alert(res.data);
         // })
     }
@@ -36,19 +34,6 @@ export class MedList extends React.Component {
         return (
 
             <div className="Container" id="header">
-                <nav>
-                    <div id="navbar">
-                        <ul className="nav navbar-nav">
-                            <li className="active"><a href="/home">Home</a></li>
-                            <li><a href="#">Pharmacy Portal</a></li>
-                            <li><a href="/user/:userId">My Account</a></li>
-                            <span>
-                                <li>You are signed in as {this.state.username}!</li>
-                                <li><a href="#">Log Out</a></li>
-                            </span>
-                        </ul>
-                    </div>
-                </nav>
                 <h2 id="Name">{this.state.username}'s Prescriptions</h2>
                 <table id="medtable">
                     <tr id="tableHeader">
