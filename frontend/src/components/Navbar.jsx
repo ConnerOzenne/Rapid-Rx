@@ -113,6 +113,7 @@ export class Navbar extends React.Component {
                         width: 70vw;
                         justify-content: end;
                         margin-right: 2rem;
+                        margin-top: 1rem;
                     }
                     
                     .nav-links {

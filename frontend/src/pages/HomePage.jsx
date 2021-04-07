@@ -1,5 +1,6 @@
-//import React, { Component } from 'react';
+import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import './HomePage.css'
 
 export class HomePage extends React.Component {
 
@@ -8,7 +9,7 @@ export class HomePage extends React.Component {
     medInfo = ["Name","Description","Side Effects","Not compatible with","More Information"];
 
     state = {
-        firstName: "Mitch",
+        firstName: "Michael",
         isLoggedIn: false
     };
 
@@ -20,11 +21,14 @@ export class HomePage extends React.Component {
         // TODO: Should we use the same table for the Prescriptions page as well? Maybe make that table into a separate component.
         return (
             <>
-                <h1>Rapid RX</h1>
-                <h2>Welcome {this.state.firstName}!</h2>
-                <button>Get Started</button>
-                <a href="/prescriptions">View Prescriptions</a>
-                <a href="/pharmacies">Pharmacies</a>
+                <div className="homepage-header position-relative">
+                    <img src="img/PharmacyStock.jpg" className="homepage-img w-100"></img>
+                    <h1 className="homepage-title">Rapid RX</h1>
+                    <h2 className="homepage-welcome">Welcome {this.state.firstName}!</h2>
+                    <button className="btn btn-secondary homepage-start">Get Started</button>
+                    <a href="/prescriptions">View Prescriptions</a>
+                    <a href="/pharmacies">Pharmacies</a>
+                </div>
 
                 <div>
                     <h1>My Medications</h1>
