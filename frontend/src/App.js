@@ -6,6 +6,9 @@ import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Home } from ./pages/Home.jsx
 
 
