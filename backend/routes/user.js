@@ -74,7 +74,6 @@ module.exports = function user(app, logger) {
 
     // post /login
     app.post('/login', (req, res) => {
-        console.log(req.body)
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -109,7 +108,7 @@ module.exports = function user(app, logger) {
     });
 
 //user story 7.3
-    app.get('/medications', (req, res) => {
+    app.get('/user/:userID/medication', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -118,7 +117,8 @@ module.exports = function user(app, logger) {
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
                 // if there is no issue obtaining a connection, execute query
-                connection.query('select users.name as user, medications.name as medication, pharmacies.name as pharmacy, orderDetails.refillDate,orderDetails.quantity,orderDetails.price from users join orders on users.userID =orders.userID join orderDetails on orders.orderID = orderDetails.orderID join medications on medications.medicationID = orderDetails.medicationID join pharmacies on orders.pharmacyID = pharmacies.pharmacyID', function (err, rows, fields) {
+                var userID = req.body.userID
+                connection.query('select users.name as user, medications.name as medication, pharmacies.name as pharmacy, orderDetails.refillDate,orderDetails.quantity,orderDetails.price from users join orders on users.userID =orders.userID join orderDetails on orders.orderID = orderDetails.orderID join medications on medications.medicationID = orderDetails.medicationID join pharmacies on orders.pharmacyID = pharmacies.pharmacyID where users.userID = ?'[userID], function (err, rows, fields) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
