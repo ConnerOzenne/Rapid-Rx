@@ -64,8 +64,39 @@ module.exports = function pharmacy(app, logger) {
         });
     });
 
+    // GET /pharmacy/:pharmacyID/inventory
+    app.get('/pharmacy/:pharmacyID/inventory', (req, res) => {
+
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID = req.params.pharmacyID;
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT pharmacies.name, medications.name, inventory.quantity FROM pharmacies JOIN inventory ON pharmacies.pharmacyID = inventory.pharmacyID JOIN medications ON medications.medicationID = inventory.medicationID WHERE pharmacies.pharmacyID = ?', [pharmacyID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
 //9,2 
-app.get('/pharmacy/pharmacyMedication', (req, res) => {
+app.get('/pharmacies/inventory', (req, res) => {
 
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
@@ -125,5 +156,35 @@ app.get('/pharmacy/pharmacMedicationZero', (req, res) => {
         }
     });
 });
+
+// GET /pharmacy/:pharmacyID/employees
+app.get('/pharmacy/:pharmacyID/employees', (req, res ) => {
+    console.log(req.params.pharmacyID)
+    pool.getConnection(function (err, connection){
+        if(err){
+            // if there is an issue obtaining a connection, release the connection instance and log the error
+            logger.error('Problem obtaining MySQL connection',err)
+            res.status(400).send('Problem obtaining MySQL connection'); 
+        } else {
+            var pharmacyID = req.params.pharmacyID
+            // if there is no issue obtaining a connection, execute query and release connection
+            connection.query('SELECT * FROM `rapidrx`.`users` AS u WHERE u.pharmacyID = ? && u.authorityLevel = 1', [pharmacyID], function (err, rows, fields) {
+                // if there is an error with the query, release the connection instance and log the error
+                connection.release()
+                if (err) {
+                    logger.error("Error while fetching values: \n", err);
+                    res.status(400).json({
+                        "data": [],
+                        "error": "Error obtaining values"
+                    })
+                } else {
+                    res.status(200).json({
+                        "data": rows
+                    });
+                }
+            });
+        }
+    });
+}); 
 
 }
