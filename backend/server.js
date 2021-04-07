@@ -30,8 +30,10 @@ app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 const address = require('./routes/address');
 const appointment = require('./routes/appointment');
+const flag = require('./routes/flag');
 const inventory = require('./routes/inventory');
 const medication = require('./routes/medication');
+const notCompatibleWith  = require('./routes/notCompatibleWith');
 const notification = require('./routes/notification');
 const order = require('./routes/order');
 const payment = require('./routes/payment');
@@ -41,8 +43,10 @@ const user = require('./routes/user');
 
 address(app, logger);
 appointment(app, logger);
+flag(app, logger);
 inventory(app, logger);
 medication(app, logger);
+notCompatibleWith(app, logger);
 notification(app, logger);
 order(app, logger);
 payment(app, logger);

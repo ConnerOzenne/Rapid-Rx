@@ -1,9 +1,10 @@
 const pool = require('../db')
 
-module.exports = function notCompatibleWith(app, logger) {
+module.exports = function flag(app, logger) {
 
-    app.get('/notCompatibleWith/:medicationID', (req, res) => {
-        console.log(req.params.medicationID)
+    // GET /flag/:flagID
+    app.get('/flag/:flagID', (req, res) => {
+        console.log(req.params.flagID)
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -11,9 +12,9 @@ module.exports = function notCompatibleWith(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var medicationID= req.params.medicationID
+                var flagID = req.params.flagID
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('select m1.name, m2.name from notCompatibleWith join medications as m1 on m1.medicationID = notCompatibleWith.medicationID_One join medications as m2 on m2.medicationID = notCompatibleWith.medicationID_Two where m1.medicationID =?', [medicationID], function (err, rows, fields) {
+                connection.query('SELECT * FROM flags WHERE flagID = ?', [flagID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
