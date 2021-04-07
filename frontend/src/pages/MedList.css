@@ -1,0 +1,57 @@
+* {
+    margin:0px;
+    padding:0px;
+}
+
+
+h2 {
+    margin: 10px;
+    padding: 5px;
+}
+
+ul {
+    background-color: #152528;
+    margin: 0px;
+    padding:15px;
+}
+
+li {
+    display: inline;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    
+}
+
+li a {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+span {
+    float: right;
+}
+
+
+table {
+    border: hidden;
+    background-color: #b4e7f8;
+    text-align: center;
+    width: 90%;
+    margin: 10px;
+    padding: 5px;
+}
+
+td {
+    padding:5px;
+}
+
+button {
+    font-size: 10px;
+    background-color: #adffbc;
+    color: black;
+    border: 1px;
+    width: fit-content;
+    padding:10px;
+}
