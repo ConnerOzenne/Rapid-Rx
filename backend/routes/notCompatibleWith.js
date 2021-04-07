@@ -1,7 +1,7 @@
 const pool = require('../db')
 
 module.exports = function notCompatibleWith(app, logger) {
-
+//user story 5.3 see not compatible medication
     app.get('/notCompatibleWith/:medicationID', (req, res) => {
         console.log(req.params.medicationID)
         // obtain a connection from our pool of connections

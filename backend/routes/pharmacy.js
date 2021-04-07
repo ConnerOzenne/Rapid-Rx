@@ -3,6 +3,7 @@ const pool = require('../db')
 module.exports = function pharmacy(app, logger) {
 
     // GET /pharmacy/:pharmacyID
+    //get a pharmacy with ID
     app.get('/pharmacy/:pharmacyID', (req, res) => {
         console.log(req.params.pharmacyID)
         // obtain a connection from our pool of connections
@@ -34,6 +35,7 @@ module.exports = function pharmacy(app, logger) {
     });
 
 //9.1
+//view all pharmacy locations 
     app.get('/pharmacy/pharmacyLocation', (req, res) => {
 
         // obtain a connection from our pool of connections
@@ -65,6 +67,7 @@ module.exports = function pharmacy(app, logger) {
     });
 
     // GET /pharmacy/:pharmacyID/inventory
+    //get the inventory of a specific pharmacy 
     app.get('/pharmacy/:pharmacyID/inventory', (req, res) => {
 
         // obtain a connection from our pool of connections
@@ -96,6 +99,7 @@ module.exports = function pharmacy(app, logger) {
     });
 
 //9,2 
+//view inventory of all pharmacy location 
 app.get('/pharmacies/inventory', (req, res) => {
 
     // obtain a connection from our pool of connections
@@ -127,6 +131,7 @@ app.get('/pharmacies/inventory', (req, res) => {
 });
 
 //9.4
+//see which pharmacy is out of stock for a certain med
 app.get('/pharmacy/pharmacMedicationZero', (req, res) => {
 
     // obtain a connection from our pool of connections
@@ -158,6 +163,7 @@ app.get('/pharmacy/pharmacMedicationZero', (req, res) => {
 });
 
 // GET /pharmacy/:pharmacyID/employees
+//get all employee at pharmacy ID 
 app.get('/pharmacy/:pharmacyID/employees', (req, res ) => {
     console.log(req.params.pharmacyID)
     pool.getConnection(function (err, connection){

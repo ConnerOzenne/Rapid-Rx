@@ -3,6 +3,7 @@ const pool = require('../db')
 module.exports = function user(app, logger) {
 
     // GET /user/:userID
+    //get a user with userID 
     app.get('/user/:userID', (req, res) => {
         console.log(req.params.userID)
         // obtain a connection from our pool of connections
@@ -34,6 +35,7 @@ module.exports = function user(app, logger) {
     });
     
     // POST /users/create
+    //create a new user 
     app.post('/users/create', (req, res) => {
         console.log(req.body.username, req.body.password, req.body.email, req.body.authorityLevel, req.body.name, req.body.phone);
         // obtain a connection from our pool of connections
@@ -73,6 +75,7 @@ module.exports = function user(app, logger) {
     });
 
     // post /login
+    //login function
     app.post('/login', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -112,6 +115,7 @@ module.exports = function user(app, logger) {
     });
 
 //user story 7.3
+//i want to see the prescription that my doctor has written for me
     app.get('/user/:userID/medications', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -142,6 +146,7 @@ module.exports = function user(app, logger) {
     });
 
     // GET /users
+    //get all users
     app.get('/users', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -169,6 +174,7 @@ module.exports = function user(app, logger) {
     });
 
     // GET /user/:userID/orders
+    //get a user's order
     app.get('/user/:userID/orders', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){

@@ -34,6 +34,7 @@ module.exports = function inventory(app, logger) {
     });
 
     //user story 9.2 
+    //view inventory of all pharmacy 
     app.get('/inventory/getMedications', (req, res) => {
         pool.getConnection(function (err, connection){
             if(err){
@@ -62,6 +63,7 @@ module.exports = function inventory(app, logger) {
     });
 
     //user story 9.3 
+    //check which inventory is 0
     app.get('/inventory/getMedicationsZero', (req, res) => {
         pool.getConnection(function (err, connection){
             if(err){
