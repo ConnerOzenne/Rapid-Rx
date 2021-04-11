@@ -173,6 +173,35 @@ module.exports = function user(app, logger) {
         });
     });
 
+    // GET /users/managers
+    app.get('/users/managers', (req, res) => {
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID = req.params.pharmacyID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`users` AS u WHERE u.authorityLevel = 2', function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    }); 
+
     // GET /user/:userID/orders
     //get a user's order
     app.get('/user/:userID/orders', (req, res) => {
