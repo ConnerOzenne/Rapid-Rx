@@ -3,6 +3,7 @@ const pool = require('../db')
 module.exports = function request(app, logger) {
 
     // GET /request/:requestID
+    //get the request with requestID
     app.get('/request/:requestID', (req, res) => {
         console.log(req.params.requestID)
         // obtain a connection from our pool of connections

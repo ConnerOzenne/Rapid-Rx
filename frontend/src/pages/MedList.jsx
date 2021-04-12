@@ -35,31 +35,31 @@ export class MedList extends React.Component {
 
             <div className="Container" id="header">
                 <h2 id="Name">{this.state.username}'s Prescriptions</h2>
-                <table id="medtable">
+                <table className = "table" id="medtable">
                     <tr id="tableHeader">
-                        <th>Medication</th>
-                        <th>Dosage</th>
-                        <th>Refill Date</th>
-                        <th>Refill Rx</th>
-                        <th>Side Effects</th>
-                        <th>Save To Profile</th>
-                        <th>More Information</th>
+                        <th scope= "col">Medication</th>
+                        <th scope= "col">Dosage</th>
+                        <th scope= "col">Refill Date</th>
+                        <th scope= "col">Refill Rx</th>
+                        <th scope= "col">Side Effects</th>
+                        <th scope= "col">Save To Profile</th>
+                        <th scope= "col">More Information</th>
                     </tr>
                     <tr>
-                        <td id="medName">{this.state.medName}</td>
-                        <td id="dosage">{this.state.dosage}</td>
-                        <td id="refillDate">{this.state.refillDate}</td>
-                        <td id="refillRx">
-                            <button type="button" className="active">REFILL</button>
+                        <td scope="row" id="medName">{this.state.medName}</td>
+                        <td scope="row" id="dosage">{this.state.dosage}</td>
+                        <td scope="row" id="refillDate">{this.state.refillDate}</td>
+                        <td scope="row" id="refillRx">
+                            <button type="button" className="btn">REFILL</button>
                         </td>
-                        <td id="sideEffects">
-                            <button type="button">Side Effects</button>
+                        <td scope="row" id="sideEffects">
+                            <button type="button" className="btn">Side Effects</button>
                         </td>
-                        <td id="save">
-                            <input type="checkbox"></input>
+                        <td scope="row" id="save">
+                            <input type="checkbox" className="btn"></input>
                         </td>
-                        <td id="moreInfo">
-                            <button type="button">More Information</button>
+                        <td scope="row" id="moreInfo">
+                            <button type="button" className="btn">More Information</button>
                         </td>
                     </tr>
                 </table>

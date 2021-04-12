@@ -27,6 +27,11 @@ export class HomePage extends React.Component {
                     <a href="/medlist">View Prescriptions</a>
                     <a href="/pharmacies">Pharmacies</a>
                 </div>
+                <h1>Rapid RX</h1>
+                <h2>Welcome {this.state.firstName}!</h2>
+                <button>Get Started</button>
+                <a href="/medlist">View Prescriptions</a>
+                <a href="/pharmacies">Pharmacies</a>
 
                 <div>
                     <h1>My Medications</h1>

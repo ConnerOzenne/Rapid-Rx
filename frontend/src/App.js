@@ -5,6 +5,7 @@ import { Login } from './pages/Login.jsx'
 import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
+import { MedList } from './pages/MedList.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
@@ -115,6 +116,7 @@ function App() {
             <Route path="/distributors/:userId" component={DistributorListings}/>
             <Route path="/cart" component={MyCart}/> */}
             <Route path="/login" render={() => <Login />}/>
+            <Route path="/medlist" component={MedList}/>
             <Route path="/" component={HomePage}/>
         </Switch>
       </Router>
