@@ -1,11 +1,37 @@
+.homepage-header {
+    margin-bottom: 20vh;
+}
+
+.homepage-title {
+    width: 20%;
+    left: 75%;
+    top: 10%;
+    transform: translate(-50%, -50%);
+}
+
 .homepage-img {
     z-index: -1;
     opacity: 50%;
     object-fit: cover;
     object-position: 20% 10%;
-    height: 40rem;
+    height: 90vh;
 }
 
-.homepage-header {
-    position: relative;
+.homepage-img2 {
+    object-fit: cover;
+    object-position: 20% 10%;
+    bottom: -15vh;
+}
+
+.homepage-info {
+    top: 40%;
+    width: 100%;
+}
+
+.homepage-links {
+    right: 25%;
+}
+
+.homepage-welcome {
+    left: 25%;
 }
