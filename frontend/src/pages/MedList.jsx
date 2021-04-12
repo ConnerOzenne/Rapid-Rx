@@ -19,11 +19,11 @@ export class MedList extends React.Component {
 
         const user = new User(
             1,
-            "Besty",
+            "Betsy",
             312,
             "betsyg",
             "helloworld",
-            "besty@gmail.com",
+            "betsy@gmail.com",
             2,
             1,
             "361-461-2095",
@@ -44,7 +44,8 @@ export class MedList extends React.Component {
     }
 
     checkRefill = () => {
-        if(this.state.refillDate == this.state.todaysDate) {
+        let d = new Date();
+        if(this.state.refillDate == d) {
                 // make button active
         }
     }

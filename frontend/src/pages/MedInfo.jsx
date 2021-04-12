@@ -35,7 +35,7 @@ export class MedInfo extends React.Component {
                     <div className="row g-5 py-5">
                         <div className="col-md-4 d-flex align-items-start">
                         <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                            <FontAwesomeIcon icon={fasFaCapsules} />
+                            <FontAwesomeIcon icon={fasFaCapsules} size="2x"/>
                         </div>
                         <div>
                             <h2>Side Effects</h2>
@@ -47,7 +47,7 @@ export class MedInfo extends React.Component {
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
                         <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                            <FontAwesomeIcon icon={fasFaFilePrescription} />
+                            <FontAwesomeIcon icon={fasFaFilePrescription} size="2x"/>
                         </div>
                         <div>
                             <h2>Description</h2>
@@ -58,8 +58,8 @@ export class MedInfo extends React.Component {
                         </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
-                        <div className="icon-square bg-light text-dark">
-                            <FontAwesomeIcon icon={fasFaClinicMedical} />
+                        <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
+                            <FontAwesomeIcon icon={fasFaClinicMedical} size="2x" />
                         </div>
                         <div>
                             <h2>Interactions</h2>
