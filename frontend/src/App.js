@@ -5,13 +5,20 @@ import { Login } from './pages/Login.jsx'
 import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
+import { MedList } from './pages/MedList.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Home } from ./pages/Home.jsx
 
+function App() {
 
+  // Fake news 'state' object...NOT a react-based state.
+  const state = {
+    userId : 0
+  }
 
-// React functional component
-function App () {
   // state for storage of the information on the webpage of forms and list, uses hooks
   const [number, setNumber] = useState("")
   const [values, setValues] = useState([])
@@ -109,6 +116,7 @@ function App () {
             <Route path="/distributors/:userId" component={DistributorListings}/>
             <Route path="/cart" component={MyCart}/> */}
             <Route path="/login" render={() => <Login />}/>
+            <Route path="/medlist" component={MedList}/>
             <Route path="/" component={HomePage}/>
         </Switch>
       </Router>

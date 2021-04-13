@@ -1,5 +1,6 @@
-//import React, { Component } from 'react';
+import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import './HomePage.css';
 
 export class HomePage extends React.Component {
 
@@ -8,7 +9,7 @@ export class HomePage extends React.Component {
     medInfo = ["Name","Description","Side Effects","Not compatible with","More Information"];
 
     state = {
-        firstName: "Mitch",
+        firstName: "Michael",
         isLoggedIn: false
     };
 
@@ -16,14 +17,20 @@ export class HomePage extends React.Component {
 
         // !ONLY DISPLAY MY MEDICATIONS TABLE IF USER IS LOGGED IN
         // Search medications will be displayed regardless of whether user is logged in or not.
-
-        // TODO: Should we use the same table for the Prescriptions page as well? Maybe make that table into a separate component.
         return (
             <>
+                <div className="homepage-header position-relative">
+                    <img src="img/PillStock.jpg" className="homepage-img w-100"></img>
+                    <h1 className="homepage-title">Rapid RX</h1>
+                    <h2 className="homepage-welcome">Welcome {this.state.firstName}!</h2>
+                    <button className="btn btn-secondary homepage-start">Get Started</button>
+                    <a href="/medlist">View Prescriptions</a>
+                    <a href="/pharmacies">Pharmacies</a>
+                </div>
                 <h1>Rapid RX</h1>
                 <h2>Welcome {this.state.firstName}!</h2>
                 <button>Get Started</button>
-                <a href="/prescriptions">View Prescriptions</a>
+                <a href="/medlist">View Prescriptions</a>
                 <a href="/pharmacies">Pharmacies</a>
 
                 <div>
@@ -60,6 +67,8 @@ export class HomePage extends React.Component {
 
                     </tbody>
                 </div>
+
+                
             </>
         );
     }

@@ -1,0 +1,11 @@
+.homepage-img {
+    z-index: -1;
+    opacity: 50%;
+    object-fit: cover;
+    object-position: 20% 10%;
+    height: 40rem;
+}
+
+.homepage-header {
+    position: relative;
+}
