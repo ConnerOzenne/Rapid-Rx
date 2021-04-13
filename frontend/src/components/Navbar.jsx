@@ -44,6 +44,11 @@ export class Navbar extends React.Component {
                 url: '/login',
                 cName: 'nav-links' // className
             },
+            {
+                title: 'Profile',
+                url: '/userProfile',
+                cName: 'nav-links' // className
+            }
         ];
 
         /**
