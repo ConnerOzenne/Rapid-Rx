@@ -1,5 +1,10 @@
+body {
+    padding-top: 0vh;
+}
+
 .homepage-header {
     margin-bottom: 20vh;
+    padding-top: 0vh;
 }
 
 .homepage-title {

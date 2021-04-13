@@ -12,21 +12,23 @@ export class HomePage extends React.Component {
     medInfo = ["","Name","Description","Side Effects","Not compatible with","More Information"];
 
     state = {
-        firstName: "Michael",
+        firstName: "_none_",
         isLoggedIn: false,
         searchOption: '',
         searchText: ''
     };
 
-    updateFirstName = () => {
-        this.setState( {
-            firstName: sessionStorage.getItem("userID").firstName
-        });
+    componentWillMount() {
+        if (localStorage.getItem("userID")) {
+            this.setState( {
+                firstName: this.repo.getUserInfo(localStorage.getItem("userID")).firstName
+            });
+        }
     }
 
     render() {
 
-        console.log("Session storage for userID: "+sessionStorage.getItem("userID"));
+        console.log("Session storage for userID: "+localStorage.getItem("userID"));
         // !ONLY DISPLAY MY MEDICATIONS TABLE IF USER IS LOGGED IN
         // Search medications will be displayed regardless of whether user is logged in or not.
         return (
@@ -37,8 +39,14 @@ export class HomePage extends React.Component {
                     <img className="position-absolute homepage-title" src="img/Homepage-logo-1.svg"></img>
                     <div className="position-relative position-absolute homepage-info">
                         <div className="d-flex flex-column align-items-center position-absolute homepage-welcome p-3">
-                            <h2 className="homepage-welcome">Welcome {this.state.firstName}!</h2>
-                            <button className="btn-homepage homepage-start">Get Started</button>
+                            <h2 className="homepage-welcome">
+                                {this.state.firstName != "_none_" ? `Welcome ${this.state.firstName}!` : 'Welcome to Rapid RX!'}
+                            </h2>
+                            <button className="btn-homepage homepage-start">
+                                <Link to="/login" className="text-dark">
+                                    Get Started
+                                </Link>
+                            </button>
                         </div>
                         <div className="position-absolute homepage-links">
                             <a className="d-block" href="/medlist">View Prescriptions</a>

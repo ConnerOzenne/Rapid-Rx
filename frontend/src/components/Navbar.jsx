@@ -16,15 +16,16 @@ export class Navbar extends React.Component {
     }
 
     isLoggedIn = () => {
-        return sessionStorage.getItem("userID") != null;
+        return localStorage.getItem("userID") && localStorage.getItem("userID") != null;
     }
 
     logout = () => {
-        sessionStorage.setItem("userID", null);
+        console.log("Logout attempt")
+        localStorage.setItem("userID", null);
     }
 
     isManager = () => {
-        this.repo.getUserInfo(sessionStorage.getItem("userID")).then(data => {
+        this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
             const res = data.data;
 
             if (res.data[0]) {
@@ -106,7 +107,7 @@ export class Navbar extends React.Component {
                                 <li><a className="nav-link text-white" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" onClick={this.logout()}>Log Out</a></li>
+                                <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
                                 :
                                 <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
                             )}

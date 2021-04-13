@@ -52,7 +52,7 @@ export class Login extends React.Component {
           }
 
           // Update session storage and state based on newUserID
-          sessionStorage.setItem("userID", newUserID)
+          localStorage.setItem("userID", newUserID)
           this.setState({
             username: "",
             password: "",
@@ -62,8 +62,6 @@ export class Login extends React.Component {
             userID: newUserID
           });
           // !Below code is probably not needed
-
-          this.props.history.push("/");
           // if (data == "invalid") {
           //     this.setState({error: true, errorMsg: "Invalid username or password"});
           //     return;
@@ -113,7 +111,9 @@ export class Login extends React.Component {
           />
           <br></br>
           {this.state.error && <div className="alert alert-danger" role="alert">User doesnt exist or wrong password</div>}
-          <button className="btn btn-primary btn-block btn-login" onClick={this.handleLogin}>Login</button>
+          <button className="btn btn-primary btn-block btn-login" onClick={this.handleLogin}>
+            Login
+            </button>
           <br></br>
           <span>Don't have an account? </span>
           <Link to="/create">
