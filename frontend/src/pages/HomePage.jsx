@@ -9,11 +9,13 @@ export class HomePage extends React.Component {
     repo = new Repository();
 
     days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    medInfo = ["Name","Description","Side Effects","Not compatible with","More Information"];
+    medInfo = ["","Name","Description","Side Effects","Not compatible with","More Information"];
 
     state = {
         firstName: "Michael",
-        isLoggedIn: false
+        isLoggedIn: false,
+        searchOption: '',
+        searchText: ''
     };
 
     updateFirstName = () => {
@@ -34,21 +36,19 @@ export class HomePage extends React.Component {
                     <img className="position-absolute h-50" src="img/Homepage-1.svg"></img>
                     <img className="position-absolute homepage-title" src="img/Homepage-logo-1.svg"></img>
                     <div className="position-relative position-absolute homepage-info">
-                        <div className="position-absolute homepage-welcome">
+                        <div className="d-flex flex-column align-items-center position-absolute homepage-welcome p-3">
                             <h2 className="homepage-welcome">Welcome {this.state.firstName}!</h2>
-                            <button className="btn btn-secondary homepage-start">Get Started</button>
+                            <button className="btn-homepage homepage-start">Get Started</button>
                         </div>
                         <div className="position-absolute homepage-links">
-                            <a className="" href="/medlist">View Prescriptions</a>
-                            <a className="" href="/pharmacies">Pharmacies</a>
+                            <a className="d-block" href="/medlist">View Prescriptions</a>
+                            <a className="d-block" href="/pharmacies">Pharmacies</a>
                         </div>
                     </div>
                     <img className="position-absolute w-100 homepage-img2" src="img/Homepage-2.svg"></img>
                 </div>
 
-                <MedList page="homepage"></MedList>
-
-                {/* <div>
+                <div className="m-5 d-flex flex-column align-items-center">
                     <h1>My Medications</h1>
                     <table>
                         <thead>
@@ -60,27 +60,28 @@ export class HomePage extends React.Component {
                     <tbody>
 
                     </tbody>
-                </div> */}
+                </div>
 
-                <div>
+                <div className="m-5">
                     <h1>Search Medications</h1>
 
                     <label htmlFor="searchby">Search By</label>
-                    <select className="form-control col-6" id="homepage-med-searchby" name="searchby">
+                    <select className="form-control col-6" 
+                            id="homepage-med-searchby" 
+                            name="searchby"
+                            onChange= {event => this.setState({searchOption: event.target.value})}>
                         {this.medInfo.map(sortOption => <option>{sortOption}</option>)}
                     </select>
 
                     <label htmlFor="search">Search</label>
-                    <input type="search" id="home-med-search" name="search"></input>
+                    <input  type="search" 
+                            id="home-med-search" 
+                            name="search"
+                            value={this.state.searchText}
+                            onChange= {event => this.setState({searchText: event.target.value})}></input>
+                            {console.log(this.state)}
 
-                    <thead>
-                        <tr>
-                            {this.medInfo.map(header => <td>{header}</td>)}
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
+                    <MedList page="homepage"></MedList>
                 </div>
 
                 
