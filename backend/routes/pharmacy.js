@@ -98,99 +98,154 @@ module.exports = function pharmacy(app, logger) {
         });
     });
 
-//9,2 
-//view inventory of all pharmacy location 
-app.get('/pharmacies/inventory', (req, res) => {
-
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-        if(err){
-            // if there is an issue obtaining a connection, release the connection instance and log the error
-            logger.error('Problem obtaining MySQL connection',err)
-            res.status(400).send('Problem obtaining MySQL connection'); 
-        } else {
-        
-            // if there is no issue obtaining a connection, execute query and release connection
-            connection.query('select pharmacies.name, medications.name,inventory.quantity from pharmacies join inventory on pharmacies.pharmacyID = inventory.pharmacyID join medications on medications.medicationID = inventory.medicationID', function (err, rows, fields) {
-                // if there is an error with the query, release the connection instance and log the error
-                connection.release()
-                if (err) {
-                    logger.error("Error while fetching values: \n", err);
-                    res.status(400).json({
-                        "data": [],
-                        "error": "Error obtaining values"
-                    })
-                } else {
-                    res.status(200).json({
-                        "data": rows
-                    });
-                }
-            });
-        }
+    //9,2 
+    //view inventory of all pharmacy location 
+    app.get('/pharmacies/inventory', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+            
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('select pharmacies.name, medications.name,inventory.quantity from pharmacies join inventory on pharmacies.pharmacyID = inventory.pharmacyID join medications on medications.medicationID = inventory.medicationID', function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
     });
-});
 
-//9.4
-//see which pharmacy is out of stock for a certain med
-app.get('/pharmacy/pharmacMedicationZero', (req, res) => {
-
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-        if(err){
-            // if there is an issue obtaining a connection, release the connection instance and log the error
-            logger.error('Problem obtaining MySQL connection',err)
-            res.status(400).send('Problem obtaining MySQL connection'); 
-        } else {
-        
-            // if there is no issue obtaining a connection, execute query and release connection
-            connection.query('select pharmacies.name, medications.name, inventory.quantity from pharmacies join inventory on pharmacies.pharmacyID = inventory.pharmacyID join medications on medications.medicationID = inventory.medicationID where quantity =0;', function (err, rows, fields) {
-                // if there is an error with the query, release the connection instance and log the error
-                connection.release()
-                if (err) {
-                    logger.error("Error while fetching values: \n", err);
-                    res.status(400).json({
-                        "data": [],
-                        "error": "Error obtaining values"
-                    })
-                } else {
-                    res.status(200).json({
-                        "data": rows
-                    });
-                }
-            });
-        }
+    //9.4
+    //see which pharmacy is out of stock for a certain med
+    app.get('/pharmacy/pharmacMedicationZero', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+            
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('select pharmacies.name, medications.name, inventory.quantity from pharmacies join inventory on pharmacies.pharmacyID = inventory.pharmacyID join medications on medications.medicationID = inventory.medicationID where quantity =0;', function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
     });
-});
 
-// GET /pharmacy/:pharmacyID/employees
-//get all employee at pharmacy ID 
-app.get('/pharmacy/:pharmacyID/employees', (req, res ) => {
-    console.log(req.params.pharmacyID)
-    pool.getConnection(function (err, connection){
-        if(err){
-            // if there is an issue obtaining a connection, release the connection instance and log the error
-            logger.error('Problem obtaining MySQL connection',err)
-            res.status(400).send('Problem obtaining MySQL connection'); 
-        } else {
-            var pharmacyID = req.params.pharmacyID
-            // if there is no issue obtaining a connection, execute query and release connection
-            connection.query('SELECT * FROM `rapidrx`.`users` AS u WHERE u.pharmacyID = ? && u.authorityLevel = 1', [pharmacyID], function (err, rows, fields) {
-                // if there is an error with the query, release the connection instance and log the error
-                connection.release()
-                if (err) {
-                    logger.error("Error while fetching values: \n", err);
-                    res.status(400).json({
-                        "data": [],
-                        "error": "Error obtaining values"
-                    })
-                } else {
-                    res.status(200).json({
-                        "data": rows
-                    });
-                }
-            });
-        }
+    // GET /pharmacy/:pharmacyID/employees
+    app.get('/pharmacy/:pharmacyID/employees', (req, res ) => {
+        console.log(req.params.pharmacyID)
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID = req.params.pharmacyID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`users` AS u WHERE u.pharmacyID = ? && u.authorityLevel = 1', [pharmacyID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    }); 
+
+    app.get('/pharmacy/:pharmacyID/customers', (req, res ) => {
+        console.log(req.params.pharmacyID)
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID = req.params.pharmacyID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`users` AS u WHERE u.pharmacyID = ? && u.authorityLevel = 0', [pharmacyID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
     });
-}); 
 
+    // GET /pharmacy/:pharmacyID/manager
+    app.get('/pharmacy/:pharmacyID/manager', (req, res ) => {
+        console.log(req.params.pharmacyID)
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID = req.params.pharmacyID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`users` AS u WHERE u.pharmacyID = ? && u.authorityLevel = 2', [pharmacyID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    }); 
 }
