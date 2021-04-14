@@ -49,7 +49,7 @@ module.exports = function appointment(app, logger) {
                 var date = req.body.date
                 var orderID = req.body.orderID
                 // if there is no issue obtaining a connection, execute query
-                connection.query('INSERT INTO `rapidrx`.`addresses` (customerID, employeeID, date, orderID) VALUES(?, ?, ?, ?)',[customerID, employeeID, date, orderID], function (err, rows, fields) {
+                connection.query('INSERT INTO `rapidrx`.`appointments` (customerID, employeeID, date, orderID) VALUES(?, ?, ?, ?)',[customerID, employeeID, date, orderID], function (err, rows, fields) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()

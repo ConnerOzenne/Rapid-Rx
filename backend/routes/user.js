@@ -299,9 +299,8 @@ module.exports = function user(app, logger) {
         });
     });
 
-    //create appointment
-    //user story 7.2
-    app.post('/user/appointments', (req, res) => {
+    // See all appointments for a user
+    app.get('/user/:userID/appointments', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -309,22 +308,18 @@ module.exports = function user(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                
-                var userID = req.body.userID
-                var employeeID = req.body.employeeID
-                var date = req.body.date
-            
-                // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('insert into appointments (customerID,employeeID, date,) value(?,?,?);', [userID,employeeID, date], function (err, rows, fields) {
-                    // if there is an error with the query, release the connection instance and log the error
-                    connection.release()
-                    if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                // if there is no issue obtaining a connection, execute query
+                var userID = req.params.userID
+                connection.query('SELECT * FROM `rapidrx`.`appointments` AS a WHERE a.customerID = ?', [userID], function (err, rows, fields) {
+                    if (err) { 
+                        // if there is an error with the query, release the connection instance and log the error
+                        connection.release()
+                        logger.error("Error while getting appointments: \n", err); 
                         res.status(400).json({
                             "data": [],
-                            "error": "Error obtaining values"
-                        });
-                    } else {
+                            "error": "MySQL error"
+                        })
+                    } else{
                         res.status(200).json({
                             "data": rows
                         });
