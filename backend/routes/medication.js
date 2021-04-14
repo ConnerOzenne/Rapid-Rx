@@ -78,11 +78,10 @@ module.exports = function medication(app, logger) {
                 var medicationID = req.params.medicationID
                 var name = req.body.name
                 var sideEffects = req.body.sideEffects
-                var treats = req.body.treats
+                var usedFor = req.body.usedFor
                 var description = req.body.description
                 var price = req.body.price
-                var flag = req.body.flag
-                connection.query('update medications set name = ?, sideEffects =?, treats=?,description =?, price = ?, flag =? where medicationID =?;', [name,sideEffects,treats,description,price,flag,medicationID],function (err, rows, fields) {
+                connection.query('update medications set name = ?, sideEffects =?, usedFor=?,description =?, price = ?, where medicationID =?;', [name,sideEffects,usedFor,description,price,medicationID],function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
