@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import {User} from '../models/user'
 import './MedList.css';
+import {Repository} from '../api/repository';
 import { faFlag as fasFaFlag} from "@fortawesome/free-solid-svg-icons";
 import { faFlag as farFaFlag} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +13,8 @@ library.add(fasFaFlag, farFaFlag);
 
 
 export class MedList extends React.Component {
+
+    repository = new Repository();
 
     constructor(props) {
         super(props);
@@ -35,13 +38,24 @@ export class MedList extends React.Component {
     }
 
 
+
     listMeds = () => {
         // populate table with med information
 
-        // const orders = axios.get(`http://${url}:8000/user/${user.userID}/orders'`).then((res)=>{
-        //     alert(res.data);
-        // })
+        // this.repository.getUserOrders().then( data => {
+        //     this.setState()
+        // }
+        //     )
+        
     }
+
+    // componentDidMount() {
+    //     let id = +this.props.match.params.userID;
+    //     if(id) {
+    //         this.repository.getUserOrders(id)
+    //         .then(orders => this.setState(orders));
+    //     }
+    // }
 
     checkRefill = () => {
         let d = new Date();

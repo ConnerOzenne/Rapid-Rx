@@ -42,6 +42,7 @@ export class Repository {
         })
     }
 
+
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
     //         //axios.get(`${this.url}/account/${id}`)
