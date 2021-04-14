@@ -1,7 +1,65 @@
-.homepage-img {
-    z-index: -1;
+body {
+    padding-top: 0vh;
 }
 
 .homepage-header {
-    position: relative;
+    margin-bottom: 20vh;
+    padding-top: 0vh;
+}
+
+.homepage-title {
+    width: 20%;
+    left: 75%;
+    top: 10%;
+    transform: translate(-50%, -50%);
+}
+
+.homepage-img {
+    z-index: -2;
+    opacity: 50%;
+    object-fit: cover;
+    object-position: 20% 10%;
+    height: 90vh;
+}
+
+.homepage-img2 {
+    z-index: -1;
+    object-fit: cover;
+    object-position: 20% 10%;
+    bottom: -15vh;
+}
+
+.homepage-info {
+    top: 35%;
+    width: 100%;
+}
+
+.homepage-welcome {
+    left: 20%;
+    background-color: #1bee9aff;
+    border: 0.25vh solid #1bee9aff;
+    border-radius: 5%;
+}
+
+.homepage-welcome h2 {
+    font-size: 2rem;
+}
+
+.homepage-links {
+    right: 20%;
+}
+
+.homepage-links a {
+    font-size: 2rem;
+}
+
+.homepage-start {
+    align-items: center;
+}
+
+.btn-homepage {
+    border: 0.25vh solid black;
+    border-radius: 5%;
+    background: none;
+    font-size: 1.5rem;
 }

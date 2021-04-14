@@ -7,16 +7,20 @@ import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
 import { MedList } from './pages/MedList.jsx';
 import { MedInfo } from './pages/MedInfo.jsx';
+import { UserProfile } from './pages/userProfile.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Home } from ./pages/Home.jsx
 
+function App() {
 
+  // Fake news 'state' object...NOT a react-based state.
+  const state = {
+    userId : 0
+  }
 
-// React functional component
-function App () {
   // state for storage of the information on the webpage of forms and list, uses hooks
   const [number, setNumber] = useState("")
   const [values, setValues] = useState([])
@@ -72,6 +76,10 @@ function App () {
     }).catch(err => {
       console.log(err)
     });;
+  }
+
+  const onLogin = userID => {
+    
   }
 
   // tell app to fetch values from db on first load (if initialized)

@@ -4,17 +4,24 @@ import {Link, Redirect} from 'react-router-dom';
 import {User} from '../models/user'
 import './MedList.css';
 import {Repository} from '../api/repository';
+<<<<<<< HEAD
 import { faFlag as fasFaFlag} from "@fortawesome/free-solid-svg-icons";
 import { faFlag as farFaFlag} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 library.add(fasFaFlag, farFaFlag);
+=======
+>>>>>>> main
 
 
 export class MedList extends React.Component {
 
+<<<<<<< HEAD
     repository = new Repository();
+=======
+    repo = new Repository();
+>>>>>>> main
 
     constructor(props) {
         super(props);
@@ -33,9 +40,22 @@ export class MedList extends React.Component {
         )
 
         this.state = {
+<<<<<<< HEAD
             user: user,
+=======
+            // username: user.name,
+            username: "John Doe",
+>>>>>>> main
         }
     }
+
+    componentWillMount() {
+        if (localStorage.getItem("userID")) {
+            console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
+            this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
+        }
+    }
+
 
 
 
