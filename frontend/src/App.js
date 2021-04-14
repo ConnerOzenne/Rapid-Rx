@@ -105,7 +105,6 @@ function App() {
 
   return (
     <div>
-      <Navbar></Navbar>
       <Router>
         {/* <div path="/login" component={Login}/> */}
         <Switch>

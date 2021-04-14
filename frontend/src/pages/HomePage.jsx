@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {Repository} from '../api/repository';
+import { Navbar } from '../components/Navbar';
 import './HomePage.css';
 import { MedList } from './MedList.jsx';
 
@@ -18,8 +19,8 @@ export class HomePage extends React.Component {
         searchText: ''
     };
 
-    componentWillMount() {
-        console.log("Homepage: componentWillMount()")
+    componentDidMount() {
+        console.log("Homepage: componentDidMount()")
         if (localStorage.getItem("userID")) {
             this.setState( {
                 firstName: this.repo.getUserInfo(localStorage.getItem("userID")).firstName
@@ -34,6 +35,7 @@ export class HomePage extends React.Component {
         // Search medications will be displayed regardless of whether user is logged in or not.
         return (
             <>
+                <Navbar></Navbar>
                 <div className="homepage-header position-relative vh-100">
                     <img className="position-absolute homepage-img w-100" src="img/PillStock.jpg"></img>
                     <img className="position-absolute h-50" src="img/Homepage-1.svg"></img>

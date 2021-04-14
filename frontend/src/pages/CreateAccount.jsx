@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link, Redirect} from 'react-router-dom';
 import { Repository } from '../api/repository';
+import { Navbar } from '../components/Navbar';
 
 export class CreateAccount extends React.Component {
 
@@ -88,8 +89,8 @@ export class CreateAccount extends React.Component {
 
     render() {
 
-        return (
-
+        return (<>
+            <Navbar></Navbar>
             <div className="container">
                 {!this.state.success && <div>
                     <h3>Create Account</h3>
@@ -417,7 +418,7 @@ export class CreateAccount extends React.Component {
                     <Link to="/">login</Link>
                 </div>}
             </div>
-
+        </>
         );
 
     }

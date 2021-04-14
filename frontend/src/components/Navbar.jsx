@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Repository } from '../api/repository';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Navbar.css'
 
 export class Navbar extends React.Component {
@@ -16,7 +16,9 @@ export class Navbar extends React.Component {
     }
 
     isLoggedIn = () => {
-        return localStorage.getItem("userID") && localStorage.getItem("userID") != null;
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        console.log("Logged in: "+loggedIn)
+        return loggedIn;
     }
 
     logout = () => {
