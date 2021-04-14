@@ -62,4 +62,44 @@ module.exports = function medication(app, logger) {
         });
     });
 
+
+//edit a specific medication profile
+//user story 6.2
+    app.put('/medications/:medicationID', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                // if there is no issue obtaining a connection, execute query and release connection
+                var medicationID = req.params.medicationID
+                var name = req.body.name
+                var sideEffects = req.body.sideEffects
+                var treats = req.body.treats
+                var description = req.body.description
+                var price = req.body.price
+                var flag = req.body.flag
+                connection.query('update medications set name = ?, sideEffects =?, treats=?,description =?, price = ?, flag =? where medicationID =?;', [name,sideEffects,treats,description,price,flag,medicationID],function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
+
 }

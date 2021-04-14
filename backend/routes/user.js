@@ -204,4 +204,77 @@ module.exports = function user(app, logger) {
         });
     });
 
+
+//user story 10.3
+//edit user profile
+    app.put('/user/:userID', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var userID = req.params.userID
+                var pharmacyID = req.body.pharmacyID
+                var username = req.body.username
+                var name = req.body.name
+                var email = req.body.email
+                var phone = req.body.phone 
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('update users set username =?, email=?,name=?, phone =?, pharmacyID =? where userID =?; ', [username,email,name,phone,pharmacyID,userID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    //create appointment
+    //user story 7.2
+    app.post('/user/appointments', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                
+                var userID = req.body.userID
+                var employeeID = req.body.employeeID
+                var date = req.body.date
+            
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('insert into appointments (customerID,employeeID, date,) value(?,?,?);', [userID,employeeID, date], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
 }

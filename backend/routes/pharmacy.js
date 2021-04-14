@@ -100,7 +100,7 @@ module.exports = function pharmacy(app, logger) {
 
 //9,2 
 //view inventory of all pharmacy location 
-app.get('/pharmacies/inventory', (req, res) => {
+app.get('/pharmacy/inventory', (req, res) => {
 
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
@@ -132,7 +132,7 @@ app.get('/pharmacies/inventory', (req, res) => {
 
 //9.4
 //see which pharmacy is out of stock for a certain med
-app.get('/pharmacy/pharmacMedicationZero', (req, res) => {
+app.get('/pharmacy/pharmacyMedicationZero', (req, res) => {
 
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
