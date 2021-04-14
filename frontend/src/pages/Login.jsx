@@ -4,7 +4,7 @@ import {Link, Redirect} from 'react-router-dom';
 import './Login.css';
 import {Repository} from '../api/repository';
 
- export class Login extends React.Component {
+export class Login extends React.Component {
 
     repo = new Repository();
 
@@ -26,6 +26,9 @@ import {Repository} from '../api/repository';
 
       this.checkError();
       if (!this.state.error) {
+
+        let newUserID = -1;
+
         let json = {
           username: this.state.username,
           password: this.state.password,
@@ -35,17 +38,30 @@ import {Repository} from '../api/repository';
           console.log("response.response", res.response)
           console.log("response.data[0]", res.data[0])
           
-          if (res.data[0]) {
+          // If login was successful
+          if (res.data[0].userID) {
             console.log("Login was successful")
             console.log("userID:", res.data[0].userID)
-            this.setState({userID: res.data[0].userID})
-            // this.props.onLogin(this.state.userID)
-            this.setState({success: true, error: false})
+
+            newUserID = JSON.stringify(res.data[0].userID);
           }
+          // If the username wasn't found in the Database, let the user know.
           else {
             console.log('No user found')
             this.setState({error: true, success: false, errorMsg: "Invalid username or password"})
           }
+
+          // Update session storage and state based on newUserID
+          localStorage.setItem("userID", newUserID)
+          this.setState({
+            username: "",
+            password: "",
+            success: true,
+            error: false,
+            errorMsg: "",
+            userID: newUserID
+          });
+          // !Below code is probably not needed
           // if (data == "invalid") {
           //     this.setState({error: true, errorMsg: "Invalid username or password"});
           //     return;
@@ -95,7 +111,9 @@ import {Repository} from '../api/repository';
           />
           <br></br>
           {this.state.error && <div className="alert alert-danger" role="alert">User doesnt exist or wrong password</div>}
-          <button className="btn btn-primary btn-block btn-login" onClick={this.handleLogin}>Login</button>
+          <button className="btn btn-primary btn-block btn-login" onClick={this.handleLogin}>
+            Login
+            </button>
           <br></br>
           <span>Don't have an account? </span>
           <Link to="/create">

@@ -2,18 +2,29 @@ import React from 'react';
 import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import './MedList.css';
+import {Repository} from '../api/repository';
 
 
 export class MedList extends React.Component {
+
+    repo = new Repository();
 
     constructor(props) {
         super(props);
         const {user} = this.props;
         this.state = {
             // username: user.name,
-            username: "Betsy",
+            username: "John Doe",
         }
     }
+
+    componentWillMount() {
+        if (localStorage.getItem("userID")) {
+            console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
+            this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
+        }
+    }
+
 
 
     listMeds = () => {

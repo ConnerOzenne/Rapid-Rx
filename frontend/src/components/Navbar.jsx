@@ -1,14 +1,45 @@
 import React, { Component } from 'react';
+import { Repository } from '../api/repository';
+import { Link } from 'react-router-dom';
+import './Navbar.css'
 
 export class Navbar extends React.Component {
 
-    state = { clicked: false }
+    repo = new Repository();
+
+    state = { 
+        clicked: false
+    }
 
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked})
     }
 
-    // !NOTE: This const and the JSX inline styling is temporary and will be cleaned/Bootstrappified later
+    isLoggedIn = () => {
+        return localStorage.getItem("userID") && localStorage.getItem("userID") != null;
+    }
+
+    logout = () => {
+        console.log("Logout attempt")
+        localStorage.setItem("userID", null);
+    }
+
+    isManager = () => {
+        this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
+            const res = data.data;
+
+            if (res.data[0]) {
+                if (res.data[0].authoritylevel > 0)
+                    return true;
+            }
+            else {
+                return false;
+            }
+        });
+        return false;
+    }
+
+    // !NOTE: This const is temporary and will be cleaned later
     render() {
 
         // The NavBar menu items -- will be stored here for the time being
@@ -21,7 +52,7 @@ export class Navbar extends React.Component {
             },
             {
                 title: 'MyPrescriptions',
-                url: '/prescriptions',
+                url: '/medlist',
                 cName: 'nav-links' // className
             },
             {
@@ -44,6 +75,11 @@ export class Navbar extends React.Component {
                 url: '/login',
                 cName: 'nav-links' // className
             },
+            {
+                title: 'Profile',
+                url: '/userProfile',
+                cName: 'nav-links' // className
+            }
         ];
 
         /**
@@ -56,145 +92,33 @@ export class Navbar extends React.Component {
 
         // Return Navbar JSX
         return(
-            <nav className="NavbarItems">
-                <h1 className="navbar-logo">RX</h1>
-                
-                <ul className="nav-menu">
-                    {MenuItems.map((item, index) => {
-                        return (
-                            <li key={index}>
-                                <a className={item.cName} href={item.url}>
-                                    {item.title}
-                                </a>
-                            </li>
-                        )
-                    })}
-                </ul>
-
-                <style jsx>{`
-                    .NavbarItems {
-                        background: #08485E;
-                        height: 60px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        font-size: 1rem;
-                    }
-                    
-                    .NavbarItems a{
-                        text-decoration: none;
-                    }
-                    
-                    .navbar-logo {
-                        color: #ffffff;
-                        justify-self: start;
-                        margin-left: 0px;
-                        margin-top: 8px;
-                        width: 4%;
-                        z-index: 3;
-                        cursor: pointer;
-                    }
-
-                    .navbar-logo-img {
-                        margin-top: 4px;
-                    }
-                    
-                    .fa-react {
-                        margin-left: 0.5rem;
-                        font-size: 1.6rem;
-                    }
-                    
-                    .nav-menu {
-                        display: grid;
-                        grid-template-columns: repeat(6, auto);
-                        grid-gap: 10px;
-                        list-style: none;
-                        text-align: center;
-                        width: 70vw;
-                        justify-content: end;
-                        margin-right: 2rem;
-                        margin-top: 1rem;
-                    }
-                    
-                    .nav-links {
-                        color: white;
-                        text-decoration: none;
-                        padding: 0.5rem 0.8rem;
-                    }
-                    
-                    .nav-links:hover {
-                        background-color: #3CB0CD;
-                        color: #ffffff;
-                        border-radius: 4px;
-                        transition: all 0.2s ease-out;
-                    }
-                    
-                    .menu-icon {
-                        color: white;
-                        display: none;
-                    }
-                    
-                    .nav-links-mobile {
-                        display: none;
-                    }
-                    
-                    @media screen and (max-width: 960px) {
-                        .NavbarItems {
-                            position: relative;
-                        }
-                    
-                        .nav-menu { 
-                            display: flex;
-                            flex-direction: column;
-                            width: 100%;
-                            height: 500px;
-                            position: absolute;
-                            top: 60px;
-                            left: -100%;
-                            opacity: 1;
-                            transition: all 0.5s ease;
-                        }
-                    
-                        .nav-menu.active {
-                            background: #08485E;
-                            left: 0;
-                            opacity: 1;
-                            transition: all 0.5s ease;
-                            z-index: 2;
-                        }
-                    
-                        .nav-links {
-                            text-align: center;
-                            padding: 2rem;
-                            width: 100%;
-                            display: table;
-                        }
-                    
-                        .nav-links:hover {
-                            background-color: #3CB0CD;
-                            border-radius: 0;
-                        }
-                    
-                        .navbar-logo {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            margin-top: -16px;
-                            transform: translate(25%, 50%)
-                        }
-                    
-                        .menu-icon {
-                            display: block;
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-                            margin-top: -8px;
-                            transform: translate(-100%, 40%);
-                            font-size: 1.8rem;
-                            cursor: pointer;
-                        }
-                    }
-                `}</style>
+            <nav className="navbar navbar-expand-lg bg-navbar navbar-light">
+                <div className="container-fluid mx-5">
+                    <img className="navbar-brand" src="img/Homepage-logo-2.svg"></img>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                        <ol className="navbar-nav me-auto mb-lg-0 w-75">
+                            <li><a className="nav-link text-white" href="/">Home</a></li>
+                            <li><a className="nav-link text-white" href="/medlist">MyPrescriptions</a></li>
+                            <li><a className="nav-link text-white" href="/pharmacies">Pharmacy Portal</a></li>
+                            {(this.isLoggedIn() && this.isManager() ?
+                                <li><a className="nav-link text-white" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
+                            )}
+                            {(this.isLoggedIn() ? 
+                                <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
+                                :
+                                <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
+                            )}
+                            {(this.isLoggedIn() ? 
+                                <li><a className="nav-link text-white" href="/profile">Profile</a></li>
+                                :
+                                <li><a className="nav-link text-white" href="/login">Log In</a></li>
+                            )}
+                        </ol>
+                    </div>
+                </div>
             </nav>
         )
     }
