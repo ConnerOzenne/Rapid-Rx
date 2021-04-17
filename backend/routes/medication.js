@@ -63,6 +63,38 @@ module.exports = function medication(app, logger) {
     });
 
 
+    //user story 3.3 
+    //get all lifetime perscription
+    app.get('/medications/lifetime', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('select users.name, medications.name from users join orders on users.userID = orders.orderID join orderDetails on orders.orderID = orderDetails.orderID join medications on medications.medicationID =orderDetails.medicationID where refillLeft>900;', function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
+
 //edit a specific medication profile
 //user story 6.2
     app.put('/medications/:medicationID', (req, res) => {
