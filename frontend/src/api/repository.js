@@ -72,6 +72,17 @@ export class Repository {
         });
     }
 
+    updateAccount(id, account) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/${id}`, account, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
     //         //axios.get(`${this.url}/account/${id}`)
