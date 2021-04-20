@@ -35,7 +35,7 @@ module.exports = function request(app, logger) {
     });
 
     // POST /requests/create
-    // Add details to a request
+    // Add a request
     app.post('/requests/create', (req, res) => {
         console.log(req.body);
         // obtain a connection from our pool of connections
@@ -71,4 +71,35 @@ module.exports = function request(app, logger) {
             }
         });
     });
+
+    // PUT /request/:quantity/changeTo
+    // Add / change quantity of medication in a request
+    app.put('/request/:quantity/changeTo', (req, res) => {
+        console.log(req.params);
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var quantity = req.params.quantity;
+                var requestID = req.params.requestID;
+                // if there is no issue obtaining a connection, execute query
+                connection.query('UPDATE `rapidrx`.`requests` AS n SET n.quantity = ? WHERE n.requestID = ? (quantity, requestID) VALUES(?, ?)',[quantity, requestID], function (err, rows, fields) {
+                    if (err) { 
+                        // if there is an error with the query, release the connection instance and log the error
+                        connection.release()
+                        logger.error("Error while updating request: \n", err); 
+                        res.status(400).json({
+                            "error": "MySQL error"
+                        })
+                    } else {
+                        res.status(200).json(rows)
+                    }
+                });
+            }
+        });
+    });
+
 }
