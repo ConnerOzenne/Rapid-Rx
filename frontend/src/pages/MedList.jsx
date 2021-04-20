@@ -1,27 +1,18 @@
 import React from 'react';
-import axios from 'axios';
-import {Link, Redirect} from 'react-router-dom';
 import {User} from '../models/user'
 import './MedList.css';
 import {Repository} from '../api/repository';
-<<<<<<< HEAD
 import { faFlag as fasFaFlag} from "@fortawesome/free-solid-svg-icons";
 import { faFlag as farFaFlag} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 library.add(fasFaFlag, farFaFlag);
-=======
->>>>>>> main
 
 
 export class MedList extends React.Component {
 
-<<<<<<< HEAD
     repository = new Repository();
-=======
-    repo = new Repository();
->>>>>>> main
 
     constructor(props) {
         super(props);
@@ -40,21 +31,16 @@ export class MedList extends React.Component {
         )
 
         this.state = {
-<<<<<<< HEAD
-            user: user,
-=======
-            // username: user.name,
-            username: "John Doe",
->>>>>>> main
+            orders: []
         }
     }
 
-    componentWillMount() {
-        if (localStorage.getItem("userID")) {
-            console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
-            this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
-        }
-    }
+    // componentWillMount() {
+    //     if (localStorage.getItem("userID")) {
+    //         console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
+    //         this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
+    //     }
+    // }
 
 
 
@@ -69,28 +55,50 @@ export class MedList extends React.Component {
         
     }
 
-    // componentDidMount() {
-    //     let id = +this.props.match.params.userID;
-    //     if(id) {
-    //         this.repository.getUserOrders(id)
-    //         .then(orders => this.setState(orders));
-    //     }
-    // }
+    componentDidMount() {
+        // let id = +this.props.match.params.userID;
+        // debugger;
+        let id = 2;
+            this.repository.getUserOrders(id)
+            .then(orders => {
+                console.log(orders);
+                this.setState({orders});
+
+
+                orders.forEach((order, i) => {
+                    this.repository.getUserOrderDetails(order.orderID)
+                    .then(x => {
+                        order.quantity = x[0].quantity;
+                        order.refillDate = x[0].refillDate;
+                        order.refillLeft = x[0].refillLeft;
+                        orders[i] = order;
+                        this.setState({orders});
+                    })
+
+             });
+        });
+    }
+       
 
     checkRefill = () => {
         let d = new Date();
         if(this.state.refillDate == d) {
                 // make button active
         }
+        else {
+            // display "not available for refill until {order.refillDate}"
+        }
     }
 
 
     render() {
+        // debugger;
+
         return (
 
             <div className="Container" id="header">
                 
-                <h2 id="Name">{this.state.username}'s Prescriptions</h2>
+                <h2 id="Name">{this.state.name}'s Prescriptions</h2>
                 <table className = "table" id="medtable">
                     <tr className="text-center" id="tableHeader">
                         <th scope= "col">Medication</th>
@@ -100,21 +108,24 @@ export class MedList extends React.Component {
                         <th scope= "col">Save To Profile</th>
                         <th scope= "col">More Information</th>
                     </tr>
-                    <tr>
-                        <td className="text-center" scope="row" id="medName">{this.state.medName}</td>
-                        <td className="text-center" scope="row" id="dosage">{this.state.dosage}</td>
-                        <td className="text-center" scope="row" id="refillDate">{this.state.refillDate}</td>
-                        <td className="text-center" scope="row" id="refillRx">
-                            <a className="btn btn-secondary" href="#" role="button">REFILL</a>
-                        </td>
-                        
-                        <td className="text-center" scope="row" id="save">
-                            <button className="btn btn-secondary" role="button"> <FontAwesomeIcon icon={farFaFlag} /></button>
-                        </td>
-                        <td className="text-center" scope="row" id="moreInfo">
-                            <a className="btn btn-secondary" href="/medinfo" role="button">More Information</a>
-                        </td>
-                    </tr>
+                    { this.state.orders.map((order) => (
+                            <tr>
+                                <td className="text-center" scope="row" id="medName">{order.medName}</td>
+                                <td className="text-center" scope="row" id="dosage">{order.quantity} mg</td>
+                                <td className="text-center" scope="row" id="refillDate">{order.refillDate}</td>
+                                <td className="text-center" scope="row" id="refillRx">
+                                    <a className="btn btn-secondary" href="#" role="button">REFILL</a>
+                                </td>
+                                
+                                <td className="text-center" scope="row" id="save">
+                                    <button className="btn btn-secondary" role="button"> <FontAwesomeIcon icon={farFaFlag} /></button>
+                                </td>
+                                <td className="text-center" scope="row" id="moreInfo">
+                                    <a className="btn btn-secondary" href="/medinfo" role="button">More Information</a>
+                                </td>
+                            </tr>
+                        ))
+                    }
                 </table>
             </div>
         );

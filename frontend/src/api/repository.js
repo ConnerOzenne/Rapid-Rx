@@ -235,4 +235,51 @@ export class Repository {
 
 */
 
+getUserOrders(userId) {
+    // debugger;
+    return new Promise((resolve, reject) => {
+        axios.get(`${this.url}/user/${userId}/orders`, this.config)
+        .then(x => {
+            (resolve(x.data.data))
+        })
+        .catch(e => {
+            alert(e);
+            reject(e);
+        });
+    })
+}
+
+getUserOrderDetails(orderID) {
+    // debugger;
+    return new Promise((resolve, reject) => {
+        axios.get(`${this.url}/order/${orderID}/details`, this.config)
+        .then(x => {
+            resolve(x.data.data)
+        })
+        .catch(e => {
+            alert(e);
+            reject(e);
+        });
+    })
+}
+
+getUserMedications(userID) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${this.url}/user/${userID}/medications`, this.config)
+        .then(x => {
+            resolve(x.data.data)
+        })
+        .catch(e => {
+            alert(e);
+            reject(e);
+        });
+    })
+}
+
+
+
+
+
+
+
 }//end repository

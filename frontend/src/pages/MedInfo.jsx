@@ -8,13 +8,29 @@ import { faFilePrescription as fasFaFilePrescription} from "@fortawesome/free-so
 import { faCapsules as fasFaCapsules} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
+import {Repository} from '../api/repository';
 
 library.add(fasFaClinicMedical, fasFaFilePrescription, fasFaCapsules);
 
 export class MedInfo extends React.Component {
 
+    repository = new Repository();
+
     constructor(props) {
         super(props);
+
+        this.state = {
+            meds: []
+        }
+    }
+
+    componentDidMount() {
+        let id = 2;
+        this.repository.getUserMedications(id)
+        .then(meds => {
+            console.log(meds);
+            this.setState({meds});
+        });
     }
 
     render() {
@@ -31,7 +47,10 @@ export class MedInfo extends React.Component {
         return (
             <>
                 <div className="container py-5" id="hanging-icons">
-                    <h2 className="pb-2 border-bottom">Medication Name Here</h2>
+                { this.state.meds.map((med) => (
+                                    <h2 className="pb-2 border-bottom">{med.name}</h2>
+                    ))
+                }
                     <div className="row g-5 py-5">
                         <div className="col-md-4 d-flex align-items-start">
                         <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
@@ -39,10 +58,11 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Side Effects</h2>
-                            <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                            <a href="#" className="btn btn-secondary">
-                            Return to Prescriptions?
-                            </a>
+                            { this.state.meds.map((med) => (
+                                    <p>{med.sideEffects}</p>
+                            ))
+                            }
+                            <Link to="/medlist" className="btn btn-secondary">Return to Prescriptions</Link>
                         </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
@@ -51,10 +71,13 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Description</h2>
-                            <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                            <a href="#" className="btn btn-secondary">
-                            Price?
-                            </a>
+                            { this.state.meds.map((med) => (
+                                <div>
+                                    <p>{med.description}</p>
+                                    <a href="#" className="btn btn-secondary">{med.price}</a>
+                                </div>
+                            ))
+                            }
                         </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
@@ -63,7 +86,10 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Interactions</h2>
-                            <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                            { this.state.meds.map((med) => (
+                                    <p>{med.notCompatibleWith}</p>
+                            ))
+                            }
                         </div>
                         </div>
                     </div>
