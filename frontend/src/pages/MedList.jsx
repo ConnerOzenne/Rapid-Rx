@@ -45,7 +45,8 @@ export class MedList extends React.Component {
     render() {
         return (
             <>
-            <Navbar></Navbar>
+            {console.log("No render? "+this.props.navbarnorender)}
+            <Navbar norender={this.props.navbarnorender}></Navbar>
             <div className="Container" id="header">
                 <h2 id="Name">{this.state.username}'s Prescriptions</h2>
                 <table className = "table" id="medtable">

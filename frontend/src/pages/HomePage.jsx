@@ -92,11 +92,12 @@ export class HomePage extends React.Component {
                             onChange= {event => this.setState({searchText: event.target.value})}></input>
                             {console.log(this.state)}
 
-                    <MedList page="homepage"></MedList>
+                    <MedList page="homepage" navbarnorender={true}></MedList>
                 </div>
 
                 
             </>
         );
+        
     }
 }

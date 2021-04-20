@@ -57,6 +57,9 @@ export class Navbar extends React.Component {
             return <Redirect to={ this.state.redirect } />;
         }
         // Return Navbar JSX
+        if (this.props.norender) {
+            return (<></>);
+        }
         return(
             
             <nav className="navbar navbar-expand-lg bg-navbar navbar-light">
