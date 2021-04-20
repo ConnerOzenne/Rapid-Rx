@@ -33,4 +33,42 @@ module.exports = function request(app, logger) {
             }
         });
     });
+
+    // POST /requests/create
+    // Add details to a request
+    app.post('/requests/create', (req, res) => {
+        console.log(req.body);
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var requestID = req.body.requestID
+                var pharmacyID_source = req.body.pharmacyID_source
+                var pharmacyID_dest = req.body.pharmacyID_dest
+                var medicationID = req.body.medicationID
+                var quantity = req.body.quantity
+                var date_requested = req.body.date_requested
+                var isComplete = req.body.isComplete
+                // if there is no issue obtaining a connection, execute query
+                connection.query('INSERT INTO `rapidrx`.`requests` (requestID, pharmacyID_source, pharmacyID_dest, medicationID, quantity, date_requested, isComplete) VALUES(?, ?, ?, ?, ?, ?, 0)',[requestID, pharmacyID_source, pharmacyID_dest, medicationID, quantity, date_requested, isComplete], function (err, rows, fields) {
+                    if (err) {
+                        // if there is an error with the query, release the connection instance and log the error
+                        connection.release()
+                        logger.error("Error while creating request: \n", err); 
+                        res.status(400).json({
+                            "data": [],
+                            "error": "MySQL error"
+                        })
+                    } else{
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
 }
