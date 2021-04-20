@@ -22,6 +22,7 @@ export class Navbar extends React.Component {
     logout = () => {
         console.log("Logout attempt")
         localStorage.setItem("userID", null);
+        this.setState({redirect: '/'});
     }
 
     isManager = () => {
@@ -42,46 +43,6 @@ export class Navbar extends React.Component {
     // !NOTE: This const is temporary and will be cleaned later
     render() {
 
-        // The NavBar menu items -- will be stored here for the time being
-        // Will probably place this const into a separate .js file in a different directory and import it into here
-        const MenuItems = [
-            {
-                title: 'Home',
-                url: '/',
-                cName: 'nav-links' // className
-            },
-            {
-                title: 'MyPrescriptions',
-                url: '/medlist',
-                cName: 'nav-links' // className
-            },
-            {
-                title: 'Pharmacy Portal',
-                url: '/pharmacies',
-                cName: 'nav-links' // className
-            },
-            {
-                title: 'MyPharmacyManager',
-                url: '/pharmacy-manager',
-                cName: 'nav-links' // className
-            },
-            {
-                title: 'Sign Up',
-                url: '/create',
-                cName: 'nav-links' // className
-            },
-            {
-                title: 'Log In',
-                url: '/login',
-                cName: 'nav-links' // className
-            },
-            {
-                title: 'Profile',
-                url: '/userProfile',
-                cName: 'nav-links' // className
-            }
-        ];
-
         /**
          * Can be added after h1 tag in the JSX
          * 
@@ -90,8 +51,12 @@ export class Navbar extends React.Component {
          * </div>
          */
 
+        if (this.state.redirect) {
+            return <Redirect to={ this.state.redirect } />;
+        }
         // Return Navbar JSX
         return(
+            
             <nav className="navbar navbar-expand-lg bg-navbar navbar-light">
                 <div className="container-fluid mx-5">
                     <img className="navbar-brand" src="img/Homepage-logo-2.svg"></img>

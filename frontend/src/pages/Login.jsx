@@ -59,7 +59,8 @@ export class Login extends React.Component {
             success: true,
             error: false,
             errorMsg: "",
-            userID: newUserID
+            userID: newUserID,
+            redirect: "/"
           });
           // !Below code is probably not needed
           // if (data == "invalid") {
@@ -89,6 +90,9 @@ export class Login extends React.Component {
 
     render() {
 
+      if (this.state.redirect) {
+        return <Redirect to={ this.state.redirect } />;
+      }
       return (
         <div className="container">
           <h3>Login</h3>

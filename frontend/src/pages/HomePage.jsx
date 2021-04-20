@@ -19,6 +19,7 @@ export class HomePage extends React.Component {
     };
 
     componentWillMount() {
+        console.log("Homepage: componentWillMount()")
         if (localStorage.getItem("userID")) {
             this.setState( {
                 firstName: this.repo.getUserInfo(localStorage.getItem("userID")).firstName
