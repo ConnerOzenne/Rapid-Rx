@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import './Login.css';
 import {Repository} from '../api/repository';
 
  export class Login extends React.Component {
