@@ -11,11 +11,11 @@ export class PharmacyPortal extends React.Component {
 
     constructor(props) {
         super(props);
-        const {user} = this.props;
+        const id = localStorage.get('userID')
         this.state = {
             // username: user.name,
             username: "",
-            userID: 2, // this.props.id
+            userID: id,
             orders: [],
             auth: -1
         }
