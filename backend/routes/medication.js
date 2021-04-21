@@ -62,10 +62,7 @@ module.exports = function medication(app, logger) {
         });
     });
 
-
-<<<<<<< HEAD
-    //user story 3.3 
-    //get all lifetime perscription
+//user story 3.3 lifetime perscription 
     app.get('/medications/lifetime', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -96,12 +93,7 @@ module.exports = function medication(app, logger) {
 
 
 
-//edit a specific medication profile
-//user story 6.2
-=======
-    //edit a specific medication profile
-    //user story 6.2
->>>>>>> df43690417c3322eaafc418162d570988c7c27c8
+//user story 6.6 edit med
     app.put('/medications/:medicationID', (req, res) => {
         console.log(req.body);
         // obtain a connection from our pool of connections
