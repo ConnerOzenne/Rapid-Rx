@@ -3,6 +3,7 @@ import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import './Login.css';
 import {Repository} from '../api/repository';
+import { Navbar } from '../components/Navbar';
 
 export class Login extends React.Component {
 
@@ -59,7 +60,8 @@ export class Login extends React.Component {
             success: true,
             error: false,
             errorMsg: "",
-            userID: newUserID
+            userID: newUserID,
+            redirect: "/"
           });
           // !Below code is probably not needed
           // if (data == "invalid") {
@@ -88,8 +90,12 @@ export class Login extends React.Component {
     }
 
     render() {
-
-      return (
+      
+      if (this.state.redirect) {
+        return <Redirect to={ this.state.redirect } />;
+      }
+      return (<>
+        <Navbar></Navbar>
         <div className="container">
           <h3>Login</h3>
           <label htmlFor="username">Username </label>
@@ -122,6 +128,7 @@ export class Login extends React.Component {
           {this.state.success && console.log('THE LOGIN WAS SUCCESSFUL')}
           {/* {this.state.success && <Redirect to="/home"/>} */}
         </div>
+        </>
       );
 
     }

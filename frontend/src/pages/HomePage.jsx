@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {Repository} from '../api/repository';
+import { Navbar } from '../components/Navbar';
 import './HomePage.css';
 import { MedList } from './MedList.jsx';
 
@@ -18,34 +19,59 @@ export class HomePage extends React.Component {
         searchText: ''
     };
 
-    componentWillMount() {
-        if (localStorage.getItem("userID")) {
-            this.setState( {
-                firstName: this.repo.getUserInfo(localStorage.getItem("userID")).firstName
+    isLoggedIn = () => {
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
+    }
+
+    componentDidMount() {
+        if (localStorage.getItem("userID") && localStorage.getItem("")) {
+            this.repo.getUserInfo(localStorage.getItem("userID")).then(user => {
+                this.setState({firstName: user.firstName})
             });
         }
     }
 
+    componentWillUpdate() {
+        console.log("Homepage: componentWillUpdate()")
+        if (this.state.firstName) {
+            this.repo.getUserInfo(localStorage.getItem("userID"))
+                .then(data => {
+                    const res = data.data
+                    this.setState({firstName: res.data[0].name, isLoggedIn: true})
+            });
+        }
+        console.log("State in Homepage: componentWillUpdate():")
+        console.log(this.state);
+    }
+
     render() {
 
-        console.log("Session storage for userID: "+localStorage.getItem("userID"));
         // !ONLY DISPLAY MY MEDICATIONS TABLE IF USER IS LOGGED IN
         // Search medications will be displayed regardless of whether user is logged in or not.
         return (
             <>
+                <Navbar></Navbar>
                 <div className="homepage-header position-relative vh-100">
                     <img className="position-absolute homepage-img w-100" src="img/PillStock.jpg"></img>
-                    <img className="position-absolute h-50" src="img/Homepage-1.svg"></img>
+                    <img className="position-absolute mobile-none h-50" src="img/Homepage-1.svg"></img>
                     <img className="position-absolute homepage-title" src="img/Homepage-logo-1.svg"></img>
-                    <div className="position-relative position-absolute homepage-info">
+                    <div className="position-relative position-absolute homepage-info row">
                         <div className="d-flex flex-column align-items-center position-absolute homepage-welcome p-3">
                             <h2 className="homepage-welcome">
-                                {this.state.firstName != "_none_" ? `Welcome ${this.state.firstName}!` : 'Welcome to Rapid RX!'}
+                                {/*this.state.firstName && this.state.firstName != "_none_" ? `Welcome ${this.state.firstName}!` : 'Welcome to Rapid RX!'*/}
+                                {this.isLoggedIn() ? `Welcome ${this.state.firstName}!` : 'Welcome to Rapid RX!'}
                             </h2>
                             <button className="btn-homepage homepage-start">
-                                <Link to="/login" className="text-dark">
-                                    Get Started
-                                </Link>
+                                {(this.isLoggedIn() ? 
+                                    <Link to="/medlist" className="text-dark">
+                                        Get Started
+                                    </Link>
+                                    :
+                                    <Link to="/login" className="text-dark">
+                                        Get Started
+                                    </Link>
+                                )}
                             </button>
                         </div>
                         <div className="position-absolute homepage-links">
@@ -53,17 +79,19 @@ export class HomePage extends React.Component {
                             <a className="d-block" href="/pharmacies">Pharmacies</a>
                         </div>
                     </div>
-                    <img className="position-absolute w-100 homepage-img2" src="img/Homepage-2.svg"></img>
+                    <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>
                 </div>
 
                 <div className="m-5 d-flex flex-column align-items-center">
                     <h1>My Medications</h1>
                     <table>
                         <thead>
-                            <tr>   
+                            <tr className="font-weight-bold">   
                                 {this.days.map(day => <td>{day}</td>)}
                             </tr>
                         </thead>
+                        <tbody>
+                        </tbody>
                     </table>
                     <tbody>
 
@@ -87,13 +115,13 @@ export class HomePage extends React.Component {
                             name="search"
                             value={this.state.searchText}
                             onChange= {event => this.setState({searchText: event.target.value})}></input>
-                            {console.log(this.state)}
 
-                    <MedList page="homepage"></MedList>
+                    <MedList page="homepage" navbarnorender={true}></MedList>
                 </div>
 
                 
             </>
         );
+        
     }
 }

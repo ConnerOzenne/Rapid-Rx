@@ -2,6 +2,7 @@ import React from 'react';
 import {User} from '../models/user'
 import './MedList.css';
 import {Repository} from '../api/repository';
+import { Navbar } from '../components/Navbar';
 
 
 
@@ -90,7 +91,9 @@ export class MedList extends React.Component {
         // debugger;
 
         return (
-
+            <>
+            {console.log("No render? "+this.props.navbarnorender)}
+            <Navbar norender={this.props.navbarnorender}></Navbar>
             <div className="Container" id="header">
                 
                 <h2 id="Name">{this.state.name}'s Prescriptions</h2>
@@ -127,6 +130,7 @@ export class MedList extends React.Component {
                     }
                 </table>
             </div>
+            </>
         );
     }
 }
