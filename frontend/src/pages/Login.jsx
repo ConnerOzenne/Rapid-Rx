@@ -34,6 +34,7 @@ export class Login extends React.Component {
           username: this.state.username,
           password: this.state.password,
         }
+        debugger;
         this.repo.login(json).then(data => {
           const res = data.data
           console.log("response.response", res.response)
@@ -75,9 +76,9 @@ export class Login extends React.Component {
           //     this.setState({success: true});
           // }, 1000);
         })
-        // .catch( e => {
-        //   this.setState({error: true, errorMsg: "Invalid username or password"});
-        // });
+        .catch( e => {
+          this.setState({error: true, errorMsg: "Invalid username or password"});
+        });
       }
     }
 

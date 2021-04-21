@@ -38,19 +38,6 @@ export class HomePage extends React.Component {
         }
     }
 
-    componentWillUpdate() {
-        console.log("Homepage: componentWillUpdate()")
-        if (this.state.firstName && this.isLoggedIn()) {
-            this.repo.getUserInfo(localStorage.getItem("userID"))
-                .then(data => {
-                    const res = data.data
-                    this.setState({firstName: res.data[0].name, isLoggedIn: true})
-            });
-        }
-        console.log("State in Homepage: componentWillUpdate():")
-        console.log(this.state);
-    }
-
     render() {
 
         // !ONLY DISPLAY MY MEDICATIONS TABLE IF USER IS LOGGED IN

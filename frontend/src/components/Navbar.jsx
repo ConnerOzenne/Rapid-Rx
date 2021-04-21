@@ -8,11 +8,17 @@ export class Navbar extends React.Component {
     repo = new Repository();
 
     state = { 
-        clicked: false
+        clicked: false,
+        authoritylevel: 0
     }
 
-    componentWillUpdate() {
-        
+    componentDidMount() {
+        if (this.isLoggedIn()) {
+            this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
+                const res = data.data;
+                this.setState({authoritylevel: res.data[0].authoritylevel})
+            });
+        }
     }
 
     handleClick = () => {
@@ -31,17 +37,9 @@ export class Navbar extends React.Component {
     }
 
     isManager = () => {
-        this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
-            const res = data.data;
-
-            if (res.data[0]) {
-                if (res.data[0].authoritylevel > 0)
-                    return true;
-            }
-            else {
-                return false;
-            }
-        });
+        if (this.isLoggedIn() && this.state.isManager) {
+            return true;
+        }
         return false;
     }
 

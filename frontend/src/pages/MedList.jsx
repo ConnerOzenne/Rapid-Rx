@@ -19,10 +19,29 @@ export class MedList extends React.Component {
         }
     }
 
-    componentWillMount() {
-        if (localStorage.getItem("userID")) {
-            console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
-            this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
+    // componentWillMount() {
+    //     if (localStorage.getItem("userID")) {
+    //         console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
+    //         this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
+    //     }
+    // }
+
+    isLoggedIn = () => {
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
+    }
+
+    componentDidMount() {
+        console.log("MedList: componentDidMount()")
+        if (this.isLoggedIn()) {
+            this.repo.getUserInfo(localStorage.getItem("userID"))
+                .then(data => {
+                    const res = data.data;
+                    this.setState({username: res.data[0].name, isLoggedIn: true})
+                })
+                .catch(err => {
+                    console.log("No user info found")
+                })
         }
     }
 
@@ -48,7 +67,7 @@ export class MedList extends React.Component {
             {console.log("No render? "+this.props.navbarnorender)}
             <Navbar norender={this.props.navbarnorender}></Navbar>
             <div className="Container" id="header">
-                <h2 id="Name">{this.state.username}'s Prescriptions</h2>
+                {this.isLoggedIn() ? <h2 id="Name">{this.state.username}'s Prescriptions</h2> : <div><h2 id="Name">View All Prescriptions</h2><p>Login to view your own prescriptions!</p></div>}
                 <table className = "table" id="medtable">
                     <tr id="tableHeader">
                         <th scope= "col">Medication</th>
