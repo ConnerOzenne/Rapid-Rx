@@ -25,9 +25,12 @@ export class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem("userID") && localStorage.getItem("")) {
-            this.repo.getUserInfo(localStorage.getItem("userID")).then(user => {
-                this.setState({firstName: user.firstName})
+        if (localStorage.getItem("userID")) {
+            this.repo.getUserInfo(localStorage.getItem("userID"))
+                .then(data => {
+                    const res = data.data
+                    debugger;
+                    this.setState({firstName: res.data[0].name, isLoggedIn: true})
             });
         }
     }

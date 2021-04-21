@@ -33,6 +33,7 @@ export class Navbar extends React.Component {
     isManager = () => {
         this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
             const res = data.data;
+            debugger;
 
             if (res.data[0]) {
                 if (res.data[0].authoritylevel > 0)
