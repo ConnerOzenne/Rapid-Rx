@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { pharmManager } from './pages/pharmManager';
 // import { Home } from ./pages/Home.jsx
 
 function App() {
@@ -116,10 +117,11 @@ function App() {
             <Route path="/listing/:id" component={ListingEditor}/>
             <Route path="/createListing" component={PostListing}/>
             <Route path="/user/edit/:userId" component={EditProfile}/>
-            <Route path="/user/:userId" component={UserProfile}/>
             <Route path="/orders/:userId" component={OrderHistory}/>
             <Route path="/distributors/:userId" component={DistributorListings}/>
             <Route path="/cart" component={MyCart}/> */}
+            <Route path="/pharmacy-manager" component={PharmManager}/>
+            <Route path="/profile/:userId" component={UserProfile}/>
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
             <Route path="/" component={HomePage}/>

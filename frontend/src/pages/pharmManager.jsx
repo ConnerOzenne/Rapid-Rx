@@ -1,11 +1,11 @@
-//import React, { Component } from 'react';
+import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 
-export class pharmManager extends React.Component {
+export class PharmManager extends React.Component {
 
     medInfo = ["Name","Quantity", "Price"];
 
-    employee = ["Name", ]
+    employee = ["Name"];
 
     state = {
         

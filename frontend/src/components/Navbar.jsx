@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Repository } from '../api/repository';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Navbar.css'
 
 export class Navbar extends React.Component {
@@ -56,10 +56,11 @@ export class Navbar extends React.Component {
         }
         // Return Navbar JSX
         return(
-            
             <nav className="navbar navbar-expand-lg bg-navbar navbar-light">
                 <div className="container-fluid mx-5">
-                    <img className="navbar-brand" src="img/Homepage-logo-2.svg"></img>
+                    <Link to="/">
+                        <img className="navbar-brand" src="img/Homepage-logo-2.svg"></img>
+                    </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
@@ -77,7 +78,7 @@ export class Navbar extends React.Component {
                                 <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" href="/profile">Profile</a></li>
+                                <li><a className="nav-link text-white" href="/profile/:userId">Profile</a></li>
                                 :
                                 <li><a className="nav-link text-white" href="/login">Log In</a></li>
                             )}
