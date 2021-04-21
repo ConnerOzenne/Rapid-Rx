@@ -415,7 +415,7 @@ export class CreateAccount extends React.Component {
                 </div>}
                 {this.state.success && <div className="alert alert-success">
                     Account created successfully. Back to 
-                    <Link to="/">login</Link>
+                    <Link to="/login"> login</Link>
                 </div>}
             </div>
         </>

@@ -20,24 +20,27 @@ export class HomePage extends React.Component {
     };
 
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != "null";
         return loggedIn;
     }
 
     componentDidMount() {
-        if (localStorage.getItem("userID")) {
+        console.log("Homepage: componentDidMount()")
+        if (this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
-                    const res = data.data
-                    debugger;
+                    const res = data.data;
                     this.setState({firstName: res.data[0].name, isLoggedIn: true})
-            });
+                })
+                .catch(err => {
+                    console.log("No user info found")
+                })
         }
     }
 
     componentWillUpdate() {
         console.log("Homepage: componentWillUpdate()")
-        if (this.state.firstName) {
+        if (this.state.firstName && this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
                     const res = data.data
