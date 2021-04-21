@@ -2,18 +2,30 @@ import React from 'react';
 import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import './MedList.css';
+import {Repository} from '../api/repository';
+import { Navbar } from '../components/Navbar';
 
 
 export class MedList extends React.Component {
+
+    repo = new Repository();
 
     constructor(props) {
         super(props);
         const {user} = this.props;
         this.state = {
             // username: user.name,
-            username: "Betsy",
+            username: "John Doe",
         }
     }
+
+    componentWillMount() {
+        if (localStorage.getItem("userID")) {
+            console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
+            this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
+        }
+    }
+
 
 
     listMeds = () => {
@@ -32,7 +44,9 @@ export class MedList extends React.Component {
 
     render() {
         return (
-
+            <>
+            {console.log("No render? "+this.props.navbarnorender)}
+            <Navbar norender={this.props.navbarnorender}></Navbar>
             <div className="Container" id="header">
                 <h2 id="Name">{this.state.username}'s Prescriptions</h2>
                 <table className = "table" id="medtable">
@@ -64,6 +78,7 @@ export class MedList extends React.Component {
                     </tr>
                 </table>
             </div>
+            </>
         );
     }
 }

@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
 import { MedList } from './pages/MedList.jsx';
+import { UserProfile } from './pages/userProfile.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
@@ -76,6 +77,10 @@ function App() {
     });;
   }
 
+  const onLogin = userID => {
+    
+  }
+
   // tell app to fetch values from db on first load (if initialized)
   useEffect(() => {
     fetchVals();
@@ -100,7 +105,6 @@ function App() {
 
   return (
     <div>
-      <Navbar></Navbar>
       <Router>
         {/* <div path="/login" component={Login}/> */}
         <Switch>

@@ -1,5 +1,6 @@
 //import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import { Navbar } from '../components/Navbar';
 
 export class pharmManager extends React.Component {
 
@@ -14,6 +15,7 @@ export class pharmManager extends React.Component {
     render() {
         return (
             <>
+                <Navbar></Navbar>
                 <h1>My Pharmacy Manager</h1>
                 <button>Get Started</button>
                 
