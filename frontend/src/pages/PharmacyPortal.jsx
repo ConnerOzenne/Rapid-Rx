@@ -11,7 +11,7 @@ export class PharmacyPortal extends React.Component {
 
     constructor(props) {
         super(props);
-        const id = localStorage.get('userID')
+        const id = localStorage.getItem('userID')
         this.state = {
             // username: user.name,
             username: "",
