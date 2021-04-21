@@ -91,7 +91,7 @@ module.exports = function order(app, logger) {
         });
     });
 
-    // GET /orders/:userID
+    // GET /orders/:userID (1.2)
     app.get('/order/:userID', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection) {
