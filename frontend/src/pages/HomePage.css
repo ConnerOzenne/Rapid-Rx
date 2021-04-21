@@ -51,6 +51,7 @@ body {
 
 .homepage-links a {
     font-size: 2rem;
+    color: #08485E;
 }
 
 .homepage-start {
@@ -62,4 +63,20 @@ body {
     border-radius: 5%;
     background: none;
     font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .mobile-none {
+        display: none;
+    }
+
+    .homepage-links {
+        bottom: 5%;
+    }
+
+    .homepage-links a{
+        color: #08485E;
+        font-weight: bold;
+        text-align: center;
+    }
 }

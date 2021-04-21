@@ -11,13 +11,16 @@ export class Navbar extends React.Component {
         clicked: false
     }
 
+    componentWillUpdate() {
+        
+    }
+
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked})
     }
 
     isLoggedIn = () => {
         let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
-        console.log("Logged in: "+loggedIn)
         return loggedIn;
     }
 

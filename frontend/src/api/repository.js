@@ -72,6 +72,21 @@ export class Repository {
         });
     }
 
+    // Given a userID, return all the user info for that user.
+    getUserOrders(userID) {
+        return new Promise((resolve, reject) => {
+            console.log(userID)
+            axios.get(`${this.url}/user/${userID}/orders`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("repo.getUserOrders(): error")
+                console.log(e)
+            })
+        });
+    }
+
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
     //         //axios.get(`${this.url}/account/${id}`)
