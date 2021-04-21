@@ -2,10 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import {Repository} from '../api/repository';
 import { Link, Redirect, withRouter } from 'react-router-dom';
+import {User} from '../models/user';
 import './userProfile.css';
 
 class UserProfile extends React.Component{
     repo = new Repository();
+	user = new User();
     state = {
         data: {
             name: "",
@@ -18,6 +20,10 @@ class UserProfile extends React.Component{
         }
 
     };
+	
+	update(){
+		this.repo.updateAccount(this.state.id, )
+	}
 	
   
     render() {
@@ -94,7 +100,7 @@ class UserProfile extends React.Component{
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="text-right">
-								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.updateAccount}>Save</button>
+								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update}>Save</button>
 							</div>
 						</div>
 					</div>
