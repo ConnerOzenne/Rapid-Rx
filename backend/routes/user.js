@@ -300,8 +300,8 @@ app.put('/user/:userID/addresses', (req, res) => {
     });
 });
 
-//user story 10.3
-//edit user profile
+    //user story 10.3
+    //edit user profile
     app.put('/user/:userID', (req, res) => {
         console.log(req.params);
         // obtain a connection from our pool of connections
@@ -312,13 +312,44 @@ app.put('/user/:userID/addresses', (req, res) => {
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
                 var userID = req.params.userID
-                var pharmacyID = req.body.pharmacyID
                 var username = req.body.username
-                var name = req.body.name
                 var email = req.body.email
+                var name = req.body.name
+                var pharmacyID = req.body.pharmacyID
                 var phone = req.body.phone 
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('update users set username =?, email=?,name=?, phone =?, pharmacyID =? where userID =?; ', [username,email,name,phone,pharmacyID,userID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`users` AS u SET u.username = ?, u.email = ?, u.name = ?, u.pharmacyID = ?, u.phone = ? WHERE u.userID = ?;', [username, email, name, phone, pharmacyID, userID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching values: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json(rows)
+                    }
+                });
+            }
+        });
+    });
+
+    // PUT /user/:userID/password
+    // Update a user's password
+    app.put('/user/:userID/password', (req, res) => {
+        console.log(req.params);
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var userID = req.params.userID
+                var password = req.body.password
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('UPDATE `rapidrx`.`users` AS u SET u.password = ? WHERE u.userID = ?;', [password, userID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
