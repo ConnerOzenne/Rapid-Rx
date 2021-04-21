@@ -7,6 +7,7 @@ export class Repository {
     config = {
         headers: {
             Authorization: '*'
+            // Access-Control-Allow-Origin: '*'
         }
     }
 
@@ -16,13 +17,7 @@ export class Repository {
         return new Promise((resolve, reject) => {
             console.log('account trying to be added');
             axios.post(`${this.url}/users/create`, state).then(resp => {
-                if(resp.data == "L")
-                {
-                    return alert("Email already in use");
-                }
-                else {
-                    resolve(resp.data);
-                }
+                resolve(resp.data);
             }).catch(err => alert(err));
         });
     }
@@ -42,6 +37,49 @@ export class Repository {
         })
     }
 
+    // getting pharmacies to sort by zip
+    getPharmacies(state) {
+        var zip = Math.floor(Math.floor(state.zipcode/10)/10)
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/pharmacies/${zip}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    getUserOrders(state) {
+        var userID = state.userID
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/orders/${userID}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    getUser(state) {
+        var userID = state.userID
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
     //         //axios.get(`${this.url}/account/${id}`)
@@ -53,156 +91,5 @@ export class Repository {
     //         });
     //     })
     // }
-/*
-    getAccount(id) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/account/${id}`)
-            .then(response => {
-                resolve(response);
-            })
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        })
-    }
-
-    //deleting account - app.delete
-    deleteAccount(){
-        return new Promise((resolve, reject) => {
-        axios.delete(`${this.url}/account`)
-        .catch(e => {
-            reject();
-        });
-    })
-}
-
-    editListing(id, listing) {
-        return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/listings/${id}`, listing, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });   
-    }
-
-
-    //posting a listing - used in PostListing.jsx
-    postNewListing(state){
-        return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/listings/`, state, this.config)
-        })
-    }
-
-
-    getAccountInfo(id) {
-        return new Promise((resolve, reject) => {
-            //axios.get(`${this.url}/account/${id}`)
-            axios.get(`${this.url}/account/${id}`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        })
-    }
-    //might need to add params later for searching
-
-    getListing(id) {
-        return new Promise((resolve, reject) => {
-            
-            axios.get(`${this.url}/listings/${id}`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    getListingParams(params){
-        return new Promise((resolve, reject) => {
-            if (params) {
-                let config = this.config;
-                config.params = params;
-            }
-            axios.get(`${this.url}/listings/`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    getDistListings(id) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/distributors/${id}`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    getListings() {
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/listings/`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    getListingsById(id) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/listings/${id}`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    getOrders(cookie) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/orders`, {params: {cookie: cookie}, Authorization: "*"})
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    getAllOrders(){
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/orders/all`, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        });
-    }
-
-    postOrder(listingId, json) {
-        return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/listings/${listingId}`, json, this.config)
-            .then(x => resolve(x.data))
-            .catch(e => {
-                alert(e);
-                reject();
-            });
-        })
-    }
-
-*/
 
 }//end repository

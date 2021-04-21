@@ -28,9 +28,7 @@ class UserProfile extends React.Component{
     componentDidMount(){
         const id = this.props.match.params.userId;
         this.repo.getAccountInfo(id)
-        .then(userData => this.setState({data: userData[0]})
-        
-        );
+        .then(userData => this.setState({data: userData[0]}));
         console.log("user profile mounted");
         
     }

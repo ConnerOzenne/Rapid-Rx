@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
-// const mysqlConnect = require('./db');
+const mysqlConnect = require('./db');
 
 // set up some configs for express.
 const config = {
@@ -21,9 +21,19 @@ const logger = log({ console: true, file: false, label: config.name });
 
 // specify middleware to use
 app.use(bodyParser.json());
-app.use(cors({
-  origin: '*'
-}));
+
+app.use(cors(
+  {
+    origin: '*'
+  }
+));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 //include routes
