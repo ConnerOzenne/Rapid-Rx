@@ -10,6 +10,5 @@ export class User {
         this.pharmacyID = pharmacyID;
         this.authorityLevel = authorityLevel;
         this.contactInfo = contactInfo;
-        this.orders = orders;
     }
 }

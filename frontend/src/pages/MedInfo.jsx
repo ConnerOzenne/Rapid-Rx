@@ -30,7 +30,6 @@ export class MedInfo extends React.Component {
         // let id = localStorage.getItem("userID");
         // this.repository.getUserMedications(id)
         // .then(meds => {
-        //     // this.setState({meds});
         //     meds.forEach((x) => {
         //         this.repository.getMedicationInfo(x.medicationID)
         //         .then(data => {

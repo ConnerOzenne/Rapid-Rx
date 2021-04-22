@@ -148,6 +148,14 @@ export class Repository {
         })
     }
 
+    // createOrder(state){
+    //     return new Promise((resolve, reject) => {
+    //         axios.post(`${this.url}/orders/create`, state).then(resp => {
+    //                 resolve(resp.data);
+    //         }).catch(err => alert(err));
+    //     });
+    // }
+
 
     // postOrder() {
     //     return new Promise((resolve, reject) => {
@@ -162,6 +170,18 @@ export class Repository {
 
     
 
+    updateAccount(id, account) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/${id}`, account, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+            });
+        }
+    // Given a userID, return all the user info for that user.
+    
 
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
@@ -326,4 +346,4 @@ export class Repository {
 
 */
 
-}//end repository
+} //end repository

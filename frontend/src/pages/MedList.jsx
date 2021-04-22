@@ -25,7 +25,7 @@ export class MedList extends React.Component {
         const updatedOrders = [...this.state.orders];
 
         updatedOrders.forEach((order, i) => {
-            order.refillDate = this.changeDateFormat(order.refillDate);
+            order.refillDate = order.refillDate.substring(0,10);
             updatedOrders[i] = order;
             this.setState({orders: updatedOrders});
         })
@@ -43,15 +43,15 @@ export class MedList extends React.Component {
     // }
 
 
-    changeDateFormat = (refillDate) =>  {
+    // changeDateFormat = (refillDate) =>  {
         
-        // debugger;
-        if (this.state.orders.length != 0) {
-            const [dayWeek, month, day, year] = refillDate.toDateString().split("/");
-            const date = `${month}/${day}/${year}`;
-            return date;
-        }
-    }
+    //     // debugger;
+    //     if (this.state.orders.length != 0) {
+    //         const [dayWeek, month, day, year] = refillDate.toDateString().split("/");
+    //         const date = `${month}/${day}/${year}`;
+    //         return date;
+    //     }
+    // }
 
     getOrders = (id) => {
         // debugger;
@@ -86,9 +86,11 @@ export class MedList extends React.Component {
 
     checkRefill = () => {
         let d = new Date();
+        const date = d.substring(0,10);
 
-        if(this.state.refillDate == d) {
-                // make button active
+        if(this.state.refillDate == date) {
+                // create order
+                
         }
         else {
             // display "not available for refill until {order.refillDate}"
