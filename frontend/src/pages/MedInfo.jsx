@@ -14,34 +14,49 @@ export class MedInfo extends React.Component {
         super(props);
 
         this.state = {
-            meds: []
+            med: {
+                name: "",
+                sideEffects: "",
+                treats: "",
+                description: "",
+                price: "",
+                notCompatibleWith: "",
+            }
         }
     }
 
-    // componentDidMount() {
-    //     let id = 2;
-    //     this.repository.getUserMedications(id)
-    //     .then(meds => {
-    //         console.log(meds);
-    //         this.setState({meds});
-    //     });
-    // }
+    componentDidMount() {
+        // debugger;
+        // let id = localStorage.getItem("userID");
+        // this.repository.getUserMedications(id)
+        // .then(meds => {
+        //     // this.setState({meds});
+        //     meds.forEach((x) => {
+        //         this.repository.getMedicationInfo(x.medicationID)
+        //         .then(data => {
+        //             const res = data.data;
+        //             this.setState({med: res.data[0]})
+        //         })
+        //     });
+        // });
+    }
 
     render() {
         
-        const {
-            name,
-            sideEffects,
-            treats,
-            description,
-            price,
-            notCompatibleWith,
-        } = this.props;
+        // const {
+        //     name,
+        //     sideEffects,
+        //     treats,
+        //     description,
+        //     price,
+        //     notCompatibleWith,
+        // } = this.props;
 
         return (
             <>
                 <div className="container py-5" id="hanging-icons">
-                    <h2 className="pb-2 border-bottom">Medication Name Here</h2>
+                    <h2 className="pb-2 border-bottom">{this.state.name}</h2>
+                    <h4>{this.state.price}</h4>
                     <div className="row g-5 py-5">
                         <div className="col-md-4 d-flex align-items-start">
                         <div className="icon-square text-dark flex-shrink-0 me-3">
@@ -51,10 +66,7 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Side Effects</h2>
-                            {/* { this.state.meds.map((med) => (
-                                    <p>{med.sideEffects}</p>
-                            ))
-                            } */}
+                                    <p>{this.state.sideEffects}</p>
                             <Link to="/medlist" className="btn btn-secondary">Return to Prescriptions</Link>
                         </div>
                         </div>
@@ -66,13 +78,10 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Description</h2>
-                            {/* { this.state.meds.map((med) => (
                                 <div>
-                                    <p>{med.description}</p>
-                                    <a href="#" className="btn btn-secondary">{med.price}</a>
+                                    <p>{this.state.description}</p>
+                                    {/* <a href="#" className="btn btn-secondary">{this.state.med.price}</a> */}
                                 </div>
-                            ))
-                            } */}
                         </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
@@ -83,10 +92,7 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Interactions</h2>
-                            {/* { this.state.meds.map((med) => (
-                                    <p>{med.notCompatibleWith}</p>
-                            ))
-                            } */}
+                                    <p>{this.state.notCompatibleWith}</p>
                         </div>
                         </div>
                     </div>

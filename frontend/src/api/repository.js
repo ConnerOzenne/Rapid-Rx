@@ -135,6 +135,19 @@ export class Repository {
         })
     }
 
+    getMedicationInfo(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medicationID}`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
 
     // postOrder() {
     //     return new Promise((resolve, reject) => {
