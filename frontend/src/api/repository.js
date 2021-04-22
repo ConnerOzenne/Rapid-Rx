@@ -72,20 +72,83 @@ export class Repository {
         });
     }
 
-    // Given a userID, return all the user info for that user.
-    getUserOrders(userID) {
+    getOrders(){
         return new Promise((resolve, reject) => {
-            console.log(userID)
-            axios.get(`${this.url}/user/${userID}/orders`, this.config).then(resp => {
-                console.log(resp);
-                resolve(resp);
-            })
+            axios.get(`${this.url}/orders`, this.config)
+            .then(x => resolve(x.data))
             .catch(e => {
-                console.log("repo.getUserOrders(): error")
-                console.log(e)
-            })
+                alert(e);
+                reject();
+            });
         });
     }
+
+    getOrderDetails(orderID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/order/${orderID}/details`, this.config)
+            .then(x => resolve(x.data))
+            .catch(e => {
+                alert(e);
+                reject();
+            });
+        });
+    }
+    
+    getUserOrders(userId) {
+        // debugger;
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userId}/orders`, this.config)
+            .then(x => {
+                (resolve(x.data.data))
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+    
+    getUserOrderDetails(orderID) {
+        // debugger;
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/order/${orderID}/details`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+    
+    getUserMedications(userID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}/medications`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+
+    // postOrder() {
+    //     return new Promise((resolve, reject) => {
+    //         axios.post(`${this.url}/orders/create`, this.config)
+    //         .then(x => resolve(x.data))
+    //         .catch(e => {
+    //             alert(e);
+    //             reject();
+    //         });
+    //     })
+    // }
+
+    
+
 
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
@@ -249,52 +312,5 @@ export class Repository {
     }
 
 */
-
-getUserOrders(userId) {
-    // debugger;
-    return new Promise((resolve, reject) => {
-        axios.get(`${this.url}/user/${userId}/orders`, this.config)
-        .then(x => {
-            (resolve(x.data.data))
-        })
-        .catch(e => {
-            alert(e);
-            reject(e);
-        });
-    })
-}
-
-getUserOrderDetails(orderID) {
-    // debugger;
-    return new Promise((resolve, reject) => {
-        axios.get(`${this.url}/order/${orderID}/details`, this.config)
-        .then(x => {
-            resolve(x.data.data)
-        })
-        .catch(e => {
-            alert(e);
-            reject(e);
-        });
-    })
-}
-
-getUserMedications(userID) {
-    return new Promise((resolve, reject) => {
-        axios.get(`${this.url}/user/${userID}/medications`, this.config)
-        .then(x => {
-            resolve(x.data.data)
-        })
-        .catch(e => {
-            alert(e);
-            reject(e);
-        });
-    })
-}
-
-
-
-
-
-
 
 }//end repository

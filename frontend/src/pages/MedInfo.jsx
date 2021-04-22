@@ -18,14 +18,14 @@ export class MedInfo extends React.Component {
         }
     }
 
-    componentDidMount() {
-        let id = 2;
-        this.repository.getUserMedications(id)
-        .then(meds => {
-            console.log(meds);
-            this.setState({meds});
-        });
-    }
+    // componentDidMount() {
+    //     let id = 2;
+    //     this.repository.getUserMedications(id)
+    //     .then(meds => {
+    //         console.log(meds);
+    //         this.setState({meds});
+    //     });
+    // }
 
     render() {
         
@@ -51,10 +51,10 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Side Effects</h2>
-                            { this.state.meds.map((med) => (
+                            {/* { this.state.meds.map((med) => (
                                     <p>{med.sideEffects}</p>
                             ))
-                            }
+                            } */}
                             <Link to="/medlist" className="btn btn-secondary">Return to Prescriptions</Link>
                         </div>
                         </div>
@@ -66,13 +66,13 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Description</h2>
-                            { this.state.meds.map((med) => (
+                            {/* { this.state.meds.map((med) => (
                                 <div>
                                     <p>{med.description}</p>
                                     <a href="#" className="btn btn-secondary">{med.price}</a>
                                 </div>
                             ))
-                            }
+                            } */}
                         </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
@@ -83,10 +83,10 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Interactions</h2>
-                            { this.state.meds.map((med) => (
+                            {/* { this.state.meds.map((med) => (
                                     <p>{med.notCompatibleWith}</p>
                             ))
-                            }
+                            } */}
                         </div>
                         </div>
                     </div>
