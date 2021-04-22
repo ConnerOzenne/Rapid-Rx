@@ -83,7 +83,7 @@ export class Navbar extends React.Component {
                                 <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" href="/profile">Profile</a></li>
+                                <li><a className="nav-link text-white" href={"/profile/"+localStorage.getItem("userID")}>Profile</a></li>
                                 :
                                 <li><a className="nav-link text-white" href="/login">Log In</a></li>
                             )}

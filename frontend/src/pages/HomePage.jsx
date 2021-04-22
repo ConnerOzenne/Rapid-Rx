@@ -44,7 +44,7 @@ export class HomePage extends React.Component {
         // Search medications will be displayed regardless of whether user is logged in or not.
         return (
             <>
-                <Navbar></Navbar>
+                <Navbar norender={false}></Navbar>
                 <div className="homepage-header position-relative vh-100">
                     <img className="position-absolute homepage-img w-100" src="img/PillStock.jpg"></img>
                     <img className="position-absolute mobile-none h-50" src="img/Homepage-1.svg"></img>

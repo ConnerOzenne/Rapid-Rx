@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Repository} from '../api/repository';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import './userProfile.css';
+import { Navbar } from '../components/Navbar';
 
 export class UserProfile extends React.Component{
     repo = new Repository();
@@ -43,7 +44,8 @@ export class UserProfile extends React.Component{
   
     render() {
 		// this.getAccount(id)
-        return (
+        return (<>
+			<Navbar></Navbar>
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
 			<div class="card h-100">
 				<div class="card-body">
@@ -123,6 +125,7 @@ export class UserProfile extends React.Component{
 				</div>
 			</div>
 			</div>
+			</>
         );
     }
     
