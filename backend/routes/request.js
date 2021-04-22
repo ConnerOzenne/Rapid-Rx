@@ -19,7 +19,71 @@ module.exports = function request(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching requests: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    // GET /request/pendingDest
+    // retrieve pending requests (incomplete) for a given pharmacyID_dest
+    app.get('/request/:pharmacyID_dest/pendingDest', (req, res) => {
+        console.log(req.params.pharmacyID_dest)
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID_dest = req.params.pharmacyID_dest
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`requests` AS a WHERE a.isComplete = 0 AND a.pharmacyID_dest = ?', [pharmacyID_dest], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching pending requests for pharmacyID_dest: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    // GET /request/pendingSource
+    // retrieve pending requests (incomplete) for a given pharmacyID_source
+    app.get('/request/:pharmacyID_source/pendingSource', (req, res) => {
+        console.log(req.params.pharmacyID_source)
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID_source = req.params.pharmacyID_source
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`requests` AS a WHERE a.isComplete = 0 AND a.pharmacyID_source = ?', [pharmacyID_source], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching pending requests for pharmacyID_source: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"

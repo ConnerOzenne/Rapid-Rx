@@ -18,7 +18,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching medicationID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -47,7 +47,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching medications: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -78,7 +78,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching lifetime: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -113,11 +113,11 @@ module.exports = function medication(app, logger) {
                 var usedFor = req.body.usedFor
                 var description = req.body.description
                 var price = req.body.price
-                connection.query('update medications set name = ?, sideEffects =?, usedFor=?,description =?, price = ?, where medicationID =?;', [name,sideEffects,usedFor,description,price,medicationID],function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`medications` AS m SET m.name = ?, m.sideEffects =?, m.usedFor=?, m.description =?, m.price = ? WHERE m.medicationID = ?;', [name,sideEffects,usedFor,description,price,medicationID],function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while updating medication: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -153,7 +153,7 @@ module.exports = function medication(app, logger) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating appointment: \n", err); 
+                        logger.error("Error while creating medication: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"

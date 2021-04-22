@@ -110,5 +110,3 @@ export class UserProfile extends React.Component{
     }
     
 }
-
-

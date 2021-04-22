@@ -18,7 +18,7 @@ module.exports = function address(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching addressID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -33,6 +33,38 @@ module.exports = function address(app, logger) {
         });
     });
 
+    // PUT /address/:addressID - Edit address information
+    app.put('/address/:addressID', (req, res) => {
+        console.log(req.body);
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var addressID = req.params.addressID
+                var address = req.body.address
+                var city = req.params.city
+                var state = req.body.state
+                var zipcode = req.body.zipcode
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('UPDATE `rapidrx`.`addresses` AS a SET a.address = ?, a.city = ?, a.state = ?, a.zipcode = ? WHERE a.addressID = ?;', [address, city, state, zipcode, addressID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching addressID: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json(rows)
+                    }
+                });
+            }
+        });
+    });
 
     // GET /address/:zipcode
     // find all addresses within a zipcode
@@ -52,7 +84,7 @@ module.exports = function address(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching zipcode: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"

@@ -6,6 +6,19 @@ const cors = require('cors');
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
 // const mysqlConnect = require('./db');
 
+const address = require('./routes/address');
+const appointment = require('./routes/appointment');
+const flag = require('./routes/flag');
+const inventory = require('./routes/inventory');
+const medication = require('./routes/medication');
+const notCompatibleWith  = require('./routes/notCompatibleWith');
+const notification = require('./routes/notification');
+const order = require('./routes/order');
+const payment = require('./routes/payment');
+const pharmacy = require('./routes/pharmacy');
+const request = require('./routes/request');
+const user = require('./routes/user');
+
 // set up some configs for express.
 const config = {
   name: 'sample-express-app',
@@ -27,19 +40,6 @@ app.use(cors({
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 //include routes
-
-const address = require('./routes/address');
-const appointment = require('./routes/appointment');
-const flag = require('./routes/flag');
-const inventory = require('./routes/inventory');
-const medication = require('./routes/medication');
-const notCompatibleWith  = require('./routes/notCompatibleWith');
-const notification = require('./routes/notification');
-const order = require('./routes/order');
-const payment = require('./routes/payment');
-const pharmacy = require('./routes/pharmacy');
-const request = require('./routes/request');
-const user = require('./routes/user');
 
 address(app, logger);
 appointment(app, logger);

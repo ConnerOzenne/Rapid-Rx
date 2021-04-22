@@ -8,6 +8,7 @@ import { CreateAccount } from './pages/CreateAccount.jsx'
 import { PharmManager } from './pages/pharmManager.jsx'
 import { MedList } from './pages/MedList.jsx';
 import { UserProfile } from './pages/userProfile.jsx';
+import { pharmManager } from './pages/pharmManager.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
@@ -87,23 +88,6 @@ function App() {
   useEffect(() => {
     fetchVals();
   }, [])
-
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <button onClick={fetchBase} style={{marginBottom: '1rem'}}> {`GET: http://${url}:8000/`} </button>
-  //       <button onClick={reset}> Reset DB </button>
-  //       <form onSubmit={handleSubmit}>
-  //         <input type="text" value={number} onChange={handleChange}/>
-  //         <br/>
-  //         <input type="submit" value="Submit" />
-  //       </form>
-  //       <ul>
-  //         { values.map((value, i) => <li key={i}>{value.value}</li>) }
-  //       </ul>
-  //     </header>
-  //   </div>
-  // );
 
   return (
     <div>
