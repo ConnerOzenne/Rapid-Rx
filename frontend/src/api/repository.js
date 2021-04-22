@@ -72,20 +72,18 @@ export class Repository {
         });
     }
 
-    // Given a userID, return all the user info for that user.
-    getUserOrders(userID) {
+    updateAccount(id, account) {
         return new Promise((resolve, reject) => {
-            console.log(userID)
-            axios.get(`${this.url}/user/${userID}/orders`, this.config).then(resp => {
-                console.log(resp);
-                resolve(resp);
-            })
-            .catch(e => {
-                console.log("repo.getUserOrders(): error")
-                console.log(e)
-            })
-        });
-    }
+            axios.put(`${this.url}/${id}`, account, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+            });
+        }
+    // Given a userID, return all the user info for that user.
+    
 
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
@@ -250,4 +248,4 @@ export class Repository {
 
 */
 
-}//end repository
+} //end repository

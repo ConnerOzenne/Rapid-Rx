@@ -19,7 +19,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching users from userID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -126,7 +126,7 @@ module.exports = function user(app, logger) {
             } else {
                 // if there is no issue obtaining a connection, execute query
                 var userID = req.params.userID
-                connection.query('select users.name as user, medications.name as medication, pharmacies.name as pharmacy, orderDetails.refillDate,orderDetails.quantity,orderDetails.price from users join orders on users.userID =orders.userID join orderDetails on orders.orderID = orderDetails.orderID join medications on medications.medicationID = orderDetails.medicationID join pharmacies on orders.pharmacyID = pharmacies.pharmacyID where users.userID = ?'[userID], function (err, rows, fields) {
+                connection.query('SELECT u.name AS userName, m.name as medName, p.name as pharmacyName, od.refillDate, od.quantity, od.totalCost from `rapidrx`.`users` AS u JOIN `rapidrx`.`orders` AS o on u.userID = o.userID JOIN `rapidrx`.`orderDetails` AS od ON o.orderID = od.orderID JOIN `rapidrx`.`medications` AS m ON m.medicationID = od.medicationID JOIN `rapidrx`.`pharmacies` AS p ON o.pharmacyID = p.pharmacyID WHERE u.userID = ?;', [userID], function (err, rows, fields) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
@@ -160,7 +160,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching users: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -187,7 +187,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching managers: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -218,37 +218,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
-                        res.status(400).json({
-                            "data": [],
-                            "error": "Error obtaining values"
-                        });
-                    } else {
-                        res.status(200).json({
-                            "data": rows
-                        });
-                    }
-                });
-            }
-        });
-    });
-
-
-    app.get('/user/:userID/orders', (req, res) => {
-        // obtain a connection from our pool of connections
-        pool.getConnection(function (err, connection){
-            if(err){
-                // if there is an issue obtaining a connection, release the connection instance and log the error
-                logger.error('Problem obtaining MySQL connection',err)
-                res.status(400).send('Problem obtaining MySQL connection'); 
-            } else {
-                var userID = req.params.userID
-                // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT * FROM `rapidrx`.`orders` AS o WHERE o.userID = ?', [userID], function (err, rows, fields) {
-                    // if there is an error with the query, release the connection instance and log the error
-                    connection.release()
-                    if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching userID orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -285,7 +255,7 @@ app.put('/user/:userID/addresses', (req, res) => {
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
                 if (err) {
-                    logger.error("Error while fetching values: \n", err);
+                    logger.error("Error while fetching userID address: \n", err);
                     res.status(400).json({
                         "data": [],
                         "error": "Error obtaining values"
@@ -300,8 +270,8 @@ app.put('/user/:userID/addresses', (req, res) => {
     });
 });
 
-//user story 10.3
-//edit user profile
+    //user story 10.3
+    //edit user profile
     app.put('/user/:userID', (req, res) => {
         console.log(req.params);
         // obtain a connection from our pool of connections
@@ -312,17 +282,47 @@ app.put('/user/:userID/addresses', (req, res) => {
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
                 var userID = req.params.userID
-                var pharmacyID = req.body.pharmacyID
                 var username = req.body.username
-                var name = req.body.name
                 var email = req.body.email
+                var name = req.body.name
                 var phone = req.body.phone 
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('update users set username =?, email=?,name=?, phone =?, pharmacyID =? where userID =?; ', [username,email,name,phone,pharmacyID,userID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`users` AS u SET u.username = ?, u.email = ?, u.name = ?, u.phone = ? WHERE u.userID = ?;', [username, email, name, phone, userID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while updating user profile: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json(rows)
+                    }
+                });
+            }
+        });
+    });
+
+    // PUT /user/:userID/password
+    // Update a user's password
+    app.put('/user/:userID/password', (req, res) => {
+        console.log(req.params);
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var userID = req.params.userID
+                var password = req.body.password
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('UPDATE `rapidrx`.`users` AS u SET u.password = ? WHERE u.userID = ?;', [password, userID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while updating user password: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"

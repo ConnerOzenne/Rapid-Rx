@@ -19,7 +19,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -36,7 +36,7 @@ module.exports = function pharmacy(app, logger) {
 
 //9.1
 //view all pharmacy locations 
-    app.get('/pharmacy/pharmacyLocation', (req, res) => {
+    app.get('/pharmacies/locations', (req, res) => {
 
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -51,7 +51,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyLocation: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -83,7 +83,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyID inventory: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -114,7 +114,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching inventories: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -145,7 +145,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyMedicationZero: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -175,7 +175,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyID employees: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -204,7 +204,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyID customers: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -234,7 +234,7 @@ module.exports = function pharmacy(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyID manager: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
