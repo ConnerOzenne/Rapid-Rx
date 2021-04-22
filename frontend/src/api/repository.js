@@ -80,8 +80,10 @@ export class Repository {
                     alert(error);
                     reject(error);
                 });
-        });
-    }
+            });
+        }
+    // Given a userID, return all the user info for that user.
+    
 
     // getAccountInfo(id) {
     //     return new Promise((resolve, reject) => {
@@ -246,4 +248,4 @@ export class Repository {
 
 */
 
-}//end repository
+} //end repository

@@ -11,12 +11,17 @@ export class Navbar extends React.Component {
         clicked: false
     }
 
+    componentWillUpdate() {
+        
+    }
+
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked})
     }
 
     isLoggedIn = () => {
-        return localStorage.getItem("userID") && localStorage.getItem("userID") != null;
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
     }
 
     logout = () => {
@@ -55,6 +60,9 @@ export class Navbar extends React.Component {
             return <Redirect to={ this.state.redirect } />;
         }
         // Return Navbar JSX
+        if (this.props.norender) {
+            return (<></>);
+        }
         return(
             <nav className="navbar navbar-expand-lg bg-navbar navbar-light">
                 <div className="container-fluid mx-5">

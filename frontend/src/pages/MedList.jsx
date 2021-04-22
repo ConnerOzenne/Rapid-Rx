@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import './MedList.css';
 import {Repository} from '../api/repository';
+import { Navbar } from '../components/Navbar';
 
 
 export class MedList extends React.Component {
@@ -43,7 +44,9 @@ export class MedList extends React.Component {
 
     render() {
         return (
-
+            <>
+            {console.log("No render? "+this.props.navbarnorender)}
+            <Navbar norender={this.props.navbarnorender}></Navbar>
             <div className="Container" id="header">
                 <h2 id="Name">{this.state.username}'s Prescriptions</h2>
                 <table className = "table" id="medtable">
@@ -75,6 +78,7 @@ export class MedList extends React.Component {
                     </tr>
                 </table>
             </div>
+            </>
         );
     }
 }

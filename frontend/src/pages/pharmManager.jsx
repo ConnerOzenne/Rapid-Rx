@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import { Navbar } from '../components/Navbar';
 
 export class PharmManager extends React.Component {
 
@@ -17,6 +18,7 @@ export class PharmManager extends React.Component {
                                
                 <div>
                     <h1>Medication Inventory</h1>
+                    <h2>Placeholder for broken code:</h2>
 
                     <thead>
                         <tr>
