@@ -197,7 +197,7 @@ module.exports = function order(app, logger) {
                 var refillLeft  = req.body.refillLeft
                 var totalCost   = req.body.totalCost 
                 // if there is no issue obtaining a connection, execute query
-                connection.query('INSERT INTO `rapidrx`.`orderDetails` (orderID, medicationID, quantity, refillDate, refillLeft, totalCost) VALUES(?, ?, ?)',[orderID, medicationID, quantity, refillDate, refillLeft, totalCost], function (err, rows, fields) {
+                connection.query('INSERT INTO `rapidrx`.`orderDetails` (orderID, medicationID, quantity, refillDate, refillLeft, totalCost) VALUES(?, ?, ?, ?, ?, ?)',[orderID, medicationID, quantity, refillDate, refillLeft, totalCost], function (err, rows, fields) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
