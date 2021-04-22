@@ -315,10 +315,9 @@ app.put('/user/:userID/addresses', (req, res) => {
                 var username = req.body.username
                 var email = req.body.email
                 var name = req.body.name
-                var pharmacyID = req.body.pharmacyID
                 var phone = req.body.phone 
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('UPDATE `rapidrx`.`users` AS u SET u.username = ?, u.email = ?, u.name = ?, u.pharmacyID = ?, u.phone = ? WHERE u.userID = ?;', [username, email, name, phone, pharmacyID, userID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`users` AS u SET u.username = ?, u.email = ?, u.name = ?, u.phone = ? WHERE u.userID = ?;', [username, email, name, phone, userID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
