@@ -2,48 +2,30 @@ import React from 'react';
 import axios from 'axios';
 import {Repository} from '../api/repository';
 import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Navbar } from '../components/Navbar.jsx'
+import {User} from '../models/user';
 import './userProfile.css';
+import { event } from 'jquery';
 
 export class UserProfile extends React.Component{
     repo = new Repository();
+	user = this.repo.getUserID(localStorage.getItem("userId"));
     state = {
-        data: {
-            name: "",
-            email: "",
-            phone: "",
-			state: "",
-			city: "",
-            streetAddress: "",
-			zip: ""
-        }
-
+		id: localStorage.getItem("userId"),
+		state: "",
+		city: "",
+		streetAddress: "",
+		zip: ""
     };
-	// getAccount(id) {
-    //     return new Promise((resolve, reject) => {
-    //         axios.get(`${this.url}/${id}`, this.config)
-    //             .then(x => resolve(x.data))
-    //             .catch(error => {
-    //                 alert(error);
-    //                 reject(error);
-    //             });
-    //     });
-    // }
-
-
-    updateAccount(id, account) {
-        return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/${id}`, account, this.config)
-                .then(x => resolve(x.data))
-                .catch(error => {
-                    alert(error);
-                    reject(error);
-                });
-        });
-    }
+	
+	update(){
+		this.repo.updateAccount(this.state.id, this.user);
+	}
+	
   
     render() {
-		// this.getAccount(id)
-        return (
+        return ( <>
+			<Navbar></Navbar>
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
 			<div class="card h-100">
 				<div class="card-body">
@@ -55,24 +37,24 @@ export class UserProfile extends React.Component{
 							<div class="form-group">
 								<label for="fullName">Full Name</label>
 								<input type="text" class="form-control" id="fullName" placeholder="Enter full name" 
-								value={this.state.name}
-                    			onChange={e => this.setState({name: e.target.value})}/>
+								value={this.user.name}
+                    			onChange={ this.user.name =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="eMail">Email</label>
 								<input type="email" class="form-control" id="eMail" placeholder="Enter email"
-								value={this.state.email}
-                    			onChange={e => this.setState({email: e.target.value})}/>
+								value={this.user.email}
+                    			onChange={this.user.email =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="phone">Phone</label>
 								<input type="text" class="form-control" id="phone" placeholder="Enter phone number"
-								value={this.state.phone}
-                    			onChange={e => this.setState({phone: e.target.value})}/>
+								value={this.user.contactInfo}
+                    			onChange={this.user.contactInfo =  event.target.value}/>
 							</div>
 						</div>
 					</div>
@@ -85,7 +67,7 @@ export class UserProfile extends React.Component{
 								<label for="street">Street</label>
 								<input type="name" class="form-control" id="street" placeholder="Enter Street"
 								value={this.state.streetAddress}
-                    			onChange={e => this.setState({streetAddress: e.target.value})}/>
+                    			onChange={this.state.streetAddress =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -93,7 +75,7 @@ export class UserProfile extends React.Component{
 								<label for="city">City</label>
 								<input type="name" class="form-control" id="city" placeholder="Enter City"
 								value={this.state.city}
-                    			onChange={e => this.setState({city: e.target.value})}/>
+                    			onChange={this.state.city =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -101,7 +83,7 @@ export class UserProfile extends React.Component{
 								<label for="state">State</label>
 								<input type="text" class="form-control" id="state" placeholder="Enter State"
 								value={this.state.state}
-                    			onChange={e => this.setState({state: e.target.value})}/>
+                    			onChange={this.state.state =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -109,21 +91,22 @@ export class UserProfile extends React.Component{
 								<label for="zip">Zip Code</label>
 								<input type="text" class="form-control" id="zip" placeholder="Zip Code"
 								value={this.state.zip}
-                    			onChange={e => this.setState({zip: e.target.value})}/>
+                    			onChange={this.state.zip =  event.target.value}/>
 							</div>
 						</div>
 					</div>
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="text-right">
-								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.updateAccount}>Save</button>
+								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update}>Save</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			</div>
-        );
+        </>
+		);
     }
     
 }

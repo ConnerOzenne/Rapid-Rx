@@ -5,6 +5,7 @@ import { Login } from './pages/Login.jsx'
 import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
+import { PharmManager } from './pages/pharmManager.jsx'
 import { MedList } from './pages/MedList.jsx';
 import { UserProfile } from './pages/userProfile.jsx';
 import { pharmManager } from './pages/pharmManager.jsx'
@@ -12,6 +13,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { pharmManager } from './pages/pharmManager';
 // import { Home } from ./pages/Home.jsx
 
 function App() {
@@ -93,7 +95,16 @@ function App() {
         {/* <div path="/login" component={Login}/> */}
         <Switch>
             <Route path="/create" component={CreateAccount}/>
-            <Route path="/pharmacyManager/:pharmacyId" component={pharmManager}/>
+            {/* <Route path= "/distInfo/:listingID" component={DistContact}/>
+            <Route path="/orders/:orderId" component={OrderHistory}/>
+            // <Route path="/home" component={Home}/>
+            <Route path="/listing/:id" component={ListingEditor}/>
+            <Route path="/createListing" component={PostListing}/>
+            <Route path="/user/edit/:userId" component={EditProfile}/>
+            <Route path="/orders/:userId" component={OrderHistory}/>
+            <Route path="/distributors/:userId" component={DistributorListings}/>
+            <Route path="/cart" component={MyCart}/> */}
+            <Route path="/pharmacyManager/:pharmacyId" component={PharmManager}/>
             <Route path="/profile/:userId" component={UserProfile}/>
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
