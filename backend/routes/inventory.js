@@ -18,7 +18,7 @@ module.exports = function inventory(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching inventory for pharmacyID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -36,6 +36,7 @@ module.exports = function inventory(app, logger) {
     //user story 9.2 
     //view inventory of all pharmacy 
     app.get('/inventory/getMedications', (req, res) => {
+        console.log("I AM HERE");
         pool.getConnection(function (err, connection){
             if(err){
                 // if there is an issue obtaining a connection, release the connection instance and log the error
@@ -43,16 +44,18 @@ module.exports = function inventory(app, logger) {
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('select pharmacies.name, medications.name,inventory.quantity from pharmacies join inventory on pharmacies.pharmacyID = inventory.pharmacyID join medications on medications.medicationID = inventory.medicationID',function (err, rows, fields) {
+                connection.query('SELECT rapidrx.pharmacies.name, rapidrx.medications.name, rapidrx.inventory.quantity FROM rapidrx.pharmacies JOIN rapidrx.inventory ON rapidrx.pharmacies.pharmacyID = rapidrx.inventory.pharmacyID JOIN rapidrx.medications ON rapidrx.medications.medicationID = rapidrx.inventory.medicationID;',function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching inventory: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
                         })
                     } else {
+                        console.log("ROWS");
+                        console.log(rows);
                         res.status(200).json({
                             "data": rows
                         });
@@ -61,6 +64,7 @@ module.exports = function inventory(app, logger) {
             }
         });
     });
+
 
     //user story 9.3 
     //check which inventory is 0
@@ -76,7 +80,37 @@ module.exports = function inventory(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching zero inventory: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    // Find all pharmacies that have specified medicationID in stock
+    app.get('/inventory/getPharmaciesWithMedication', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var medicationID = req.params.medicationID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('select pharmacies.name, medications.name, inventory.quantity from pharmacies join inventory on pharmacies.pharmacyID = inventory.pharmacyID join medications on medications.medicationID = inventory.medicationID AS i WHERE i.medicationID = ?', [medicationID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching pharmacies: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"

@@ -18,7 +18,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching orderID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -47,7 +47,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -76,7 +76,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching order details: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -91,6 +91,60 @@ module.exports = function order(app, logger) {
         });
     });
 
+    // GET /orders/:userID (1.2)
+    app.get('/order/:userID', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection', err)
+                res.status(400).send('Problem obtaining MySQL connection');
+            } else {
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`orders` AS o WHERE o.userID = ?', [userID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching userID orders: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json(rows);
+                    }
+                });
+            }
+        });
+    });
+
+    // GET /orders/:pharmacyID
+    app.get('/order/:pharmacyID', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection', err)
+                res.status(400).send('Problem obtaining MySQL connection');
+            } else {
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`orders` AS o WHERE o.pharmacyID = ?', [pharmacyID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching pharmacyID orders: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json(rows);
+                    }
+                });
+            }
+        });
+    });
+                      
     // POST /orders/create
     // Create a new order
     app.post('/orders/create', (req, res) => {
@@ -110,7 +164,7 @@ module.exports = function order(app, logger) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating appointment: \n", err); 
+                        logger.error("Error while creating order: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"
@@ -143,11 +197,11 @@ module.exports = function order(app, logger) {
                 var refillLeft  = req.body.refillLeft
                 var totalCost   = req.body.totalCost 
                 // if there is no issue obtaining a connection, execute query
-                connection.query('INSERT INTO `rapidrx`.`orderDetails` (orderID, medicationID, quantity, refillDate, refillLeft, totalCost) VALUES(?, ?, ?)',[orderID, medicationID, quantity, refillDate, refillLeft, totalCost], function (err, rows, fields) {
+                connection.query('INSERT INTO `rapidrx`.`orderDetails` (orderID, medicationID, quantity, refillDate, refillLeft, totalCost) VALUES(?, ?, ?, ?, ?, ?)',[orderID, medicationID, quantity, refillDate, refillLeft, totalCost], function (err, rows, fields) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating appointment: \n", err); 
+                        logger.error("Error while creating order details: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"
@@ -161,5 +215,4 @@ module.exports = function order(app, logger) {
             }
         });
     });
-
 }

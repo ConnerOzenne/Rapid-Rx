@@ -4,7 +4,7 @@ import {Repository} from '../api/repository';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import './userProfile.css';
 
-class UserProfile extends React.Component{
+export class UserProfile extends React.Component{
     repo = new Repository();
     state = {
         data: {
@@ -127,5 +127,3 @@ class UserProfile extends React.Component{
     }
     
 }
-export default withRouter(UserProfile);
-

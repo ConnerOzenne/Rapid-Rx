@@ -5,7 +5,6 @@ import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
 
 
-
 export class MedList extends React.Component {
 
     repository = new Repository();
@@ -37,9 +36,6 @@ export class MedList extends React.Component {
     //         this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
     //     }
     // }
-
-
-
 
     listMeds = () => {
         // populate table with med information
