@@ -36,7 +36,7 @@ module.exports = function pharmacy(app, logger) {
 
 //9.1
 //view all pharmacy locations 
-    app.get('/pharmacy/pharmacyLocation', (req, res) => {
+    app.get('/pharmacies/locations', (req, res) => {
 
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
