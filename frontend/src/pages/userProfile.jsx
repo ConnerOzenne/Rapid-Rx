@@ -12,10 +12,10 @@ export class UserProfile extends React.Component{
 	user = this.repo.getUserID(localStorage.getItem("userId"));
     state = {
 		id: localStorage.getItem("userId"),
-		state: "",
-		city: "",
-		streetAddress: "",
-		zip: ""
+		state: " ",
+		city: " ",
+		streetAddress: " ",
+		zip: " "
     };
 	
 	update(){

@@ -5,10 +5,9 @@ import { Login } from './pages/Login.jsx'
 import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
-import { PharmManager } from './pages/pharmManager.jsx'
 import { MedList } from './pages/MedList.jsx';
 import { UserProfile } from './pages/userProfile.jsx';
-import { pharmManager } from './pages/pharmManager.jsx'
+import { PharmManager } from './pages/pharmManager.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
