@@ -19,7 +19,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching users from userID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -160,7 +160,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching users: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -187,7 +187,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching managers: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -218,7 +218,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching userID orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -248,7 +248,7 @@ module.exports = function user(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching userID orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -285,7 +285,7 @@ app.put('/user/:userID/addresses', (req, res) => {
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
                 if (err) {
-                    logger.error("Error while fetching values: \n", err);
+                    logger.error("Error while fetching userID address: \n", err);
                     res.status(400).json({
                         "data": [],
                         "error": "Error obtaining values"
@@ -321,7 +321,7 @@ app.put('/user/:userID/addresses', (req, res) => {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while updating user profile: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -352,7 +352,7 @@ app.put('/user/:userID/addresses', (req, res) => {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while updating user password: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"

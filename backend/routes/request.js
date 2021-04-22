@@ -19,7 +19,7 @@ module.exports = function request(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching requests: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"

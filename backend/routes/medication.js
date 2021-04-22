@@ -18,7 +18,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching medicationID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -47,7 +47,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching medications: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -78,7 +78,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching lifetime: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -117,7 +117,7 @@ module.exports = function medication(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while updating medication: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -153,7 +153,7 @@ module.exports = function medication(app, logger) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating appointment: \n", err); 
+                        logger.error("Error while creating medication: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"

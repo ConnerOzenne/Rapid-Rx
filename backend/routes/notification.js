@@ -18,7 +18,7 @@ module.exports = function notification(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching notificationID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -55,7 +55,7 @@ module.exports = function notification(app, logger) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating user: \n", err); 
+                        logger.error("Error while creating notification: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"
@@ -86,7 +86,7 @@ module.exports = function notification(app, logger) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating user: \n", err); 
+                        logger.error("Error while updating notification seen: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"
                         })
@@ -114,7 +114,7 @@ module.exports = function notification(app, logger) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating user: \n", err); 
+                        logger.error("Error while deleting notification: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"
                         })

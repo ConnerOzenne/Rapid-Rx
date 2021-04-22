@@ -18,7 +18,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching orderID: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -47,7 +47,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -76,7 +76,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching order details: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -105,7 +105,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching userID orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -132,7 +132,7 @@ module.exports = function order(app, logger) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching values: \n", err);
+                        logger.error("Error while fetching pharmacyID orders: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
@@ -164,7 +164,7 @@ module.exports = function order(app, logger) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating appointment: \n", err); 
+                        logger.error("Error while creating order: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"
@@ -201,7 +201,7 @@ module.exports = function order(app, logger) {
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
-                        logger.error("Error while creating appointment: \n", err); 
+                        logger.error("Error while creating order details: \n", err); 
                         res.status(400).json({
                             "data": [],
                             "error": "MySQL error"
