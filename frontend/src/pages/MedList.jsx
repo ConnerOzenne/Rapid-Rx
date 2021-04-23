@@ -62,6 +62,7 @@ export class MedList extends React.Component {
                 // var quantity = order.quantity;
                 // var refillDate = order.refillDate;
                 // var totalCost = order.totalCost;
+                // using index to access specific order?
 
                 
                 // this.repository.createOrderDetails({orderID: orderID, medicationID: medicationID, quantity: quantity, refillDate: refillDate, totalCost: totalCost})
@@ -92,6 +93,7 @@ export class MedList extends React.Component {
                     <h2>Prescriptions</h2>
                     <table className = "table" id="medtable">
                         <tr className="text-center" id="tableHeader">
+                            <th scope="col"></th>
                             <th scope= "col">Medication</th>
                             <th scope= "col">Dosage</th>
                             <th scope="col">Pharmacy</th>
@@ -101,8 +103,9 @@ export class MedList extends React.Component {
                             {/* <th scope= "col">Save To Profile</th> */}
                             <th scope= "col">More Information</th>
                         </tr>
-                        { this.state.meds.map((med) => (
+                        { this.state.meds.map((med, index) => (
                                 <tr>
+                                    <td className="text-center" scope="row" id="index">{index}</td>
                                     <td className="text-center" scope="row" id="medName">{med.medName}</td>
                                     <td className="text-center" scope="row" id="dosage">{med.quantity} mg</td>
                                     <td className="text-center" scope="row" id="pharmacy">{med.pharmacyName}</td>
