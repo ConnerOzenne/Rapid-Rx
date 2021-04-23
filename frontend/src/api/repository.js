@@ -72,6 +72,139 @@ export class Repository {
         });
     }
 
+    getOrders(){
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/orders`, this.config)
+            .then(x => resolve(x.data))
+            .catch(e => {
+                alert(e);
+                reject();
+            });
+        });
+    }
+
+    getOrderDetails(orderID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/order/${orderID}/details`, this.config)
+            .then(x => resolve(x.data))
+            .catch(e => {
+                alert(e);
+                reject();
+            });
+        });
+    }
+    
+    getUserOrders(userId) {
+        // debugger;
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userId}/orders`, this.config)
+            .then(x => {
+                (resolve(x.data.data))
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+    
+    getUserOrderDetails(orderID) {
+        // debugger;
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/order/${orderID}/details`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+    
+    getUserMedications(userID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}/medications`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+    getMedicationInfo(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medicationID}`, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+    createOrder(order){
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/orders/create`, order).then(resp => {
+                    resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
+
+    // // am i using this?
+    // getPharmacy(pharmacyName) {
+    //     return new Promise((resolve, reject) => {
+    //         axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {
+    //             console.log(resp);
+    //             resolve(resp);
+    //         })
+    //         .catch(e => {
+    //             console.log("Axios error");
+    //             console.log(e);
+    //         });
+    //     })
+    // }
+
+    createOrderDetails(orderDetails) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/orders/details/create`, orderDetails).then(resp =>  {
+                resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
+
+    getMedCompatibility(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medicationID}/incompatible`, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+
+    // postOrder() {
+    //     return new Promise((resolve, reject) => {
+    //         axios.post(`${this.url}/orders/create`, this.config)
+    //         .then(x => resolve(x.data))
+    //         .catch(e => {
+    //             alert(e);
+    //             reject();
+    //         });
+    //     })
+    // }
+
+    
+
     updateAccount(id, account) {
         return new Promise((resolve, reject) => {
             axios.put(`${this.url}/${id}`, account, this.config)

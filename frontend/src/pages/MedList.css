@@ -9,7 +9,7 @@ h2 {
     padding: 5px;
 }
 
-ul {
+/* ul {
     background-color: #152528;
     margin: 0px;
     padding:15px;
@@ -34,6 +34,8 @@ span {
 }
 
 
+
+
 table {
     border: hidden;
     background-color: #b4e7f8;
@@ -41,11 +43,11 @@ table {
     width: 90%;
     margin: 10px;
     padding: 5px;
-}
+}*/
 
 td {
     padding:5px;
-}
+} 
 
 button {
     font-size: 10px;

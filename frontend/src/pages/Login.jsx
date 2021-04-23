@@ -34,7 +34,6 @@ export class Login extends React.Component {
           username: this.state.username,
           password: this.state.password,
         }
-        debugger;
         this.repo.login(json).then(data => {
           const res = data.data
           console.log("response.response", res.response)
