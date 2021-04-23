@@ -45,7 +45,7 @@ module.exports = function address(app, logger) {
             } else {
                 var addressID = req.params.addressID
                 var address = req.body.address
-                var city = req.params.city
+                var city = req.body.city
                 var state = req.body.state
                 var zipcode = req.body.zipcode
                 // if there is no issue obtaining a connection, execute query and release connection
@@ -110,7 +110,7 @@ module.exports = function address(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var address = req.body.street_address
+                var address = req.body.address
                 var city = req.body.city
                 var state = req.body.state
                 var zipcode = req.body.zipcode
