@@ -48,8 +48,9 @@ module.exports = function address(app, logger) {
                 var city = req.body.city
                 var state = req.body.state
                 var zipcode = req.body.zipcode
+                var country = req.body.country
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('UPDATE `rapidrx`.`addresses` AS a SET a.address = ?, a.city = ?, a.state = ?, a.zipcode = ? WHERE a.addressID = ?;', [address, city, state, zipcode, addressID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`addresses` AS a SET a.address = ?, a.city = ?, a.state = ?, a.zipcode = ?, a.country = ? WHERE a.addressID = ?;', [address, city, state, zipcode, country, addressID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
