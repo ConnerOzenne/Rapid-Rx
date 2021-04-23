@@ -74,7 +74,7 @@ export class Navbar extends React.Component {
                         <ol className="navbar-nav me-auto mb-lg-0 w-75">
                             <li><a className="nav-link text-white" href="/">Home</a></li>
                             <li><a className="nav-link text-white" href="/medlist">MyPrescriptions</a></li>
-                            <li><a className="nav-link text-white" href="/pharmacies">Pharmacy Portal</a></li>
+                            <li><a className="nav-link text-white" href="/pharmacyPortal">Pharmacy Portal</a></li>
                             {(this.isLoggedIn() && this.isManager() ?
                                 <li><a className="nav-link text-white" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
                             )}

@@ -80,8 +80,51 @@ export class Repository {
                     alert(error);
                     reject(error);
                 });
+        });
+    }
+
+    getUserOrders(state) {
+        var userID = state.userID
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}/medications`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
             });
-        }
+        })
+    }
+
+    getUser(state) {
+        var userID = state.userID
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    // getting pharmacies to sort by zip
+    getPharmacies() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/pharmacies/locations`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
     // Given a userID, return all the user info for that user.
     
 

@@ -69,7 +69,7 @@ export class HomePage extends React.Component {
                         </div>
                         <div className="position-absolute homepage-links">
                             <a className="d-block" href="/medlist">View Prescriptions</a>
-                            <a className="d-block" href="/pharmacies">Pharmacies</a>
+                            <a className="d-block" href="/pharmacyPortal">Pharmacies</a>
                         </div>
                     </div>
                     <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>
