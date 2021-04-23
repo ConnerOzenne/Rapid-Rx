@@ -6,8 +6,9 @@ import { Navbar } from './components/Navbar.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { CreateAccount } from './pages/CreateAccount.jsx'
 import { MedList } from './pages/MedList.jsx';
+import { MedInfo } from './pages/MedInfo.jsx';
 import { UserProfile } from './pages/userProfile.jsx';
-import { PharmManager } from './pages/pharmManager.jsx'
+import { PharmManager } from './pages/pharmManager.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
@@ -100,6 +101,7 @@ function App() {
             <Route path="/medlist/edit/:medId" component={EditMed}/>
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
+            <Route path="/medinfo/:medicationID" component={MedInfo}/>
             <Route path="/appointments" component={Appointments}/>
             <Route path="/" component={HomePage}/>
         </Switch>
