@@ -190,6 +190,38 @@ module.exports = function pharmacy(app, logger) {
         });
     }); 
 
+    //user story 3.1, 3.2 get orders from certain pharmacy
+    app.get('/pharmacy/:pharmacyID/perscriptions', (req, res ) => {
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var pharmacyID = req.params.pharmacyID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT `rapidrx`.`pharmacies`.`name`, `rapidrx`.`medications`.`name`, `rapidrx`.`orderDetails`.`quantity`, `rapidrx`.`orders`.`dateOrdered`,`rapidrx`.`orderDetails`.`refillDate` FROM `rapidrx`.`orders` JOIN `rapidrx`.`orderDetails` ON `rapidrx`.`orders`.`orderID` = `rapidrx`.`orderDetails`.`orderID` JOIN `rapidrx`.`pharmacies` ON `rapidrx`.`orders`.`pharmacyID` = `rapidrx`.`pharmacies`.`pharmacyID` JOIN `rapidrx`.`medications` ON `rapidrx`.`orderDetails`.`medicationID` = `rapidrx`.`medications`.`medicationID` WHERE `rapidrx`.`pharmacies`.`pharmacyID` =?; ', [pharmacyID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching pharmacyID customers: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
+
+
     app.get('/pharmacy/:pharmacyID/customers', (req, res ) => {
         console.log(req.params.pharmacyID)
         pool.getConnection(function (err, connection){
@@ -248,4 +280,7 @@ module.exports = function pharmacy(app, logger) {
             }
         });
     }); 
+
+
+
 }
