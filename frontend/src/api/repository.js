@@ -93,6 +93,21 @@ export class Repository {
                 });
         });
     }
+
+    getMedication(medId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medId}`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    // TODO: THERE MAY BE MULTIPLE VERSIONS OF THIS SAME API CALL, 
+    // MAKE SURE THERE'S ONLY ONE AT THE END OF DEVELOPMENT...
+
     // Given a userID, return all the user info for that user.
     
 

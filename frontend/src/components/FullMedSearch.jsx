@@ -1,5 +1,6 @@
 import { render } from "react-dom"
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { Repository } from "../api/repository";
 
 export class FullMedSearch extends React.Component {
@@ -30,8 +31,6 @@ export class FullMedSearch extends React.Component {
     }
 
     filter(currMed) {
-        console.log("Filtering...")
-        //debugger;
         if (this.state.searchText == '') return true;
         if (this.state.searchOption == this.searchOptions[0] && currMed.medicationID == parseInt(this.state.searchText)) return true;
         if (this.state.searchOption == this.searchOptions[1] && currMed.name.includes(this.state.searchText)) return true;
@@ -39,7 +38,6 @@ export class FullMedSearch extends React.Component {
         if (this.state.searchOption == this.searchOptions[3] && currMed.sideEffects.includes(this.state.searchText)) return true;
         if (this.state.searchOption == this.searchOptions[4] && currMed.usedFor.includes(this.state.searchText)) return true;
         if (this.state.searchOption == this.searchOptions[5] && currMed.price == parseInt(this.state.searchText)) return true;
-        console.log("All are false");
         return false;
     }
 
@@ -49,8 +47,12 @@ export class FullMedSearch extends React.Component {
         }
 
         return <>
-            <div className="m-5 p-5">
-                <h1>Search Medications</h1>
+            <div className="mx-5 p-5">
+
+                {
+                this.props.authorityLevel && this.props.authorityLevel > 0 ?
+                    <p className="h5 font-italic font-weight-bold text-info">Welcome Pharmacy Manager! Click on the ID of a Medication to edit it.</p>
+                : <> </>}
 
                 <label htmlFor="searchby">Search By</label>
                 <select className="form-control col-md-6" 
@@ -83,7 +85,17 @@ export class FullMedSearch extends React.Component {
                                 (
                                     this.filter(currMed) ? 
                                     <tr>
-                                        <td>{currMed.medicationID}</td>
+                                        {
+                                            this.props.authorityLevel > 0 ?
+                                            <td>
+                                                <Link   className="btn btn-light border"
+                                                        to={"/medlist/edit/"+currMed.medicationID}>
+                                                    {currMed.medicationID}
+                                                </Link>
+
+                                            </td> 
+                                            :<td>{currMed.medicationID}</td>
+                                        }
                                         <td>{currMed.name}</td>
                                         <td>{currMed.description}</td>
                                         <td>{currMed.sideEffects}</td>

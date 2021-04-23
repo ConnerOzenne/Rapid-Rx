@@ -4,6 +4,7 @@ import {Link, Redirect} from 'react-router-dom';
 import './MedList.css';
 import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
+import { FullMedSearch } from '../components/FullMedSearch'
 
 
 export class MedList extends React.Component {
@@ -16,6 +17,7 @@ export class MedList extends React.Component {
         this.state = {
             // username: user.name,
             username: "John Doe",
+            authorityLevel: 0
         }
     }
 
@@ -37,7 +39,9 @@ export class MedList extends React.Component {
             this.repo.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
                     const res = data.data;
-                    this.setState({username: res.data[0].name, isLoggedIn: true})
+                    console.log("MedList - componentDidMount(): res...")
+                    console.log(res);
+                    this.setState({username: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
                 })
                 .catch(err => {
                     console.log("No user info found")
@@ -64,10 +68,12 @@ export class MedList extends React.Component {
     render() {
         return (
             <>
-            {console.log("No render? "+this.props.navbarnorender)}
-            <Navbar norender={this.props.navbarnorender}></Navbar>
-            <div className="Container" id="header">
-                {this.isLoggedIn() ? <h2 id="Name">{this.state.username}'s Prescriptions</h2> : <div><h2 id="Name">View All Prescriptions</h2><p>Login to view your own prescriptions!</p></div>}
+            <Navbar></Navbar>
+            <div className="m-5" id="header">
+                {this.isLoggedIn() && this.state.authorityLevel == 0 ?  <h2 id="Name">{this.state.username}'s Prescriptions</h2> : 
+                                                                        <div className="mx-5 my-3 px-5"><h2 id="Name">View All Prescription Medications</h2></div>}
+                {this.isLoggedIn() ? <></> : <p className="mx-5 my-3 px-5">Login to view your own prescriptions!</p>}
+                {this.isLoggedIn() && this.state.authorityLevel == 0 ? 
                 <table className = "table" id="medtable">
                     <tr id="tableHeader">
                         <th scope= "col">Medication</th>
@@ -96,6 +102,8 @@ export class MedList extends React.Component {
                         </td>
                     </tr>
                 </table>
+                : <FullMedSearch authorityLevel={this.state.authorityLevel}></FullMedSearch>
+                }
             </div>
             </>
         );

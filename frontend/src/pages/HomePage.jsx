@@ -15,7 +15,7 @@ export class HomePage extends React.Component {
 
     state = {
         firstName: "_none_",
-        isLoggedIn: false,
+        authorityLevel: 0,
         searchOption: '',
         searchText: ''
     };
@@ -31,7 +31,7 @@ export class HomePage extends React.Component {
             this.repo.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
                     const res = data.data;
-                    this.setState({firstName: res.data[0].name, isLoggedIn: true})
+                    this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
                 })
                 .catch(err => {
                     console.log("No user info found")
@@ -43,7 +43,7 @@ export class HomePage extends React.Component {
 
         return (
             <>
-                <Navbar norender={false}></Navbar>
+                <Navbar homepage={true}></Navbar>
                 <div className="homepage-header position-relative vh-100">
                     <img className="position-absolute homepage-img w-100" src="img/PillStock.jpg"></img>
                     <img className="position-absolute mobile-none h-50" src="img/Homepage-1.svg"></img>
@@ -67,14 +67,17 @@ export class HomePage extends React.Component {
                             </button>
                         </div>
                         <div className="position-absolute homepage-links">
-                            <a className="d-block" href="/medlist">View Prescriptions</a>
+                            {this.state.authorityLevel > 0 ?
+                                <a className="d-block" href="/medlist">Edit Prescriptions</a>
+                                : <a className="d-block" href="/medlist">View Prescriptions</a>}
                             <a className="d-block" href="/pharmacies">Pharmacies</a>
                         </div>
                     </div>
                     <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>
                 </div>
 
-                <FullMedSearch></FullMedSearch>
+                <h1 className="mx-5 px-5">Search Medications</h1>
+                <FullMedSearch authorityLevel='0'></FullMedSearch>
 
                 {/* <div className="m-5 d-flex flex-column align-items-center">
                     <h1>My Medications</h1>

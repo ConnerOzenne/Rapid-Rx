@@ -34,7 +34,6 @@ export class Login extends React.Component {
           username: this.state.username,
           password: this.state.password,
         }
-        debugger;
         this.repo.login(json).then(data => {
           const res = data.data
           console.log("response.response", res.response)
@@ -97,7 +96,7 @@ export class Login extends React.Component {
       }
       return (<>
         <Navbar></Navbar>
-        <div className="container">
+        <div className="container my-5">
           <h3>Login</h3>
           <label htmlFor="username">Username </label>
           <input className="form-control" 
