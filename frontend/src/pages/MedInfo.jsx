@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import {User} from '../models/user'
 import './MedInfo.css';
+import {Navbar} from '../components/Navbar';
 import {Repository} from '../api/repository';
 
 
@@ -14,48 +15,44 @@ export class MedInfo extends React.Component {
         super(props);
 
         this.state = {
-            med: {
-                name: "",
-                sideEffects: "",
-                treats: "",
-                description: "",
-                price: "",
-                notCompatibleWith: "",
-            }
+            name: "",
+            sideEffects: "",
+            usedFor: "",
+            description: "",
+            price: "",
+            notCompatibleWith: []
         }
     }
 
     componentDidMount() {
         // debugger;
-        // let id = localStorage.getItem("userID");
-        // this.repository.getUserMedications(id)
-        // .then(meds => {
-        //     meds.forEach((x) => {
-        //         this.repository.getMedicationInfo(x.medicationID)
-        //         .then(data => {
-        //             const res = data.data;
-        //             this.setState({med: res.data[0]})
-        //         })
-        //     });
-        // });
+        let id = +this.props.match.params.medicationID;
+        this.repository.getMedicationInfo(id)
+        .then(medInfo => {
+            this.setState({...medInfo.data[0]});
+        });
+        this.repository.getMedCompatibility(id)
+        .then(x => {
+            this.setState({notCompatibleWith: x.data[0]});
+        });
     }
 
     render() {
         
-        // const {
-        //     name,
-        //     sideEffects,
-        //     treats,
-        //     description,
-        //     price,
-        //     notCompatibleWith,
-        // } = this.props;
+        const {
+            name,
+            sideEffects,
+            usedFor,
+            description,
+            price,
+        } = this.state;
 
         return (
             <>
+                <Navbar norender={this.props.navbarnorender}></Navbar>
                 <div className="container py-5" id="hanging-icons">
-                    <h2 className="pb-2 border-bottom">{this.state.name}</h2>
-                    <h4>{this.state.price}</h4>
+                    <h2 className="pb-2 border-bottom">More Information</h2>
+                    <h2 className="text-center">{this.state.name}</h2>
                     <div className="row g-5 py-5">
                         <div className="col-md-4 d-flex align-items-start">
                         <div className="icon-square text-dark flex-shrink-0 me-3">
@@ -65,8 +62,7 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Side Effects</h2>
-                                    <p>{this.state.sideEffects}</p>
-                            <Link to="/medlist" className="btn btn-secondary">Return to Prescriptions</Link>
+                                    <p>Some of the side effects of {this.state.name} include: {this.state.sideEffects}.</p>
                         </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-start">
@@ -78,8 +74,7 @@ export class MedInfo extends React.Component {
                         <div>
                             <h2>Description</h2>
                                 <div>
-                                    <p>{this.state.description}</p>
-                                    {/* <a href="#" className="btn btn-secondary">{this.state.med.price}</a> */}
+                                    <p>{this.state.description}.</p>
                                 </div>
                         </div>
                         </div>
@@ -91,11 +86,12 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Interactions</h2>
-                                    <p>{this.state.notCompatibleWith}</p>
+                                {/* <p>{this.state.notCompatibleWith}</p> */}
                         </div>
                         </div>
                     </div>
-                </div>
+                    <Link to="/medlist" className="btn btn-secondary">Return to Prescriptions</Link>
+                </div> 
             </>
         );
     }

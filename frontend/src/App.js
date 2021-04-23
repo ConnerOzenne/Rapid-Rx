@@ -108,8 +108,8 @@ function App() {
             <Route path="/profile/:userId" component={UserProfile}/>
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
-            <Route path="/medinfo" component={MedInfo}/>
-            <Route path="/" component={HomePage}/>
+            <Route path="/medinfo/:medicationID" component={MedInfo}/>
+            <Route exact path="/" component={HomePage}/>
         </Switch>
       </Router>
         

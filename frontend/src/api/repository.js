@@ -139,7 +139,7 @@ export class Repository {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/medication/${medicationID}`, this.config)
             .then(x => {
-                resolve(x.data.data)
+                resolve(x.data)
             })
             .catch(e => {
                 alert(e);
@@ -148,33 +148,47 @@ export class Repository {
         })
     }
 
-    createOrder(state){
+    createOrder(order){
         return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/orders/create`, state).then(resp => {
+            axios.post(`${this.url}/orders/create`, order).then(resp => {
                     resolve(resp.data);
             }).catch(err => alert(err));
         });
     }
 
-    getPharmacy(pharmacyName) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {
-                console.log(resp);
-                resolve(resp);
-            })
-            .catch(e => {
-                console.log("Axios error");
-                console.log(e);
-            });
-        })
-    }
+    // // am i using this?
+    // getPharmacy(pharmacyName) {
+    //     return new Promise((resolve, reject) => {
+    //         axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {
+    //             console.log(resp);
+    //             resolve(resp);
+    //         })
+    //         .catch(e => {
+    //             console.log("Axios error");
+    //             console.log(e);
+    //         });
+    //     })
+    // }
 
-    createOrderDetails(state) {
+    createOrderDetails(orderDetails) {
         return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/orders/details/create`, state).then(resp =>  {
+            axios.post(`${this.url}/orders/details/create`, orderDetails).then(resp =>  {
                 resolve(resp.data);
             }).catch(err => alert(err));
         });
+    }
+
+    getMedCompatibility(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medicationID}/incompatible`, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
     }
 
 
