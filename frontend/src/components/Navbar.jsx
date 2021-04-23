@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Repository } from '../api/repository';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import './Navbar.css'
 
 export class Navbar extends React.Component {
@@ -9,14 +9,16 @@ export class Navbar extends React.Component {
 
     state = { 
         clicked: false,
-        authoritylevel: 0
+        authorityLevel: 0
     }
 
     componentDidMount() {
         if (this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
                 const res = data.data;
-                this.setState({authoritylevel: res.data[0].authoritylevel})
+                console.log("Navbar: componentDidMount(): res...");
+                console.log(res);
+                this.setState({authorityLevel: res.data[0].authorityLevel})
             });
         }
     }
@@ -37,7 +39,7 @@ export class Navbar extends React.Component {
     }
 
     isManager = () => {
-        if (this.isLoggedIn() && this.state.isManager) {
+        if (this.isLoggedIn() && this.state.authorityLevel > 0) {
             return true;
         }
         return false;
@@ -54,12 +56,8 @@ export class Navbar extends React.Component {
          * </div>
          */
 
-        if (this.state.redirect) {
+        if (this.state.redirect && !this.props.homepage) {
             return <Redirect to={ this.state.redirect } />;
-        }
-        // Return Navbar JSX
-        if (this.props.norender) {
-            return (<></>);
         }
         return(
             <nav className="navbar navbar-expand-lg bg-navbar navbar-light">
@@ -75,13 +73,15 @@ export class Navbar extends React.Component {
                             <li><a className="nav-link text-white" href="/">Home</a></li>
                             <li><a className="nav-link text-white" href="/medlist">MyPrescriptions</a></li>
                             <li><a className="nav-link text-white" href="/pharmacies">Pharmacy Portal</a></li>
-                            {(this.isLoggedIn() && this.isManager() ?
+                            {(this.isManager() && this.isLoggedIn() ?
                                 <li><a className="nav-link text-white" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
-                                :
-                                <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
+                                <>
+                                    <li><a className="nav-link text-white" href="/appointments">Appointments</a></li>
+                                    <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
+                                </>
+                                :   <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
                                 <li><a className="nav-link text-white" href="/profile/:userId">Profile</a></li>

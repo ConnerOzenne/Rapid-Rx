@@ -38,7 +38,7 @@ export class UserProfile extends React.Component{
 								<label for="fullName">Full Name</label>
 								<input type="text" class="form-control" id="fullName" placeholder="Enter full name" 
 								value={this.user.name}
-                    			onChange={ this.user.name =  event.target.value}/>
+                    			onChange={event => this.user.name =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -46,7 +46,7 @@ export class UserProfile extends React.Component{
 								<label for="eMail">Email</label>
 								<input type="email" class="form-control" id="eMail" placeholder="Enter email"
 								value={this.user.email}
-                    			onChange={this.user.email =  event.target.value}/>
+                    			onChange={event => this.user.email =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -54,7 +54,7 @@ export class UserProfile extends React.Component{
 								<label for="phone">Phone</label>
 								<input type="text" class="form-control" id="phone" placeholder="Enter phone number"
 								value={this.user.contactInfo}
-                    			onChange={this.user.contactInfo =  event.target.value}/>
+                    			onChange={event => this.user.contactInfo =  event.target.value}/>
 							</div>
 						</div>
 					</div>
@@ -67,7 +67,7 @@ export class UserProfile extends React.Component{
 								<label for="street">Street</label>
 								<input type="name" class="form-control" id="street" placeholder="Enter Street"
 								value={this.state.streetAddress}
-                    			onChange={this.state.streetAddress =  event.target.value}/>
+                    			onChange={event => this.state.streetAddress =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -75,7 +75,7 @@ export class UserProfile extends React.Component{
 								<label for="city">City</label>
 								<input type="name" class="form-control" id="city" placeholder="Enter City"
 								value={this.state.city}
-                    			onChange={this.state.city =  event.target.value}/>
+                    			onChange={event => this.state.city =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -83,7 +83,7 @@ export class UserProfile extends React.Component{
 								<label for="state">State</label>
 								<input type="text" class="form-control" id="state" placeholder="Enter State"
 								value={this.state.state}
-                    			onChange={this.state.state =  event.target.value}/>
+                    			onChange={event => this.state.state =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -91,7 +91,7 @@ export class UserProfile extends React.Component{
 								<label for="zip">Zip Code</label>
 								<input type="text" class="form-control" id="zip" placeholder="Zip Code"
 								value={this.state.zip}
-                    			onChange={this.state.zip =  event.target.value}/>
+                    			onChange={event => this.state.zip =  event.target.value}/>
 							</div>
 						</div>
 					</div>

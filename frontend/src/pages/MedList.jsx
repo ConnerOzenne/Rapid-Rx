@@ -7,6 +7,7 @@ import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
 import { MedInfo } from './MedInfo';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { FullMedSearch } from '../components/FullMedSearch'
 
 
 export class MedList extends React.Component {
@@ -16,14 +17,17 @@ export class MedList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            meds: []
+            meds: [],
+            // username: user.name,
+            username: "John Doe",
+            authorityLevel: 0
         }
     }
 
-    componentDidMount() {
-        let id = localStorage.getItem("userID");
-        this.getMeds(id);
-    }
+        componentDidMount() {
+            let id = localStorage.getItem("userID");
+            this.getMeds(id);
+        }
 
 
     getMeds = (id) => {

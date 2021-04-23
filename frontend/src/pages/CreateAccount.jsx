@@ -91,7 +91,7 @@ export class CreateAccount extends React.Component {
 
         return (<>
             <Navbar></Navbar>
-            <div className="container">
+            <div className="container my-5">
                 {!this.state.success && <div>
                     <h3>Create Account</h3>
 

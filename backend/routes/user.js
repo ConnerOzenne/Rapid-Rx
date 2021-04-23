@@ -37,7 +37,7 @@ module.exports = function user(app, logger) {
     // POST /users/create
     //create a new user 
     app.post('/users/create', (req, res) => {
-        console.log(req.body.username, req.body.password, req.body.email, req.body.authorityLevel, req.body.name, req.body.phone);
+        console.log(req.body);
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -45,17 +45,24 @@ module.exports = function user(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var name = req.body.name
                 var username = req.body.username
                 var password = req.body.password
                 var email = req.body.email
+                var name = req.body.name
                 var phone = req.body.phone
+                var pharmacyID = req.body.pharmacyID
                 var authorityLevel = req.body.authorityLevel
                 if (authorityLevel < 0 || authorityLevel > 1) {
                     authorityLevel = 0;
                 }
+                var address = req.body.address
+                var city = req.body.city
+                var state = req.body.state
+                var zipcode = req.body.zipcode
+                var country = req.body.country
+
                 // if there is no issue obtaining a connection, execute query
-                connection.query('INSERT INTO `rapidrx`.`users` (name, username, password, email, authorityLevel, phone) VALUES(?, ?, ?, ?, ?, ?)',[name, username, password, email, authorityLevel, phone], function (err, rows, fields) {
+                connection.query('CALL CreateAccount(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',[username, password, email, name, pharmacyID, authorityLevel, phone, address, city, state, zipcode, country], function (err, rows, fields) {
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
                         connection.release()
