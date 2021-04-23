@@ -14,6 +14,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { pharmManager } from './pages/pharmManager';
 import { EditMed } from './pages/EditMed';
+import { Appointments } from './pages/Appointments';
 // import { Home } from ./pages/Home.jsx
 
 function App() {
@@ -92,7 +93,6 @@ function App() {
   return (
     <div>
       <Router>
-        {/* <div path="/login" component={Login}/> */}
         <Switch>
             <Route path="/create" component={CreateAccount}/>
             <Route path="/pharmacyManager/:pharmacyId" component={PharmManager}/>
@@ -100,6 +100,7 @@ function App() {
             <Route path="/medlist/edit/:medId" component={EditMed}/>
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
+            <Route path="/appointments" component={Appointments}/>
             <Route path="/" component={HomePage}/>
         </Switch>
       </Router>

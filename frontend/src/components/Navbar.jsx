@@ -77,9 +77,11 @@ export class Navbar extends React.Component {
                                 <li><a className="nav-link text-white" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
-                                :
-                                <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
+                                <>
+                                    <li><a className="nav-link text-white" href="/appointments">Appointments</a></li>
+                                    <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
+                                </>
+                                :   <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
                                 <li><a className="nav-link text-white" href="/profile/:userId">Profile</a></li>
