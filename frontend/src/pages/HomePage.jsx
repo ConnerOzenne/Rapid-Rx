@@ -4,6 +4,7 @@ import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
 import './HomePage.css';
 import { MedList } from './MedList.jsx';
+import { FullMedSearch } from '../components/FullMedSearch'
 
 export class HomePage extends React.Component {
 
@@ -40,8 +41,6 @@ export class HomePage extends React.Component {
 
     render() {
 
-        // !ONLY DISPLAY MY MEDICATIONS TABLE IF USER IS LOGGED IN
-        // Search medications will be displayed regardless of whether user is logged in or not.
         return (
             <>
                 <Navbar norender={false}></Navbar>
@@ -75,7 +74,9 @@ export class HomePage extends React.Component {
                     <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>
                 </div>
 
-                <div className="m-5 d-flex flex-column align-items-center">
+                <FullMedSearch></FullMedSearch>
+
+                {/* <div className="m-5 d-flex flex-column align-items-center">
                     <h1>My Medications</h1>
                     <table>
                         <thead>
@@ -89,7 +90,7 @@ export class HomePage extends React.Component {
                     <tbody>
 
                     </tbody>
-                </div>
+                </div> */}
             </>
         );
         

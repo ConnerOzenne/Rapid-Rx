@@ -80,8 +80,19 @@ export class Repository {
                     alert(error);
                     reject(error);
                 });
-            });
-        }
+        });
+    }
+
+    getMedications() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medications`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
     // Given a userID, return all the user info for that user.
     
 
