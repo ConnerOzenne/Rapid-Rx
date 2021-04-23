@@ -72,9 +72,34 @@ export class Repository {
         });
     }
 
+    getAddressInfo(addressID) {
+        return new Promise((resolve, reject) => {
+            console.log(addressID)
+            axios.get(`${this.url}/address/${addressID}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("repo.getAddressInfo(): error")
+                console.log(e)
+            })
+        });
+    }
+
     updateAccount(id, account) {
         return new Promise((resolve, reject) => {
             axios.put(`${this.url}/${id}`, account, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    updateAddress(id, address) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/${id}`, address, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);

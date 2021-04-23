@@ -12,6 +12,22 @@ export class PharmManager extends React.Component {
         
     };
 
+    componentDidMount() {
+        console.log("Pharmacy Manager: componentDidMount()")
+        if (this.isLoggedIn()) {
+            this.repo.getUserInfo(localStorage.getItem("userID"))
+                .then(data => {
+                    const res = data.data;
+                    console.log("PharmManager - componentDidMount(): res...")
+                    console.log(res);
+                    this.setState({username: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
+                })
+                .catch(err => {
+                    console.log("No user info found")
+                })
+        }
+    }
+
     render() {
         return (
             <>
