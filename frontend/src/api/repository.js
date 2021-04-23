@@ -148,13 +148,34 @@ export class Repository {
         })
     }
 
-    // createOrder(state){
-    //     return new Promise((resolve, reject) => {
-    //         axios.post(`${this.url}/orders/create`, state).then(resp => {
-    //                 resolve(resp.data);
-    //         }).catch(err => alert(err));
-    //     });
-    // }
+    createOrder(state){
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/orders/create`, state).then(resp => {
+                    resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
+
+    getPharmacy(pharmacyName) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    createOrderDetails(state) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/orders/details/create`, state).then(resp =>  {
+                resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
 
 
     // postOrder() {

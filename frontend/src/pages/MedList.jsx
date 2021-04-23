@@ -2,6 +2,7 @@ import React from 'react';
 import {User} from '../models/user'
 import './MedList.css';
 import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
 
@@ -13,69 +14,24 @@ export class MedList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
-            orders: []
+            meds: []
         }
     }
 
     componentDidMount() {
         let id = localStorage.getItem("userID");
-        // let id = "2";
-        this.getOrders(id);
-        const updatedOrders = [...this.state.orders];
-
-        updatedOrders.forEach((order, i) => {
-            order.refillDate = order.refillDate.substring(0,10);
-            updatedOrders[i] = order;
-            this.setState({orders: updatedOrders});
-        })
+        this.getMeds(id);
     }
 
-    // componentWillMount() {
-    //     // debugger;
-    //     const updatedOrders = [...this.state.orders];
 
-    //     updatedOrders.forEach((order, i) => {
-    //         order.refillDate = this.changeDateFormat(order.refillDate);
-    //         updatedOrders[i] = order;
-    //         this.setState({orders: updatedOrders});
-    //     })
-    // }
-
-
-    // changeDateFormat = (refillDate) =>  {
+    getMeds = (id) => {
         
-    //     // debugger;
-    //     if (this.state.orders.length != 0) {
-    //         const [dayWeek, month, day, year] = refillDate.toDateString().split("/");
-    //         const date = `${month}/${day}/${year}`;
-    //         return date;
-    //     }
-    // }
-
-    getOrders = (id) => {
-        // debugger;
-        this.repository.getUserOrders(id)
-        .then(orders => {
-            // this.setState({orders});
-            orders.forEach((order, i) => {
-                this.repository.getUserOrderDetails(order.orderID)
-                .then(orderDetails => {
-                    
-                    this.repository.getUserMedications(id)
-                    .then(medications => {
-                        
-                        order.quantity = orderDetails[0].quantity;
-                        order.refillDate = orderDetails[0].refillDate;
-                        order.refillLeft = orderDetails[0].refillLeft;
-                        order.name = medications.name;
-                        orders[i] = order;
-                        this.setState({orders});
-                    })
-                })
-            });
-        });
-
+        this.repository.getUserMedications(id)
+        .then(x => {
+            console.log("getting prescriptions")
+            console.log(x)
+            this.setState({meds: x});
+        })
     }
 
     
@@ -84,22 +40,39 @@ export class MedList extends React.Component {
         return loggedIn;
     }
 
-    checkRefill = () => {
+    checkRefill = (pharmacyID) => {
         let d = new Date();
-        const date = d.substring(0,10);
 
-        if(this.state.refillDate == date) {
-                // create order
-                
+        if(d == d) {
+            this.repository.createOrder({userID: localStorage.getItem("userID"), pharmacyID: pharmacyID, dateOrdered: d})
+            .then(x => {
+                console.log("Test func")
+                console.log(x)
+                var orderID = x.data.orderID;
+                var medicationID = x.data.medicationID;
+                var quantity = x.data.quantity;
+                var refillDate = x.data.refillDate;
+                var totalCost = x.data.totalCost;
+
+                // this is not working
+                this.repository.createOrderDetails({orderID: orderID, medicationID: medicationID, quantity: quantity, refillDate: refillDate, totalCost: totalCost})
+
+                // do i need to change refill date and refills left in the table??
+                window.alert("Refill placed, pick up in 24 hours at Pharmacy Name");
+            })
         }
         else {
-            // display "not available for refill until {order.refillDate}"
+            window.alert("Not available for refill until refill date");
         }
     }
 
 
 
     render() {
+        if(!this.state.meds) {
+            return
+            <p>Loading</p>
+        }
         return (
             <>
             <Navbar norender={this.props.navbarnorender}></Navbar>
@@ -107,23 +80,28 @@ export class MedList extends React.Component {
             {this.isLoggedIn() && 
                 <div className="Container" id="header">
                     
-                    <h2 id="Name">{this.state.name}'s Prescriptions</h2>
+                    <h2>Prescriptions</h2>
                     <table className = "table" id="medtable">
                         <tr className="text-center" id="tableHeader">
                             <th scope= "col">Medication</th>
                             <th scope= "col">Dosage</th>
+                            <th scope="col">Pharmacy</th>
                             <th scope= "col">Refill Date</th>
                             <th scope= "col">Refill Rx</th>
                             {/* <th scope= "col">Save To Profile</th> */}
                             <th scope= "col">More Information</th>
                         </tr>
-                        { this.state.orders.map((order) => (
+                        { this.state.meds.map((med) => (
                                 <tr>
-                                    <td className="text-center" scope="row" id="medName">{order.name}</td>
-                                    <td className="text-center" scope="row" id="dosage">{order.quantity} mg</td>
-                                    <td className="text-center" scope="row" id="refillDate">{order.refillDate}</td>
+                                    <td className="text-center" scope="row" id="medName">{med.medName}</td>
+                                    <td className="text-center" scope="row" id="dosage">{med.quantity} mg</td>
+                                    <td className="text-center" scope="row" id="pharmacy">{med.pharmacyName}</td>
+                                    <td className="text-center" scope="row" id="refillDate">{med.refillDate.substring(0,10)}</td>
                                     <td className="text-center" scope="row" id="refillRx">
-                                        <a className="btn btn-secondary" href="#" role="button">REFILL</a>
+                                        <button className="btn btn-secondary"
+                                        onClick={ () => this.checkRefill(med.pharmacyID) }>
+                                            REFILL
+                                            </button>
                                     </td>
                                     
                                     {/* <td className="text-center" scope="row" id="save">
