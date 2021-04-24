@@ -215,4 +215,43 @@ module.exports = function order(app, logger) {
             }
         });
     });
+    
+    // POST /ordersAndDetails/create
+    // create an Order and OrderDetails 
+    // dateOrdered will always be NOW() 
+    // refillDate will automatically be calculated from monthsTillRefill 
+    app.post('/ordersAndDetails/create', (req, res) => {
+        console.log(req.body);
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var userID = req.body.userID
+                var pharmacyID  = req.body.pharmacyID
+                var medicationID  = req.body.medicationID
+                var quantity   = req.body.quantity
+                var monthsTillRefill = req.body.monthsTillRefill
+                var refillLeft  = req.body.refillLeft
+                // if there is no issue obtaining a connection, execute query
+                connection.query('CALL addOrder (?, ?, ?, ?, ?, ?)',[userID, pharmacyID, medicationID, quantity, monthsTillRefill, refillLeft], function (err, rows, fields) {
+                    if (err) {
+                        // if there is an error with the query, release the connection instance and log the error
+                        connection.release()
+                        logger.error("Error while creating order: \n", err); 
+                        res.status(400).json({
+                            "data": [],
+                            "error": "MySQL error"
+                        })
+                    } else{
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
 }
