@@ -91,8 +91,8 @@ module.exports = function order(app, logger) {
         });
     });
 
-    // GET /orders/:userID (1.2)
-    app.get('/order/:userID', (req, res) => {
+    // GET /orders/user/:userID (1.2)
+    app.get('/orders/user/:userID', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -119,7 +119,7 @@ module.exports = function order(app, logger) {
     });
 
     // GET /orders/:pharmacyID
-    app.get('/orders/:pharmacyID', (req, res) => {
+    app.get('/orders/pharmacy/:pharmacyID', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection) {
             if (err) {
