@@ -220,6 +220,7 @@ module.exports = function order(app, logger) {
     // create an Order and OrderDetails 
     // dateOrdered will always be NOW() 
     // refillDate will automatically be calculated from monthsTillRefill 
+    // totalCost calculated from price(from medicationID) and quantity 
     app.post('/ordersAndDetails/create', (req, res) => {
         console.log(req.body);
         // obtain a connection from our pool of connections
