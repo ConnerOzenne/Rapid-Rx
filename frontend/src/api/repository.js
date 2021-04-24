@@ -125,6 +125,19 @@ export class Repository {
         })
     }
 
+    getPharmacyOrderHistory(pharmacyID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/orders/${pharmacyID}/history`, this.config).then(resp => {
+                console.log(resp.data);
+                resolve(resp.data);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
     // Given a userID, return all the user info for that user.
     
 

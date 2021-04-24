@@ -71,7 +71,7 @@ export class PharmacyPortal extends React.Component {
                         
                     </table>
                     <br></br>
-                <ClosestPharmacies></ClosestPharmacies>
+                <ClosestPharmacies props={this.state.auth}></ClosestPharmacies>
 
                 </div>
                 </>
@@ -82,33 +82,8 @@ export class PharmacyPortal extends React.Component {
                 <>
                 <Navbar norender={false}></Navbar>
                 <div className="Container" id="header">
-                    <h2>Authorized Pharmacist Inventory Portal</h2>
-                    <table className="table table-striped table-condensed table-bordered" id="orderDetails">
-                        <thead>
-                            <tr id="tableHeader">
-                                <th>Pharmacy</th>
-                                <th>Medication</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        { !this.state.orders.length && <tr>You have no orders yet</tr>}
-                        { this.state.orders && this.state.orders.map((row, index) => (
-                            <tr key={index}>
-                                <td id="pharmacy">{row.pharmacyName}</td>
-                                <td id="medication">{row.medName}</td>
-                                <td id="quantity">{row.quantity}</td>
-                                <td id="price">{row.price}.00</td>
-                                <td id="date">{row.dateOrdered.substring(0, 10)}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                        
-                    </table>
-                    <br></br>
-                <ClosestPharmacies></ClosestPharmacies>
+                    <h2 className="mt-3">View Pharmacies</h2>
+                <ClosestPharmacies auth={this.state.auth}></ClosestPharmacies>
                 </div>
             </>
             )

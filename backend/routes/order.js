@@ -119,7 +119,8 @@ module.exports = function order(app, logger) {
     });
 
     // GET /orders/:pharmacyID
-    app.get('/order/:pharmacyID', (req, res) => {
+    app.get('/orders/:pharmacyID/history', (req, res) => {
+        var phID = req.params.pharmacyID
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -128,7 +129,7 @@ module.exports = function order(app, logger) {
                 res.status(400).send('Problem obtaining MySQL connection');
             } else {
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT * FROM `rapidrx`.`orders` AS o WHERE o.pharmacyID = ?', [pharmacyID], function (err, rows, fields) {
+                connection.query('SELECT u.name AS userName, m.name as medName, p.name as pharmacyName, o.orderID, o.dateOrdered, od.refillDate, od.quantity, od.totalCost from `rapidrx`.`users` AS u JOIN `rapidrx`.`orders` AS o on u.userID = o.userID JOIN `rapidrx`.`orderDetails` AS od ON o.orderID = od.orderID JOIN `rapidrx`.`medications` AS m ON m.medicationID = od.medicationID JOIN `rapidrx`.`pharmacies` AS p ON o.pharmacyID = p.pharmacyID WHERE p.pharmacyID = ? group by o.dateOrdered order by o.dateOrdered desc;', [phID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {

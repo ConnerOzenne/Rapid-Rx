@@ -8,6 +8,7 @@ import { CreateAccount } from './pages/CreateAccount.jsx'
 import { MedList } from './pages/MedList.jsx';
 import { UserProfile } from './pages/userProfile.jsx';
 import { PharmManager } from './pages/pharmManager.jsx'
+import { PharmacyHistory } from './pages/PharmacyHistory.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import 'bootstrap'
@@ -23,12 +24,14 @@ function App() {
   return (
     <div>
       <Router>
+        {/* <Navbar norender={false}></Navbar> */}
         {/* <div path="/login" component={Login}/> */}
         <Switch>
             <Route path="/create" component={CreateAccount}/>
             {/* <Route path= "/distInfo/:listingID" component={DistContact}/>
             <Route path="/orders/:orderId" component={OrderHistory}/> */}
-            <Route path="/pharmacyManager/:pharmacyId" component={PharmManager}/>
+            <Route path="/pharmacyManager/:pharmacyID" component={PharmManager}/>
+            <Route path="/pharmacyHistory/:pharmacyID/history" component={PharmacyHistory}/>
             <Route path="/pharmacyPortal" component={PharmacyPortal}/>
             <Route path="/profile/:userId" component={UserProfile}/>
             <Route path="/login" render={() => <Login />}/>
