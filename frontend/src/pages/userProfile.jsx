@@ -9,19 +9,68 @@ import { event } from 'jquery';
 
 export class UserProfile extends React.Component{
     repo = new Repository();
-	user = this.repo.getUserID(localStorage.getItem("userId"));
     state = {
-		id: localStorage.getItem("userId"),
-		state: " ",
-		city: " ",
-		streetAddress: " ",
-		zip: " "
+		id: localStorage.getItem("userId")
     };
+
+	isLoggedIn = () => {
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
+    }
 	
-	update(){
-		this.repo.updateAccount(this.state.id, this.user);
+	update = () => {
+		let user = new User(this.state.id, this.state.name, this.state.addressID, 
+			this.state.username, this.state.password, this.state.email, 
+			this.state.pharmacyID, 0, this.state.phone);
+		let address = {
+			city: this.state.city,
+			state: this.state.state,
+			address: this.state.streetAddress,
+			zip: this.state.zip,
+			country: this.state.country
+		};
+		this.repo.updateAccount(this.state.id, user);
+		this.repo.updateAddress(this.state.addressID, address);
 	}
 	
+	componentDidMount() {
+        console.log("User Profile: componentDidMount()")
+        if (this.isLoggedIn()) {
+            this.repo.getUserInfo(localStorage.getItem("userID"))
+                .then(data => {
+                    const res = data.data;
+                    console.log("User Profile - componentDidMount(): res...")
+                    console.log(res);
+                    this.setState({name: res.data[0].name, 
+						authorityLevel: res.data[0].authorityLevel,
+						username: res.data[0].username,
+						addressID: res.data[0].addressID,
+						email: res.data[0].email,
+						password: res.data[0].password,
+						pharmacyID: res.data[0].pharmacyID,
+						phone: res.data[0].phone
+					})
+					this.repo.getAddressInfo(this.state.addressID)
+						.then(aData => {
+							const res2 = aData.data;
+							console.log("User Profile - componentDidMount(): res...")
+							console.log(res);
+							this.setState({state: res2.data[0].state, 
+								city: res2.data[0].city,
+								streetAddress: res2.data[0].address,
+								zip: res2.data[0].zip,
+								country: res2.data[0].country
+							})
+						})
+						.catch(err => {
+							console.log("No address info found")
+						})
+                })
+                .catch(err => {
+                    console.log("No user info found")
+                })
+        }
+    }
   
     render() {
         return ( <>
@@ -37,24 +86,24 @@ export class UserProfile extends React.Component{
 							<div class="form-group">
 								<label for="fullName">Full Name</label>
 								<input type="text" class="form-control" id="fullName" placeholder="Enter full name" 
-								value={this.user.name}
-                    			onChange={ this.user.name =  event.target.value}/>
+								value={this.state.name}
+                    			onChange={event => this.state.name =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="eMail">Email</label>
 								<input type="email" class="form-control" id="eMail" placeholder="Enter email"
-								value={this.user.email}
-                    			onChange={this.user.email =  event.target.value}/>
+								value={this.state.email}
+                    			onChange={event => this.state.email =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="phone">Phone</label>
 								<input type="text" class="form-control" id="phone" placeholder="Enter phone number"
-								value={this.user.contactInfo}
-                    			onChange={this.user.contactInfo =  event.target.value}/>
+								value={this.state.contactInfo}
+                    			onChange={event => this.state.contactInfo =  event.target.value}/>
 							</div>
 						</div>
 					</div>
@@ -67,7 +116,7 @@ export class UserProfile extends React.Component{
 								<label for="street">Street</label>
 								<input type="name" class="form-control" id="street" placeholder="Enter Street"
 								value={this.state.streetAddress}
-                    			onChange={this.state.streetAddress =  event.target.value}/>
+                    			onChange={event => this.state.streetAddress =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -75,7 +124,7 @@ export class UserProfile extends React.Component{
 								<label for="city">City</label>
 								<input type="name" class="form-control" id="city" placeholder="Enter City"
 								value={this.state.city}
-                    			onChange={this.state.city =  event.target.value}/>
+                    			onChange={event => this.state.city =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -83,7 +132,7 @@ export class UserProfile extends React.Component{
 								<label for="state">State</label>
 								<input type="text" class="form-control" id="state" placeholder="Enter State"
 								value={this.state.state}
-                    			onChange={this.state.state =  event.target.value}/>
+                    			onChange={event => this.state.state =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -91,7 +140,7 @@ export class UserProfile extends React.Component{
 								<label for="zip">Zip Code</label>
 								<input type="text" class="form-control" id="zip" placeholder="Zip Code"
 								value={this.state.zip}
-                    			onChange={this.state.zip =  event.target.value}/>
+                    			onChange={event => this.state.zip =  event.target.value}/>
 							</div>
 						</div>
 					</div>

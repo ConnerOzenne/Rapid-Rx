@@ -1,43 +1,40 @@
 import React from 'react';
-import axios from 'axios';
-import {Link, Redirect} from 'react-router-dom';
+import {User} from '../models/user'
 import './MedList.css';
+import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
+import { MedInfo } from './MedInfo';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { FullMedSearch } from '../components/FullMedSearch'
 
 
 export class MedList extends React.Component {
 
-    repo = new Repository();
+    repository = new Repository();
 
     constructor(props) {
         super(props);
-        const {user} = this.props;
         this.state = {
+            meds: [],
             // username: user.name,
             username: "John Doe",
+            authorityLevel: 0
         }
     }
 
-    // componentWillMount() {
-    //     if (localStorage.getItem("userID")) {
-    //         console.log(this.repo.getUserInfo(localStorage.getItem("userID")));
-    //         this.setState({username: this.repo.getUserInfo(localStorage.getItem("userID")).firstName})
-    //     }
-    // }
-
-    isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
-        return loggedIn;
-    }
-
     componentDidMount() {
-        console.log("MedList: componentDidMount()")
+        let id = localStorage.getItem("userID");
+        this.getMeds(id);
+
         if (this.isLoggedIn()) {
-            this.repo.getUserInfo(localStorage.getItem("userID"))
+            this.repository.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
                     const res = data.data;
-                    this.setState({username: res.data[0].name, isLoggedIn: true})
+                    console.log("MedList - componentDidMount(): res...")
+                    console.log(res);
+                    this.setState({username: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
                 })
                 .catch(err => {
                     console.log("No user info found")
@@ -46,58 +43,118 @@ export class MedList extends React.Component {
     }
 
 
-
-    listMeds = () => {
-        // populate table with med information
-        // axios.get(`http://${url}:8000//order/${user.orderID}/details'`).then((res)=>{
-        //     alert(res.data);
-        // })
+    getMeds = (id) => {
+        // debugger;
+        this.repository.getUserMedications(id)
+        .then(x => {
+            console.log("getting prescriptions")
+            console.log(x)
+            this.setState({meds: x});
+        })
     }
 
-    checkRefill = () => {
-        if(this.state.refillDate == this.state.todaysDate) {
-                // make button active
+    
+    isLoggedIn = () => {
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
+    }
+
+    isFlagged = () => {
+
+    }
+
+    checkRefill = (pharmacyID, medicationID) => {
+        let d = new Date();
+
+        if(d == d) {
+            this.repository.createOrder({userID: localStorage.getItem("userID"), pharmacyID: pharmacyID, dateOrdered: d})
+            .then(x => {
+                console.log("Test func")
+                console.log(x)
+                
+                // const order = this.state.meds.find( ({element}) => element.medicationID == medicationID);
+                // console.log(order)
+                // // use find function to grab the specific medication by id from state
+                // var orderID = order.orderID;
+                // var quantity = order.quantity;
+                // var refillDate = order.refillDate;
+                // var totalCost = order.totalCost;
+                // using index to access specific order?
+
+                
+                // this.repository.createOrderDetails({orderID: orderID, medicationID: medicationID, quantity: quantity, refillDate: refillDate, totalCost: totalCost})
+
+                // do i need to change refill date in the table??
+                window.alert("Refill placed, pick up in 24 hours at Pharmacy Name");
+            })
+        }
+        else {
+            window.alert("Not available for refill until refill date");
         }
     }
 
 
+
     render() {
+        if(!this.state.meds) {
+            return
+            <p>Loading</p>
+        }
         return (
             <>
-            {console.log("No render? "+this.props.navbarnorender)}
             <Navbar norender={this.props.navbarnorender}></Navbar>
-            <div className="Container" id="header">
-                {this.isLoggedIn() ? <h2 id="Name">{this.state.username}'s Prescriptions</h2> : <div><h2 id="Name">View All Prescriptions</h2><p>Login to view your own prescriptions!</p></div>}
-                <table className = "table" id="medtable">
-                    <tr id="tableHeader">
-                        <th scope= "col">Medication</th>
-                        <th scope= "col">Dosage</th>
-                        <th scope= "col">Refill Date</th>
-                        <th scope= "col">Refill Rx</th>
-                        <th scope= "col">Side Effects</th>
-                        <th scope= "col">Save To Profile</th>
-                        <th scope= "col">More Information</th>
-                    </tr>
-                    <tr>
-                        <td scope="row" id="medName">{this.state.medName}</td>
-                        <td scope="row" id="dosage">{this.state.dosage}</td>
-                        <td scope="row" id="refillDate">{this.state.refillDate}</td>
-                        <td scope="row" id="refillRx">
-                            <button type="button" className="btn">REFILL</button>
-                        </td>
-                        <td scope="row" id="sideEffects">
-                            <button type="button" className="btn">Side Effects</button>
-                        </td>
-                        <td scope="row" id="save">
-                            <input type="checkbox" className="btn"></input>
-                        </td>
-                        <td scope="row" id="moreInfo">
-                            <button type="button" className="btn">More Information</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            { !this.isLoggedIn() && <Redirect to={{pathname: '/', state: {message: 'Please sign in to view your prescriptions'}}} /> }
+            {/* message does not display */}
+            {!this.isLoggedIn() && <div className="alert alert-danger" role="alert">User doesnt exist or wrong password</div> }
+            {this.isLoggedIn() && 
+                <div className="Container" id="header">
+                    
+                    <h2>Prescriptions</h2>
+
+                    {this.isLoggedIn() && this.state.authorityLevel == 0 ?
+
+                    <table className = "table" id="medtable">
+                        <tr className="text-center" id="tableHeader">
+                            <th scope= "col">Medication</th>
+                            <th scope= "col">Dosage</th>
+                            <th scope="col">Pharmacy</th>
+                            <th scope="col">Total Cost</th>
+                            <th scope= "col">Refill Date</th>
+                            <th scope= "col">Refill Rx</th>
+                            <th scope= "col">More Information</th>
+                        </tr>
+                        { this.state.meds.map((med, index) => (
+                                <tr id="rows">
+                                    <td className="text-center" scope="row" id="medName">{med.medName}</td>
+                                    <td className="text-center" scope="row" id="dosage">{med.quantity} mg</td>
+                                    <td className="text-center" scope="row" id="pharmacy">{med.pharmacyName}</td>
+                                    <td className="text-center" scope="row" id="totalCost">${med.totalCost}</td>
+                                    <td className="text-center" scope="row" id="refillDate">{med.refillDate.substring(0,10)}</td>
+                                    <td className="text-center" scope="row" id="refillRx">
+                                        <button className="btn btn-secondary"
+                                        onClick={ () => this.checkRefill(med.pharmacyID, med.medicationID) }>
+                                            REFILL
+                                            </button>
+                                    </td>
+
+
+                                        <td className="text-center" scope="row" id="moreInfo"> <Link className="btn btn-secondary" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
+
+                                        {/* <Router>
+     
+                                        </Router> */}
+                                    
+                    
+
+                                    {/* <MedInfo  medicationID={med.medicationID}/> */}
+                                </tr>
+                            ))
+                        }
+                    </table>
+                    : <FullMedSearch authorityLevel={this.state.authorityLevel}></FullMedSearch>}
+                </div>
+            }
             </>
-        );
+        )
     }
 }

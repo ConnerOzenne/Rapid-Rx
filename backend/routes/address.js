@@ -45,11 +45,12 @@ module.exports = function address(app, logger) {
             } else {
                 var addressID = req.params.addressID
                 var address = req.body.address
-                var city = req.params.city
+                var city = req.body.city
                 var state = req.body.state
                 var zipcode = req.body.zipcode
+                var country = req.body.country
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('UPDATE `rapidrx`.`addresses` AS a SET a.address = ?, a.city = ?, a.state = ?, a.zipcode = ? WHERE a.addressID = ?;', [address, city, state, zipcode, addressID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`addresses` AS a SET a.address = ?, a.city = ?, a.state = ?, a.zipcode = ?, a.country = ? WHERE a.addressID = ?;', [address, city, state, zipcode, country, addressID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
@@ -110,7 +111,7 @@ module.exports = function address(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var address = req.body.street_address
+                var address = req.body.address
                 var city = req.body.city
                 var state = req.body.state
                 var zipcode = req.body.zipcode

@@ -14,7 +14,7 @@ module.exports = function notCompatibleWith(app, logger) {
             } else {
                 var medicationID= req.params.medicationID
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('select m1.name, m2.name from notCompatibleWith join medications as m1 on m1.medicationID = notCompatibleWith.medicationID_One join medications as m2 on m2.medicationID = notCompatibleWith.medicationID_Two where m1.medicationID =?', [medicationID], function (err, rows, fields) {
+                connection.query('SELECT m1.name AS medOne, m2.name AS medTwo from notCompatibleWith join medications as m1 on m1.medicationID = notCompatibleWith.medicationID_One join medications as m2 on m2.medicationID = notCompatibleWith.medicationID_Two where m1.medicationID =?', [medicationID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {

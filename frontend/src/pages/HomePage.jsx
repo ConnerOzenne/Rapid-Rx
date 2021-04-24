@@ -4,6 +4,7 @@ import {Repository} from '../api/repository';
 import { Navbar } from '../components/Navbar';
 import './HomePage.css';
 import { MedList } from './MedList.jsx';
+import { FullMedSearch } from '../components/FullMedSearch'
 
 export class HomePage extends React.Component {
 
@@ -14,9 +15,10 @@ export class HomePage extends React.Component {
 
     state = {
         firstName: "_none_",
-        isLoggedIn: false,
+        authorityLevel: 0,
         searchOption: '',
-        searchText: ''
+        searchText: '',
+        message:''
     };
 
     isLoggedIn = () => {
@@ -30,7 +32,14 @@ export class HomePage extends React.Component {
             this.repo.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
                     const res = data.data;
-                    this.setState({firstName: res.data[0].name, isLoggedIn: true})
+                    
+                    let spaceLoc = res.data[0].name.indexOf(" ");
+                    if (spaceLoc >= 0) {
+                        this.setState({firstName: res.data[0].name.substring(0, spaceLoc), authorityLevel: res.data[0].authorityLevel});
+                    }
+                    else {
+                        this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel});
+                    }
                 })
                 .catch(err => {
                     console.log("No user info found")
@@ -40,11 +49,10 @@ export class HomePage extends React.Component {
 
     render() {
 
-        // !ONLY DISPLAY MY MEDICATIONS TABLE IF USER IS LOGGED IN
-        // Search medications will be displayed regardless of whether user is logged in or not.
         return (
             <>
-                <Navbar norender={false}></Navbar>
+                <Navbar homepage={true}></Navbar>
+                {this.state.message && <h2>{this.state.message}</h2>}
                 <div className="homepage-header position-relative vh-100">
                     <img className="position-absolute homepage-img w-100" src="img/PillStock.jpg"></img>
                     <img className="position-absolute mobile-none h-50" src="img/Homepage-1.svg"></img>
@@ -68,14 +76,19 @@ export class HomePage extends React.Component {
                             </button>
                         </div>
                         <div className="position-absolute homepage-links">
-                            <a className="d-block" href="/medlist">View Prescriptions</a>
+                            {this.state.authorityLevel > 0 ?
+                                <a className="d-block" href="/medlist">Edit Prescriptions</a>
+                                : <a className="d-block" href="/medlist">View Prescriptions</a>}
                             <a className="d-block" href="/pharmacyPortal">Pharmacies</a>
                         </div>
                     </div>
                     <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>
                 </div>
 
-                <div className="m-5 d-flex flex-column align-items-center">
+                <h1 className="mx-5 px-5">Search Medications</h1>
+                <FullMedSearch authorityLevel='0'></FullMedSearch>
+
+                {/* <div className="m-5 d-flex flex-column align-items-center">
                     <h1>My Medications</h1>
                     <table>
                         <thead>
@@ -90,6 +103,26 @@ export class HomePage extends React.Component {
 
                     </tbody>
                 </div>
+
+                <div className="m-5">
+                    <h1>Search Medications</h1>
+
+                    <label htmlFor="searchby">Search By</label>
+                    <select className="form-control col-6" 
+                            id="homepage-med-searchby" 
+                            name="searchby"
+                            onChange= {event => this.setState({searchOption: event.target.value})}>
+                        {this.medInfo.map(sortOption => <option>{sortOption}</option>)}
+                    </select>
+
+                    <label htmlFor="search">Search</label>
+                    <input  type="search" 
+                            id="home-med-search" 
+                            name="search"
+                            value={this.state.searchText}
+                            onChange= {event => this.setState({searchText: event.target.value})}></input>
+                </div> 
+                </div> */}
             </>
         );
         

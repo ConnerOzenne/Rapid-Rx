@@ -108,12 +108,12 @@ export class CreateAccount extends React.Component {
     render() {
 
         return (<>
-            <Navbar norender={false}></Navbar>
-            <div className="container">
-                {!this.state.success && <div className="mb-5">
-                    <h3 className="mt-5">Create Account</h3>
-                    
-                    <label htmlFor="name">Name</label>
+            <Navbar></Navbar>
+            <div className="container my-5">
+                {!this.state.success && <div>
+                    <h3>Create Account</h3>
+
+                    <label htmlFor="name">Email</label>
                     <input className="form-control"
                     type="text" 
                     name="name" 
@@ -121,7 +121,7 @@ export class CreateAccount extends React.Component {
                     value={this.state.name}
                     onChange={e => this.setState({name: e.target.value})}/>
 
-                    <label htmlFor="acct-username">Username</label>
+                    <label htmlFor="username">Username</label>
                     <input className="form-control"
                     type="text" 
                     name="username" 
@@ -130,7 +130,7 @@ export class CreateAccount extends React.Component {
                     onChange={e => this.setState({username: e.target.value})}
                     />
 
-                    <label htmlFor="acct-email">Email</label>
+                    <label htmlFor="email">Email</label>
                     <input className="form-control"
                     type="text" 
                     name="email" 

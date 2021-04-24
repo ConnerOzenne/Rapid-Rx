@@ -72,6 +72,213 @@ export class Repository {
         });
     }
 
+    getAddressInfo(addressID) {
+        return new Promise((resolve, reject) => {
+            console.log(addressID)
+            axios.get(`${this.url}/address/${addressID}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("repo.getAddressInfo(): error")
+                console.log(e)
+            })
+        });
+    }
+
+    getOrders(){
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/orders`, this.config)
+            .then(x => resolve(x.data))
+            .catch(e => {
+                alert(e);
+                reject();
+            });
+        });
+    }
+
+    getOrderDetails(orderID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/order/${orderID}/details`, this.config)
+            .then(x => resolve(x.data))
+            .catch(e => {
+                alert(e);
+                reject();
+            });
+        });
+    }
+    
+    getUserOrders(userId) {
+        // debugger;
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userId}/orders`, this.config)
+            .then(x => {
+                (resolve(x.data.data))
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+    
+    getUserOrderDetails(orderID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/order/${orderID}/details`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+    
+    getUserMedications(userID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}/medications`, this.config)
+            .then(x => {
+                resolve(x.data.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+    getMedicationInfo(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medicationID}`, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+    editMedicationInfo(newMedInfo, medId) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/medications/${medId}`, newMedInfo, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        });
+    }
+
+    createNewMedication(newMedInfo) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/medications/create`, newMedInfo, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        });
+    }
+
+    createOrder(order){
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/orders/create`, order).then(resp => {
+                    resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
+
+    getFlagID(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/flag/medication/${medicationID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    //get flag using id
+
+    updateFlagType(flagID, flagType) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/flag/${flagID}/update`, flagType, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    getFlag(flagID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/flag/${flagID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+
+    // getPharmacy(pharmacyName) {
+    //     return new Promise((resolve, reject) => {
+    //         axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {
+    //             console.log(resp);
+    //             resolve(resp);
+    //         })
+    //         .catch(e => {
+    //             console.log("Axios error");
+    //             console.log(e);
+    //         });
+    //     })
+    // }
+
+    createOrderDetails(orderDetails) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/orders/details/create`, orderDetails).then(resp =>  {
+                resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
+
+    getMedCompatibility(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medicationID}/incompatible`, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        })
+    }
+
+
+    // postOrder() {
+    //     return new Promise((resolve, reject) => {
+    //         axios.post(`${this.url}/orders/create`, this.config)
+    //         .then(x => resolve(x.data))
+    //         .catch(e => {
+    //             alert(e);
+    //             reject();
+    //         });
+    //     })
+    // }
+
+    
+
     updateAccount(id, account) {
         return new Promise((resolve, reject) => {
             axios.put(`${this.url}/${id}`, account, this.config)
@@ -137,6 +344,41 @@ export class Repository {
             });
         })
     }
+    updateAddress(id, address) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/address${id}`, address, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    getMedications() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medications`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    getMedication(medId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/medication/${medId}`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    // TODO: THERE MAY BE MULTIPLE VERSIONS OF THIS SAME API CALL, 
+    // MAKE SURE THERE'S ONLY ONE AT THE END OF DEVELOPMENT...
 
     // Given a userID, return all the user info for that user.
     
