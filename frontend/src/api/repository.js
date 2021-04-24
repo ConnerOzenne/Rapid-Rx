@@ -221,7 +221,7 @@ export class Repository {
 
     updateAccount(id, account) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/${id}`, account, this.config)
+            axios.put(`${this.url}/profile/${id}`, account, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);
@@ -244,6 +244,17 @@ export class Repository {
     getMedications() {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/medications`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    getInventory(id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/inventory/${id}`, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);

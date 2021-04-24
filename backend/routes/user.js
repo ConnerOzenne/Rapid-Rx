@@ -279,7 +279,7 @@ app.put('/user/:userID/addresses', (req, res) => {
 
     //user story 10.3
     //edit user profile
-    app.put('/user/:userID', (req, res) => {
+    app.put('/profile/:userID', (req, res) => {
         console.log(req.params);
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
