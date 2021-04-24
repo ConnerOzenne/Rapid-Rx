@@ -70,25 +70,31 @@ export class Navbar extends React.Component {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-                        <ol className="navbar-nav me-auto mb-lg-0 w-75">
-                            <li><a className="nav-link text-white" href="/">Home</a></li>
-                            <li><a className="nav-link text-white" href="/medlist">MyPrescriptions</a></li>
-                            <li><a className="nav-link text-white" href="/pharmacies">Pharmacy Portal</a></li>
+                    <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <ol className="navbar-nav me-auto mb-lg-0 d-flex w-100">
+                            <li><a className="nav-link text-white mx-3" href="/">Home</a></li>
                             {(this.isManager() && this.isLoggedIn() ?
-                                <li><a className="nav-link text-white" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
+                                <li><a className="nav-link text-white mx-3" href="/medlist">EditMedications</a></li>
+                                :
+                                <li><a className="nav-link text-white mx-3" href="/medlist">MyPrescriptions</a></li>
                             )}
+                            <li><a className="nav-link text-white mx-3" href="/pharmacies">Pharmacy Portal</a></li>
+                            {(this.isManager() && this.isLoggedIn() ?
+                                <li><a className="nav-link text-white mx-3" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
+                            )}
+                            {this.isLoggedIn() && <li><a className="nav-link text-white mx-3" href="/appointments">Appointments</a></li>}
+                        </ol>
+                        <ol className="navbar-nav me-auto mb-lg-0 d-flex w-25">
                             {(this.isLoggedIn() ? 
                                 <>
-                                    <li><a className="nav-link text-white" href="/appointments">Appointments</a></li>
-                                    <li><a className="nav-link text-white" onClick={() => this.logout()}>Log Out</a></li>
+                                    <li><a className="nav-link text-white mx-5" onClick={() => this.logout()}>Log Out</a></li>
                                 </>
-                                :   <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
+                                :   <li><a className="nav-link text-white mx-5" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" href={this.state.path}>Profile</a></li>
+                                <li><a className="nav-link text-white mx-3" href={this.state.path}>Profile</a></li>
                                 :
-                                <li><a className="nav-link text-white" href="/login">Log In</a></li>
+                                <li><a className="nav-link text-whit mx-3" href="/login">Log In</a></li>
                             )}
                         </ol>
                     </div>
