@@ -39,7 +39,7 @@ export class Navbar extends React.Component {
     }
 
     isManager = () => {
-        if (this.isLoggedIn() && this.state.authorityLevel > 0) {
+        if (this.isLoggedIn() && this.state.authorityLevel >= 2) {
             return true;
         }
         return false;

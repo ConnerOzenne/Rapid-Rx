@@ -148,6 +148,32 @@ export class Repository {
         })
     }
 
+    editMedicationInfo(newMedInfo, medId) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/medications/${medId}`, newMedInfo, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        });
+    }
+
+    createNewMedication(newMedInfo) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/medications/create`, newMedInfo, this.config)
+            .then(x => {
+                resolve(x.data)
+            })
+            .catch(e => {
+                alert(e);
+                reject(e);
+            });
+        });
+    }
+
     createOrder(order){
         return new Promise((resolve, reject) => {
             axios.post(`${this.url}/orders/create`, order).then(resp => {

@@ -5,27 +5,29 @@ import { Link, Redirect } from 'react-router-dom'
 
 export class EditMed extends React.Component {
 
+    // !USE THESE TWO API ROUTES:
+    // !app.put('/medications/:medicationID', (req, res) => {
+    // !app.post('/medications/create', (req, res) => {
+
     state = {
         medicationID: 0,
         name: '',
         sideEffects: '',
         description: '',
         price: 0,
-        usedFor: ''
+        usedFor: '',
+
+        priceMustBeNumber: false
     }
 
     repo = new Repository();
 
     componentDidMount() {
         let medId = +this.props.match.params.medId;
-        console.log("We have a medId maybe...")
-        console.log(medId)
-        if (medId) {
+        if (medId && medId != -1) {
             this.repo.getMedication(medId)
             .then(data => {
                 const res = data.data; 
-                console.log("EditMed: componentDidMount(): res...")
-                console.log(res);
                 this.setState({
                     medicationID: res[0].medicationID,
                     name: res[0].name,
@@ -34,18 +36,53 @@ export class EditMed extends React.Component {
                     price: res[0].price,
                     usedFor: res[0].usedFor
                 });
-                console.log("EditMed: componentDidMount(): state...");
-                console.log(this.state);
         })};
     }
 
     onSave = () => {
 
-        // If price isn't a number, break out of the function and generate a warning somehow.
-        
-        // Save the changes to the form as a POST request to the database
+        const pattern = /.*\D+.*/;
 
-        // Redirect back to MyPrescriptions
+        // If price isn't a number, break out of the function and generate a warning somehow.
+        if (pattern.test(this.state.price)) {
+             this.setState({priceMustBeNumber: true})
+             return;
+        }
+        else {
+            this.setState({price: parseInt(this.state.price), priceMustBeNumber: false})
+        }
+
+        // Shoulda created a model, lol
+        const med = {
+            name: this.state.name,
+            sideEffects: this.state.sideEffects,
+            description: this.state.description,
+            price: this.state.price, 
+            usedFor: this.state.usedFor
+        }
+
+        // Save the changes to the form as a POST or PUT  request to the database
+
+        console.log("this.state.medicationID: "+this.state.medicationID);
+        if (this.state.medicationID > 0) {
+            console.log("Editing a current medication...")
+            this.repo.editMedicationInfo(med, this.state.medicationID)
+            .then(data => {
+                // Redirect back to MyPrescriptions
+                this.setState({redirect: '/medList'})
+            })
+        }
+        else {
+            console.log("Creating a new medication...")
+            this.repo.createNewMedication(med)
+            .then(data => {
+                // Redirect back to MyPrescriptions
+                this.setState({redirect: '/medList'})
+            })
+        }
+    }
+
+    onCancel = () => {
         this.setState({redirect: '/medList'})
     }
 
@@ -91,8 +128,12 @@ export class EditMed extends React.Component {
                                 value={this.state.price}
                                 onChange={event => this.setState({price: event.target.value})}></input>
 
-                        <button className="btn btn-primary"
+                        <button className="btn btn-primary me-3"
                                 onClick={() => this.onSave()}>Save</button>
+                        <button className="btn btn-secondary mx-3"
+                                onClick={() => this.onCancel()}>Cancel</button>
+
+                        {this.state.priceMustBeNumber && <p className="alert alert-warning my-3">Price must be in whole dollars</p>}
                     </div>
                 </div>
             </>

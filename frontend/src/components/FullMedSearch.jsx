@@ -50,9 +50,9 @@ export class FullMedSearch extends React.Component {
             <div className="mx-5 p-5">
 
                 {
-                this.props.authorityLevel && this.props.authorityLevel > 0 ?
+                    this.props.authorityLevel && this.props.authorityLevel >= 2 && 
                     <p className="h5 font-italic font-weight-bold text-info">Welcome Pharmacy Manager! Click on the ID of a Medication to edit it.</p>
-                : <> </>}
+                }
 
                 <label htmlFor="searchby">Search By</label>
                 <select className="form-control col-md-6" 
@@ -86,7 +86,7 @@ export class FullMedSearch extends React.Component {
                                     this.filter(currMed) ? 
                                     <tr>
                                         {
-                                            this.props.authorityLevel > 0 ?
+                                            this.props.authorityLevel >= 2 ?
                                             <td>
                                                 <Link   className="btn btn-light border"
                                                         to={"/medlist/edit/"+currMed.medicationID}>
@@ -108,6 +108,13 @@ export class FullMedSearch extends React.Component {
                         }
                     </tbody>
                 </table>
+
+                {
+                    this.props.authorityLevel && this.props.authorityLevel >= 2 && 
+                    <Link to="/medlist/edit/0" className="btn btn-primary">
+                        New
+                    </Link>
+                }
             </div>
         </>
     }

@@ -24,10 +24,23 @@ export class MedList extends React.Component {
         }
     }
 
-        componentDidMount() {
-            let id = localStorage.getItem("userID");
-            this.getMeds(id);
+    componentDidMount() {
+        let id = localStorage.getItem("userID");
+        this.getMeds(id);
+
+        if (this.isLoggedIn()) {
+            this.repository.getUserInfo(localStorage.getItem("userID"))
+                .then(data => {
+                    const res = data.data;
+                    console.log("MedList - componentDidMount(): res...")
+                    console.log(res);
+                    this.setState({username: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
+                })
+                .catch(err => {
+                    console.log("No user info found")
+                })
         }
+    }
 
 
     getMeds = (id) => {
@@ -90,6 +103,9 @@ export class MedList extends React.Component {
                 <div className="Container" id="header">
                     
                     <h2>Prescriptions</h2>
+
+                    {this.isLoggedIn() && this.state.authorityLevel == 0 ?
+
                     <table className = "table" id="medtable">
                         <tr className="text-center" id="tableHeader">
                             <th scope= "col">Medication</th>
@@ -149,6 +165,7 @@ export class MedList extends React.Component {
                             ))
                         }
                     </table>
+                    : <FullMedSearch authorityLevel={this.state.authorityLevel}></FullMedSearch>}
                 </div>
             }
             </>

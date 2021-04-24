@@ -31,7 +31,14 @@ export class HomePage extends React.Component {
             this.repo.getUserInfo(localStorage.getItem("userID"))
                 .then(data => {
                     const res = data.data;
-                    this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
+                    
+                    let spaceLoc = res.data[0].name.indexOf(" ");
+                    if (spaceLoc >= 0) {
+                        this.setState({firstName: res.data[0].name.substring(0, spaceLoc), authorityLevel: res.data[0].authorityLevel});
+                    }
+                    else {
+                        this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel});
+                    }
                 })
                 .catch(err => {
                     console.log("No user info found")
