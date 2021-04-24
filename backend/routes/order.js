@@ -119,7 +119,7 @@ module.exports = function order(app, logger) {
     });
 
     // GET /orders/:pharmacyID
-    app.get('/order/:pharmacyID', (req, res) => {
+    app.get('/orders/:pharmacyID', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -128,7 +128,7 @@ module.exports = function order(app, logger) {
                 res.status(400).send('Problem obtaining MySQL connection');
             } else {
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT * FROM `rapidrx`.`orders` AS o WHERE o.pharmacyID = ?', [pharmacyID], function (err, rows, fields) {
+                connection.query('SELECT * FROM `rapidrx`.`orders` AS o JOIN `rapidrx`.`orderDetails` AS od WHERE o.pharmacyID = ?', [pharmacyID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
