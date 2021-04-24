@@ -191,6 +191,7 @@ module.exports = function pharmacy(app, logger) {
     }); 
 
     //user story 3.1, 3.2 get orders from certain pharmacy
+    //also satisfies 4.4
     app.get('/pharmacy/:pharmacyID/perscriptions', (req, res ) => {
         pool.getConnection(function (err, connection){
             if(err){
