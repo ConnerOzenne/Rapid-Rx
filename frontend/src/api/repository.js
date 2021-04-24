@@ -172,7 +172,7 @@ export class Repository {
 
     getFlagID(medicationID) {
         return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/flagID/${medicationID}`, this.config)
+            axios.post(`${this.url}/flag/medication/${medicationID}`, this.config)
             .then(x => resolve(x.data))
             .catch(error => {
                 alert(error);
@@ -181,16 +181,29 @@ export class Repository {
         });
     }
 
-    // updateFlagType(flagID) {
-    //     return new Promise((resolve, reject) => {
-    //         axios.post(`${this.url}/flag/${flagID}/update`, flag, this.config)
-    //         .then(x => resolve(x.data))
-    //         .catch(error => {
-    //             alert(error);
-    //             reject(error);
-    //         });
-    //     });
-    // }
+    //get flag using id
+
+    updateFlagType(flagID, flagType) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/flag/${flagID}/update`, flagType, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    getFlag(flagID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/flag/${flagID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
 
 
     // getPharmacy(pharmacyName) {
