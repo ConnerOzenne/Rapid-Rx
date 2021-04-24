@@ -72,7 +72,6 @@ export class Repository {
         });
     }
 
-<<<<<<< HEAD
     getAddressInfo(addressID) {
         return new Promise((resolve, reject) => {
             console.log(addressID)
@@ -87,7 +86,6 @@ export class Repository {
         });
     }
 
-=======
     getOrders(){
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/orders`, this.config)
@@ -221,7 +219,6 @@ export class Repository {
 
     
 
->>>>>>> origin/main
     updateAccount(id, account) {
         return new Promise((resolve, reject) => {
             axios.put(`${this.url}/${id}`, account, this.config)
@@ -235,7 +232,7 @@ export class Repository {
 
     updateAddress(id, address) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/${id}`, address, this.config)
+            axios.put(`${this.url}/address${id}`, address, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);

@@ -18,7 +18,9 @@ export class Navbar extends React.Component {
                 const res = data.data;
                 console.log("Navbar: componentDidMount(): res...");
                 console.log(res);
-                this.setState({authorityLevel: res.data[0].authorityLevel})
+                this.setState({authorityLevel: res.data[0].authorityLevel,
+                    path: "/profile/" + localStorage.getItem("userID")
+                })
             });
         }
     }
@@ -84,7 +86,7 @@ export class Navbar extends React.Component {
                                 :   <li><a className="nav-link text-white" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white" href="/profile/:userId">Profile</a></li>
+                                <li><a className="nav-link text-white" href={this.state.path}>Profile</a></li>
                                 :
                                 <li><a className="nav-link text-white" href="/login">Log In</a></li>
                             )}
