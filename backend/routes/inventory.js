@@ -14,7 +14,7 @@ module.exports = function inventory(app, logger) {
             } else {
                 var pharmacyID = req.params.pharmacyID
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT * FROM `rapidrx`.`inventory` AS i WHERE i.pharmacyID = ?', [pharmacyID], function (err, rows, fields) {
+                connection.query('SELECT `rapidrx`.`medications`.`medicationID`, `rapidrx`.`medications`.`name`, `rapidrx`.`medications`.`price`, `rapidrx`.`inventory`.`quantity` FROM `rapidrx`.`inventory` JOIN `rapidrx`.`medications` ON `rapidrx`.`inventory`.`medicationID` = `rapidrx`.`medications`.`medicationID` WHERE `rapidrx`.`inventory`.`pharmacyID` =?;', [pharmacyID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
