@@ -125,9 +125,9 @@ module.exports = function inventory(app, logger) {
         });
     });
 
-
-    //updating quantities in inventory 
+    // Update medication quantity for a specified pharmacy
     app.put('/inventories/update', (req, res) => {
+        console.log(req.params);
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
             if(err){
@@ -139,19 +139,17 @@ module.exports = function inventory(app, logger) {
                 var medicationID = req.body.medicationID
                 var quantity = req.body.quantity
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('UPDATE `rapidrx`.`inventory` SET `rapidrx`.`inventory`.`quantity` = ? WHERE `rapidrx`.`inventory`.`pharmacyID` = ? AND `rapidrx`.`inventory`.`medicationID` =?;', [quantity, pharmacyID, medicationID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`inventory` AS u SET u.quantity = ? WHERE u.pharmacyID = ? AND u.medicationID = ? (quantity, pharmacyID, medicationID) VALUES(?, ?, ?)', [quantity, pharmacyID, medicationID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
-                        logger.error("Error while fetching pharmacies: \n", err);
+                        logger.error("Error while updating inventory quantity: \n", err);
                         res.status(400).json({
                             "data": [],
                             "error": "Error obtaining values"
-                        })
-                    } else {
-                        res.status(200).json({
-                            "data": rows
                         });
+                    } else {
+                        res.status(200).json(rows)
                     }
                 });
             }
