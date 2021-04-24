@@ -17,7 +17,8 @@ export class HomePage extends React.Component {
         firstName: "_none_",
         authorityLevel: 0,
         searchOption: '',
-        searchText: ''
+        searchText: '',
+        message:''
     };
 
     isLoggedIn = () => {
@@ -44,6 +45,7 @@ export class HomePage extends React.Component {
         return (
             <>
                 <Navbar homepage={true}></Navbar>
+                {this.state.message && <h2>{this.state.message}</h2>}
                 <div className="homepage-header position-relative vh-100">
                     <img className="position-absolute homepage-img w-100" src="img/PillStock.jpg"></img>
                     <img className="position-absolute mobile-none h-50" src="img/Homepage-1.svg"></img>

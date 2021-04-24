@@ -156,7 +156,29 @@ export class Repository {
         });
     }
 
-    // // am i using this?
+    getFlagID(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/flagID/${medicationID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    // updateFlagType(flagID) {
+    //     return new Promise((resolve, reject) => {
+    //         axios.post(`${this.url}/flag/${flagID}/update`, flag, this.config)
+    //         .then(x => resolve(x.data))
+    //         .catch(error => {
+    //             alert(error);
+    //             reject(error);
+    //         });
+    //     });
+    // }
+
+
     // getPharmacy(pharmacyName) {
     //     return new Promise((resolve, reject) => {
     //         axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {

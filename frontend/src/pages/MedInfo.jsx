@@ -31,10 +31,18 @@ export class MedInfo extends React.Component {
         .then(medInfo => {
             this.setState({...medInfo.data[0]});
         });
+        // debugger;
         this.repository.getMedCompatibility(id)
         .then(x => {
-            this.setState({notCompatibleWith: x.data[0]});
+            console.log(x);
+            // debugger;
+            let notCompatibleWith = [...x.data];
+            this.setState({
+                ...this.state,
+                notCompatibleWith: notCompatibleWith
+            });
         });
+        // debugger;
     }
 
     render() {
@@ -52,7 +60,7 @@ export class MedInfo extends React.Component {
                 <Navbar norender={this.props.navbarnorender}></Navbar>
                 <div className="container py-5" id="hanging-icons">
                     <h2 className="pb-2 border-bottom">More Information</h2>
-                    <h2 className="text-center">{this.state.name}</h2>
+                    <h2 className="text-center" id="medName">{this.state.name}</h2>
                     <div className="row g-5 py-5">
                         <div className="col-md-4 d-flex align-items-start">
                         <div className="icon-square text-dark flex-shrink-0 me-3">
@@ -86,11 +94,15 @@ export class MedInfo extends React.Component {
                         </div>
                         <div>
                             <h2>Interactions</h2>
-                                {/* <p>{this.state.notCompatibleWith}</p> */}
+                            <p>Medications that are not compatible with {this.state.name} include:</p>
+                            { this.state.notCompatibleWith.map((interactions) => (
+                                <p className="d-inline">{interactions.name}, </p>
+                            ))}
+                               
                         </div>
                         </div>
                     </div>
-                    <Link to="/medlist" className="btn btn-secondary">Return to Prescriptions</Link>
+                    <Link to="/medlist" className="btn btn-secondary btn-block">Return to Prescriptions</Link>
                 </div> 
             </>
         );
