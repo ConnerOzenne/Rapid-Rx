@@ -188,9 +188,9 @@ export class Repository {
         });
     }
 
-    createOrder(order){
+    createOrderAndOrderDetails(order){
         return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/orders/create`, order).then(resp => {
+            axios.post(`${this.url}/ordersAndDetails/create`, order).then(resp => {
                     resolve(resp.data);
             }).catch(err => alert(err));
         });
@@ -207,7 +207,7 @@ export class Repository {
         });
     }
 
-    //get flag using id
+
 
     updateFlagType(flagID, flagType) {
         return new Promise((resolve, reject) => {
@@ -223,6 +223,17 @@ export class Repository {
     getFlag(flagID) {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/flag/${flagID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    getPharmacy(pharmacyID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/pharmacy/${pharmacyID}`, this.config)
             .then(x => resolve(x.data))
             .catch(error => {
                 alert(error);
