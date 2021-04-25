@@ -150,9 +150,9 @@ module.exports = function medication(app, logger) {
                 var price = req.body.price
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`medications` (name, sideEffects, usedFor, description, price) VALUES(?, ?, ?, ?, ?)',[name, sideEffects, usedFor, description, price], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) {
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating medication: \n", err); 
                         res.status(400).json({
                             "data": [],

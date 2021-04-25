@@ -146,9 +146,9 @@ module.exports = function appointment(app, logger) {
                 var orderID = req.body.orderID
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`appointments` (customerID, employeeID, date, orderID) VALUES(?, ?, ?, ?)',[customerID, employeeID, date, orderID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) {
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating appointment: \n", err); 
                         res.status(400).json({
                             "data": [],

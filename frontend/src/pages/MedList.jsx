@@ -59,37 +59,23 @@ export class MedList extends React.Component {
         return loggedIn;
     }
 
-    isFlagged = () => {
 
-    }
-
-    checkRefill = (pharmacyID, medicationID) => {
+    checkRefill = (med) => {
         let d = new Date();
+        // let d = "2021-05-24T20:59:01.000Z";
 
-        if(d == d) {
-            this.repository.createOrder({userID: localStorage.getItem("userID"), pharmacyID: pharmacyID, dateOrdered: d})
+        if(d == med.refillDate) {
+            // assuming that a medication will be available for refill one month after refilling
+            this.repository.createOrderAndOrderDetails({userID: localStorage.getItem("userID"), pharmacyID: med.pharmacyID, medicationID: med.medicationID, quantity: med.quantity, monthsTillRefill: 1, refillLeft: med.refillLeft})
             .then(x => {
+                // debugger;
                 console.log("Test func")
-                console.log(x)
-                
-                // const order = this.state.meds.find( ({element}) => element.medicationID == medicationID);
-                // console.log(order)
-                // // use find function to grab the specific medication by id from state
-                // var orderID = order.orderID;
-                // var quantity = order.quantity;
-                // var refillDate = order.refillDate;
-                // var totalCost = order.totalCost;
-                // using index to access specific order?
 
-                
-                // this.repository.createOrderDetails({orderID: orderID, medicationID: medicationID, quantity: quantity, refillDate: refillDate, totalCost: totalCost})
-
-                // do i need to change refill date in the table??
-                window.alert("Refill placed, pick up in 24 hours at Pharmacy Name");
+                window.alert(`Refill placed, pick up in 24 hours at ${med.pharmacyName}`);
             })
         }
         else {
-            window.alert("Not available for refill until refill date");
+            window.alert(`Not available for refill until ${med.refillDate.substring(0,10)}`);
         }
     }
 
@@ -103,9 +89,7 @@ export class MedList extends React.Component {
         return (
             <>
             <Navbar norender={this.props.navbarnorender}></Navbar>
-            { !this.isLoggedIn() && <Redirect to={{pathname: '/', state: {message: 'Please sign in to view your prescriptions'}}} /> }
-            {/* message does not display */}
-            {!this.isLoggedIn() && <div className="alert alert-danger" role="alert">User doesnt exist or wrong password</div> }
+            {!this.isLoggedIn() && <div className="alert alert-danger" role="alert">Please sign in to view your prescriptions</div> }
             {this.isLoggedIn() && 
                 <div className="container" id="header">
                     
@@ -113,43 +97,37 @@ export class MedList extends React.Component {
 
                     {this.isLoggedIn() && this.state.authorityLevel == 0 ?
 
-                    <table className = "table" id="medtable">
-                        <tr className="text-center" id="tableHeader">
-                            <th scope= "col">Medication</th>
-                            <th scope= "col">Dosage</th>
-                            <th scope="col">Pharmacy</th>
-                            <th scope="col">Total Cost</th>
-                            <th scope= "col">Refill Date</th>
-                            <th scope= "col">Refill Rx</th>
-                            <th scope= "col">More Information</th>
-                        </tr>
-                        { this.state.meds.map((med, index) => (
+                    <table className = "table table-striped" id="medtable">
+                        <thead>
+                            <tr className="text-center" id="tableHeader">
+                                <th scope= "col">Medication</th>
+                                <th scope= "col">Dosage</th>
+                                <th scope="col">Pharmacy</th>
+                                <th scope="col">Total Cost</th>
+                                <th scope= "col">Refill Date</th>
+                                <th scope= "col">Refill Rx</th>
+                                <th scope= "col">More Information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        { this.state.meds.map((med) => (
                                 <tr id="rows">
                                     <td className="text-center" scope="row" id="medName">{med.medName}</td>
                                     <td className="text-center" scope="row" id="dosage">{med.quantity} mg</td>
                                     <td className="text-center" scope="row" id="pharmacy">{med.pharmacyName}</td>
                                     <td className="text-center" scope="row" id="totalCost">${med.totalCost}</td>
-                                    <td className="text-center" scope="row" id="refillDate">{med.refillDate.substring(0,10)}</td>
+                                    <td className="text-center" scope="row" id="refillDate">{med.refillDate && med.refillDate.substring(0, 10)}</td>
                                     <td className="text-center" scope="row" id="refillRx">
-                                        <button id="btn-refill" className="btn btn-secondary"
-                                        onClick={ () => this.checkRefill(med.pharmacyID, med.medicationID) }>
+                                        <button className="btn btn-secondary"
+                                        onClick={ () => this.checkRefill(med) }>
                                             REFILL
                                             </button>
                                     </td>
-
-
-                                        <td className="text-center" scope="row" id="moreInfo"> <Link id="btn-moreinfo" className="btn btn-secondary" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
-
-                                        {/* <Router>
-     
-                                        </Router> */}
-                                    
-                    
-
-                                    {/* <MedInfo  medicationID={med.medicationID}/> */}
+                                    <td className="text-center" scope="row" id="moreInfo"> <Link className="btn btn-secondary" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
                                 </tr>
                             ))
                         }
+                        </tbody>
                     </table>
                     : <FullMedSearch authorityLevel={this.state.authorityLevel}></FullMedSearch>}
                 </div>

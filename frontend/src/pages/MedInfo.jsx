@@ -95,10 +95,11 @@ export class MedInfo extends React.Component {
                         <div>
                             <h2>Interactions</h2>
                             <p>Medications that are not compatible with {this.state.name} include:</p>
-                            { this.state.notCompatibleWith.map((interactions) => (
-                                <p className="d-inline">{interactions.name}, </p>
-                            ))}
-                               
+                            <p>
+                                { this.state.notCompatibleWith.map((interactions) => (
+                                    <span className="d-inline badge badge-pill badge-danger mr-1">{interactions.medTwo}</span>
+                                ))}
+                            </p> 
                         </div>
                         </div>
                     </div>
