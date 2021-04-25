@@ -63,9 +63,9 @@ module.exports = function user(app, logger) {
 
                 // if there is no issue obtaining a connection, execute query
                 connection.query('CALL CreateAccount(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',[username, password, email, name, pharmacyID, authorityLevel, phone, address, city, state, zipcode, country], function (err, rows, fields) {
+                    connection.release()
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating user: \n", err); 
                         res.status(400).json({
                             "data": [],
@@ -100,9 +100,9 @@ module.exports = function user(app, logger) {
                 IF((EXISTS(SELECT userID FROM `rapidrx`.`users` AS u WHERE u.username = ? AND u.password = ?)), (SELECT name FROM `rapidrx`.`users` AS u WHERE u.username = ?), null) AS name,\
                 IF((EXISTS(SELECT userID FROM `rapidrx`.`users` AS u WHERE u.username = ? AND u.password = ?)), (SELECT authorityLevel FROM `rapidrx`.`users` AS u WHERE u.username = ?), null) AS authorityLevel;',
                 [username, password, username, password, username, username, password, username, username, password, username, username, password, username], function (err, rows, fields) {
+                    connection.release()
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error loggin in user: \n", err); 
 
                         res.status(400).json({
@@ -134,9 +134,9 @@ module.exports = function user(app, logger) {
                 // if there is no issue obtaining a connection, execute query
                 var userID = req.params.userID
                 connection.query('SELECT u.name AS userName, m.name as medName, p.name as pharmacyName, m.medicationID as medicationID,  u.pharmacyID as pharmacyID, od.refillDate, od.quantity, od.totalCost from `rapidrx`.`users` AS u JOIN `rapidrx`.`orders` AS o on u.userID = o.userID JOIN `rapidrx`.`orderDetails` AS od ON o.orderID = od.orderID JOIN `rapidrx`.`medications` AS m ON m.medicationID = od.medicationID JOIN `rapidrx`.`pharmacies` AS p ON o.pharmacyID = p.pharmacyID WHERE u.userID = ?;', [userID], function (err, rows, fields) {
+                    connection.release()
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating user: \n", err); 
                         res.status(400).json({
                             "data": [],
@@ -384,9 +384,9 @@ app.put('/user/:userID/addresses', (req, res) => {
                 // if there is no issue obtaining a connection, execute query
                 var userID = req.params.userID
                 connection.query('SELECT * FROM `rapidrx`.`appointments` AS a WHERE a.customerID = ?', [userID], function (err, rows, fields) {
+                    connection.release()
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while getting appointments: \n", err); 
                         res.status(400).json({
                             "data": [],

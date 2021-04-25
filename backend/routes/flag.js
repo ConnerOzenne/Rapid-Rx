@@ -80,9 +80,9 @@ module.exports = function flag(app, logger) {
                 var flagType = req.body.flagType;
                 // if there is no issue obtaining a connection, execute query
                 connection.query('UPDATE `rapidrx`.`flags` AS n SET n.flagType = ? WHERE n.flagID = ?;',[flagType, flagID], function (err, rows, fields) {
+                    connection.release()
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating flagID: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"
@@ -111,9 +111,9 @@ module.exports = function flag(app, logger) {
                 var flagType = req.body.flagType
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`flags` (userID, medicationID, flagType, lastUpdated) VALUES(?, ?, ?, now())',[userID, medicationID, flagType], function (err, rows, fields) {
+                    connection.release()
                     if (err) {
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating flag: \n", err); 
                         res.status(400).json({
                             "data": [],
@@ -142,9 +142,9 @@ module.exports = function flag(app, logger) {
                 var flagID = req.params.flagID;
                 // if there is no issue obtaining a connection, execute query
                 connection.query('DELETE FROM `rapidrx`.`flags` AS f WHERE f.flagID = ?', [flagID], function (err, rows, fields) {
+                    connection.release()
                     if (err) { 
                         // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while deleting flag: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"

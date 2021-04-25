@@ -10,7 +10,6 @@ export class Login extends React.Component {
     repo = new Repository();
 
     state = {
-
       username: "",
       password: "",
       success: false,
@@ -24,7 +23,6 @@ export class Login extends React.Component {
     }
 
     handleLogin = () => {
-
       this.checkError();
       if (!this.state.error) {
 
@@ -34,38 +32,47 @@ export class Login extends React.Component {
           username: this.state.username,
           password: this.state.password,
         }
-        this.repo.login(json).then(data => {
+        console.log("UP:", json)
+        this.repo.login(json)
+        .then(data => {
           const res = data.data
           console.log("response.response", res.response)
           console.log("response.data[0]", res.data[0])
           
           // If login was successful
-          if (res.data[0].userID) {
+          if (res.response) {
             console.log("Login was successful")
             console.log("userID:", res.data[0].userID)
 
             newUserID = JSON.stringify(res.data[0].userID);
+            localStorage.setItem("userID", newUserID)
+
+            this.setState({
+              username: "",
+              password: "",
+              success: true,
+              error: false,
+              redirect: "/"
+            });
+
           }
           // If the username wasn't found in the Database, let the user know.
           else {  
             console.log('No user found')
-            this.setState({error: true, success: false, errorMsg: "Invalid username or password"})
+            this.setState({
+              success: false, 
+              errorMsg: "Invalid username or password",
+              error: true,
+              username: "",
+              password: ""
+            })
           }
 
           // Update session storage and state based on newUserID
-          localStorage.setItem("userID", newUserID)
-          this.setState({
-            username: "",
-            password: "",
-            success: true,
-            error: false,
-            errorMsg: "",
-            userID: newUserID,
-            redirect: "/"
-          });
+          
         })
         .catch( e => {
-          this.setState({error: true, errorMsg: "Invalid username or password"});
+          this.setState({error: true, errorMsg: e});
         });
       }
     }
@@ -73,8 +80,11 @@ export class Login extends React.Component {
     checkError = () => {
       if (this.state.username == "")
         this.setState({errorMsg: "Username is required", error: true})
-      if (this.state.password == "")
+      else if (this.state.password == "")
         this.setState({errorMsg: "Password is required", error: true})
+      else {
+        this.setState({error: false})
+      }
       //Fill in errors from post request
     }
 
@@ -105,8 +115,8 @@ export class Login extends React.Component {
             onChange={e => this.setState({password: e.target.value})}
           />
           <br></br>
-          {this.state.error && <div className="alert alert-danger" role="alert">User doesnt exist or wrong password</div>}
-          <button className="btn btn-primary btn-block btn-login" onClick={this.handleLogin}>
+          {this.state.error && <div className="alert alert-danger">{this.state.errorMsg}</div>}
+          <button className="form-control btn btn-primary btn-block btn-login" onClick={this.handleLogin}>
             Login
             </button>
           <br></br>
@@ -114,7 +124,6 @@ export class Login extends React.Component {
           <Link to="/create">
             Create Account
           </Link>
-          {this.state.success && console.log('LOGIN SUCCESSFUL')}
         </div>
         </>
       );
