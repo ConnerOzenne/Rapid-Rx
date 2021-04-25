@@ -118,9 +118,9 @@ module.exports = function address(app, logger) {
                 var country = req.body.country
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`addresses` (address, city, state, zipcode, country) VALUES(?, ?, ?, ?, ?)',[address, city, state, zipcode, country], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) {
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating address: \n", err); 
                         res.status(400).json({
                             "data": [],
