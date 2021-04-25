@@ -303,6 +303,27 @@ export class Repository {
         });
     }
 
+    getAppointmentsForEmployee(employeeId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/appointment/${employeeId}`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    createAppointment(appointmentInfo) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/appointments/create`, appointmentInfo, this.config)
+            .then(resp =>  {
+                resolve(resp.data);
+            })
+            .catch(err => alert(err));
+        });
+    }
+
     // TODO: THERE MAY BE MULTIPLE VERSIONS OF THIS SAME API CALL, 
     // MAKE SURE THERE'S ONLY ONE AT THE END OF DEVELOPMENT...
 

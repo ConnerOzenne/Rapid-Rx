@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { pharmManager } from './pages/pharmManager';
 import { EditMed } from './pages/EditMed';
 import { Appointments } from './pages/Appointments';
+import { BookAppt } from './pages/BookAppt'
 // import { Home } from ./pages/Home.jsx
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
             <Route path="/medinfo/:medicationID" component={MedInfo}/>
+            <Route path="/appointments/:employeeId" component={BookAppt}/>
             <Route path="/appointments" component={Appointments}/>
             <Route path="/" component={HomePage}/>
         </Switch>

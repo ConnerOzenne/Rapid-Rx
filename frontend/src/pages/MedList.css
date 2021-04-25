@@ -59,9 +59,11 @@ button {
 }
 
 #btn-refill {
+    border-color: #229631;
     background-color: #229631;
   }
   
 #btn-moreinfo {
-  background-color: #3CB0CD;
+    border-color: #3CB0CD;
+    background-color: #3CB0CD;
 }

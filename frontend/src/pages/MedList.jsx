@@ -100,13 +100,13 @@ export class MedList extends React.Component {
             <Navbar norender={this.props.navbarnorender}></Navbar>
             { !this.isLoggedIn() && <Redirect to={{pathname: '/', state: {message: 'Please sign in'}}} /> }
             {this.isLoggedIn() && 
-                <div className="Container" id="header">
+                <div className="container" id="header">
                     
                     <h2>Prescriptions</h2>
 
                     {this.isLoggedIn() && this.state.authorityLevel == 0 ?
 
-                    <table className = "table" id="medtable">
+                    <table className = "table table-striped" id="medtable">
                         <tr className="text-center" id="tableHeader">
                             <th scope= "col">Medication</th>
                             <th scope= "col">Dosage</th>
