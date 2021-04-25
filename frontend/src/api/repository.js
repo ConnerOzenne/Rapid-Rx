@@ -279,9 +279,21 @@ export class Repository {
 
     
 
-    updateAccount(id, account) {
+    updateAccount(user) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/profile/${id}`, account, this.config)
+            axios.put(`${this.url}/profile/${user.id}`, user, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    console.log(user);
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    updateInventory(json) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/inventories/update`, json, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);

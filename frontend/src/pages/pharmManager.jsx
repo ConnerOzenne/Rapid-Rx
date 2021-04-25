@@ -10,8 +10,8 @@ export class PharmManager extends React.Component {
     employee = ["Name"];
 
     state = {
-        
-    };
+        pharmacyID: +this.props.match.params.pharmacyID,
+    }
 
     isLoggedIn = () => {
         let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
@@ -19,10 +19,8 @@ export class PharmManager extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Pharmacy Manager: componentDidMount()")
-        if (this.isLoggedIn()) {
-            //do nothing for now
-        }
+        //debugger;
+        console.log("Pharmacy Manager: componentDidMount()")  
     }
 
     render() {

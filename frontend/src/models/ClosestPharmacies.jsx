@@ -7,12 +7,17 @@ export class ClosestPharmacies extends React.Component {
 
     repo = new Repository();
 
-    state = {
-        zipcode: '',
-        pharmacies: [],
-        table: false,
-        isAuth: false
+    constructor(props){
+        super(props);
+
+        this.state = {
+            zipcode: '',
+            pharmacies: [],
+            table: false,
+            isAuth: false
+        }
     }
+    
 
     getRouteToPage() {
         if (this.props.auth === 2 || this.props.auth === 1) {

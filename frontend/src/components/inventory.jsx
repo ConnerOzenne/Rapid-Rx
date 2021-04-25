@@ -1,23 +1,19 @@
 import { render } from "react-dom"
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Repository } from "../api/repository";
 
 export class Inventory extends React.Component {
 
     repo = new Repository();
 
-    constructor(props){
-        super(props);
-
-        this.state = {
-            meds: [],
-            searchOption: 'Medication ID',
-            searchText: '',
-            pharmacyId: 1
-
-        };
-    }
+    state = {
+        meds: [],
+        searchOption: 'Medication ID',
+        searchText: '',
+        pharmacyID: 1,
+        update: false
+    };
     
 
     searchOptions = [
@@ -28,11 +24,26 @@ export class Inventory extends React.Component {
     ]
 
     componentDidMount() {
-        this.repo.getInventory(this.state.pharmacyId)
-            .then(data => {
-                const res = data.data;
-                this.setState({meds: res});
+        //console.log();
+        //debugger;
+        this.repo.getInventory(this.state.pharmacyID)
+            .then(x => {
+                const res2 = x.data;
+                this.setState({meds: res2});
             })
+}
+
+    updateActive(){
+        this.setState({update: true});
+    }
+
+    submitChange(medID, quantity){
+        let json = {
+            pharmacyID: this.state.pharmacyID,
+            medID: medID,
+            quantity: quantity
+        }
+        this.repo.updateInventory(json);
     }
 
     filter(currMed) {
@@ -101,10 +112,17 @@ export class Inventory extends React.Component {
                                         }
                                         <td>{currMed.name}</td>
                                         <td>
-                                            {currMed.quantity}
+                                        {this.state.update  ?
+                                            <form><input type="text" class="form" id="quantity" placeholder={currMed.quantity} 
+                                            onChange={event => this.currMed.quantity =  event.target.value}/></form>
+                                        : currMed.quantity}
                                         </td>
                                         <td>${currMed.price}</td>
-                                        <td><button className="btn btn-secondary">Update</button></td>
+                                        <td>
+                                        {this.state.update  ?
+                                        <button className="btn btn-secondary" onClick={this.submitChange(currMed.medicationID, currMed.quantity)}>Submit</button>
+                                        : <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update</button>}
+                                        </td>
                                         <td><button className="btn btn-secondary">Request</button></td>
                                     </tr> 
                                     : <>{console.log("FALSE")}</>

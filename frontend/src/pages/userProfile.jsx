@@ -18,10 +18,14 @@ export class UserProfile extends React.Component{
         return loggedIn;
     }
 	
-	update = () => {
-		let user = new User(this.state.id, this.state.name, this.state.addressID, 
-			this.state.username, this.state.password, this.state.email, 
-			this.state.pharmacyID, 0, this.state.phone);
+	updateProfile() {
+		let user = {
+			userID: this.state.id,
+			username: this.state.username,  
+		 	email: this.state.email, 
+			name: this.state.name, 
+			phone: this.state.phone
+		};
 		let address = {
 			city: this.state.city,
 			state: this.state.state,
@@ -29,7 +33,8 @@ export class UserProfile extends React.Component{
 			zip: this.state.zip,
 			country: this.state.country
 		};
-		this.repo.updateAccount(this.state.id, user);
+		console.log(user);
+		this.repo.updateAccount(user);
 		//this.repo.updateAddress(this.state.addressID, address);
 	}
 	
@@ -85,24 +90,21 @@ export class UserProfile extends React.Component{
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="fullName">Full Name</label>
-								<input type="text" class="form-control" id="fullName" placeholder="Enter full name" 
-								value={this.state.name}
+								<input type="text" class="form-control" id="fullName" placeholder={this.state.name}
                     			onChange={event => this.state.name =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="eMail">Email</label>
-								<input type="email" class="form-control" id="eMail" placeholder="Enter email"
-								value={this.state.email}
+								<input type="email" class="form-control" id="eMail" placeholder={this.state.email}
                     			onChange={event => this.state.email =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="phone">Phone</label>
-								<input type="text" class="form-control" id="phone" placeholder="Enter phone number"
-								value={this.state.phone}
+								<input type="text" class="form-control" id="phone" placeholder={this.state.phone}
                     			onChange={event => this.state.phone =  event.target.value}/>
 							</div>
 						</div>
@@ -114,32 +116,28 @@ export class UserProfile extends React.Component{
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="street">Street</label>
-								<input type="name" class="form-control" id="street" placeholder="Enter Street"
-								value={this.state.address}
+								<input type="name" class="form-control" id="street" placeholder={this.state.address}
                     			onChange={event => this.state.address =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="city">City</label>
-								<input type="name" class="form-control" id="city" placeholder="Enter City"
-								value={this.state.city}
+								<input type="name" class="form-control" id="city" placeholder={this.state.city}
                     			onChange={event => this.state.city =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="state">State</label>
-								<input type="text" class="form-control" id="state" placeholder="Enter State"
-								value={this.state.state}
+								<input type="text" class="form-control" id="state" placeholder={this.state.state}
                     			onChange={event => this.state.state =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="zip">Zip Code</label>
-								<input type="text" class="form-control" id="zip" placeholder="Zip Code"
-								value={this.state.zip}
+								<input type="text" class="form-control" id="zip" placeholder={this.state.zip}
                     			onChange={event => this.state.zip =  event.target.value}/>
 							</div>
 						</div>
@@ -147,7 +145,7 @@ export class UserProfile extends React.Component{
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="text-right">
-								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update()}>Update</button>
+								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.updateProfile}>Update</button>
 							</div>
 						</div>
 					</div>
