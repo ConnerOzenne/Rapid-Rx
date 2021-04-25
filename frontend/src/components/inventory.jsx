@@ -37,13 +37,15 @@ export class Inventory extends React.Component {
         this.setState({update: true});
     }
 
-    submitChange(medID, quantity){
+    submitChange(medID, quantity, e){
         let json = {
             pharmacyID: this.state.pharmacyID,
             medID: medID,
             quantity: quantity
         }
+        e.preventDefault();
         this.repo.updateInventory(json);
+        this.setState({update: false})
     }
 
     filter(currMed) {
@@ -113,8 +115,8 @@ export class Inventory extends React.Component {
                                         <td>{currMed.name}</td>
                                         <td>
                                         {this.state.update  ?
-                                            <form><input type="text" class="form" id="quantity" placeholder={currMed.quantity} 
-                                            onChange={event => this.currMed.quantity =  event.target.value}/></form>
+                                            <input type="text" class="form-control" id="quantity" placeholder={currMed.quantity} 
+                                            onChange={event => this.currMed.quantity =  event.target.value}/>
                                         : currMed.quantity}
                                         </td>
                                         <td>${currMed.price}</td>

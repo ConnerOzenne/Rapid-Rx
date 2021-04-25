@@ -19,6 +19,7 @@ export class UserProfile extends React.Component{
     }
 	
 	updateProfile() {
+		debugger;
 		let user = {
 			userID: this.state.id,
 			username: this.state.username,  
@@ -39,6 +40,7 @@ export class UserProfile extends React.Component{
 	}
 	
 	componentDidMount() {
+		debugger;
         console.log("User Profile: componentDidMount()")
         if (this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID"))
