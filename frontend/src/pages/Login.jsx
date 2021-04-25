@@ -47,7 +47,7 @@ export class Login extends React.Component {
             newUserID = JSON.stringify(res.data[0].userID);
           }
           // If the username wasn't found in the Database, let the user know.
-          else {
+          else {  
             console.log('No user found')
             this.setState({error: true, success: false, errorMsg: "Invalid username or password"})
           }
@@ -63,17 +63,6 @@ export class Login extends React.Component {
             userID: newUserID,
             redirect: "/"
           });
-          // !Below code is probably not needed
-          // if (data == "invalid") {
-          //     this.setState({error: true, errorMsg: "Invalid username or password"});
-          //     return;
-          // }
-          // this.setState({uid: data.data.split(":")[0]});
-          // window.cookie = data.data;
-          // setTimeout(() => {
-          //     this.props.onLogin(this.state.uid);
-          //     this.setState({success: true});
-          // }, 1000);
         })
         .catch( e => {
           this.setState({error: true, errorMsg: "Invalid username or password"});
@@ -96,8 +85,8 @@ export class Login extends React.Component {
       }
       return (<>
         <Navbar></Navbar>
-        <div className="container my-5">
-          <h3>Login</h3>
+        <div className="container">
+          <h3 className="mt-3">Login</h3>
           <label htmlFor="username">Username </label>
           <input className="form-control" 
             type="text" 
@@ -125,8 +114,7 @@ export class Login extends React.Component {
           <Link to="/create">
             Create Account
           </Link>
-          {this.state.success && console.log('THE LOGIN WAS SUCCESSFUL')}
-          {/* {this.state.success && <Redirect to="/home"/>} */}
+          {this.state.success && console.log('LOGIN SUCCESSFUL')}
         </div>
         </>
       );

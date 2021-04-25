@@ -121,8 +121,8 @@ module.exports = function user(app, logger) {
         });
     });
 
-//user story 7.3
-//i want to see the prescription that my doctor has written for me
+    //user story 7.3
+    //i want to see the prescription that my doctor has written for me
     app.get('/user/:userID/medications', (req, res) => {
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
