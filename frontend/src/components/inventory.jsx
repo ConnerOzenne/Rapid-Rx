@@ -13,7 +13,9 @@ export class Inventory extends React.Component {
         this.state = {
             meds: [],
             searchOption: 'Medication ID',
-            searchText: ''
+            searchText: '',
+            pharmacyId: 1
+
         };
     }
     
@@ -26,7 +28,7 @@ export class Inventory extends React.Component {
     ]
 
     componentDidMount() {
-        this.repo.getinventory(1)
+        this.repo.getInventory(this.state.pharmacyId)
             .then(data => {
                 const res = data.data;
                 this.setState({meds: res});
