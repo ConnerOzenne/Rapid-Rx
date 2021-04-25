@@ -58,10 +58,10 @@ button {
     padding:10px;
 }
 
-#btn-refill {
+#myappointments {
+    background-color: #B4E7F8;
+}
+
+#btn-book {
     background-color: #229631;
-  }
-  
-#btn-moreinfo {
-  background-color: #3CB0CD;
 }

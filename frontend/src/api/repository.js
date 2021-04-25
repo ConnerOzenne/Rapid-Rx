@@ -43,6 +43,20 @@ export class Repository {
     }
 
     // Given a userID, return all the user info for that user.
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/users`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("repo.getUsers: error")
+                console.log(e)
+            })
+        });
+    }
+
+    // Given a userID, return all the user info for that user.
     getUserInfo(userID) {
         return new Promise((resolve, reject) => {
             console.log(userID)

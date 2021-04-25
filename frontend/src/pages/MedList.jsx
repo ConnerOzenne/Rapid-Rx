@@ -125,7 +125,7 @@ export class MedList extends React.Component {
                                     <td className="text-center" scope="row" id="totalCost">${med.totalCost}</td>
                                     <td className="text-center" scope="row" id="refillDate">{med.refillDate.substring(0,10)}</td>
                                     <td className="text-center" scope="row" id="refillRx">
-                                        <button className="btn btn-secondary"
+                                        <button id="btn-refill" className="btn btn-secondary"
                                         onClick={ () => this.checkRefill(med.pharmacyID, med.medicationID) }>
                                             REFILL
                                             </button>
@@ -152,7 +152,7 @@ export class MedList extends React.Component {
                                         </Router> */}
 
 
-                                        <td className="text-center" scope="row" id="moreInfo"> <Link className="btn btn-secondary" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
+                                        <td className="text-center" scope="row" id="moreInfo"> <Link id="btn-moreinfo" className="btn btn-secondary" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
 
                                         {/* <Router>
      

@@ -92,9 +92,9 @@ export class Navbar extends React.Component {
                                 :   <li><a className="nav-link text-white mx-5" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
-                                <li><a className="nav-link text-white mx-3" href={this.state.path}>Profile</a></li>
+                                <li><a className="nav-link text-white px-3" href={this.state.path}>Profile</a></li>
                                 :
-                                <li><a className="nav-link text-white mx-3" href="/login">Log In</a></li>
+                                <li><a className="nav-link text-white px-3" href="/login">Log In</a></li>
                             )}
                         </ol>
                     </div>
