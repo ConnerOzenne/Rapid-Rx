@@ -240,6 +240,37 @@ module.exports = function user(app, logger) {
         });
     });
 
+    // GET /user/:userID/flags
+    //get a user's flags
+    app.get('/user/:userID/flags', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                var userID = req.params.userID
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`flags` AS f WHERE f.userID = ?', [userID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching userID orders: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        });
+                    } else {
+                        res.status(200).json({
+                            "data": rows
+                        });
+                    }
+                });
+            }
+        });
+    });
+
 
 //update addresses
 app.put('/user/:userID/addresses', (req, res) => {
@@ -251,11 +282,11 @@ app.put('/user/:userID/addresses', (req, res) => {
             res.status(400).send('Problem obtaining MySQL connection'); 
         } else {
             var userID = req.params.userID
-            var address = req.body.address
-            var city = req.body.city
-            var state = req.body.state
-            var zipcode = req.body.zipcode
-            var country = req.body.country 
+            var address = req.body.address.address
+            var city = req.body.address.city
+            var state = req.body.address.state
+            var zipcode = req.body.address.zipcode
+            var country = req.body.address.country 
 
             // if there is no issue obtaining a connection, execute query and release connection
             connection.query('update addresses join users on users.addressID = addresses.addressID set users.addressID = addresses.addressID, address =?, city = ?, state = ?, zipcode =?,country =? where userID = ?;', [address,city,state,zipcode,country,userID], function (err, rows, fields) {
@@ -289,10 +320,10 @@ app.put('/user/:userID/addresses', (req, res) => {
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
                 var userID = req.params.userID
-                var username = req.body.username
-                var email = req.body.email
-                var name = req.body.name
-                var phone = req.body.phone 
+                var username = req.body.user.username
+                var email = req.body.user.email
+                var name = req.body.user.name
+                var phone = req.body.user.phone 
                 // if there is no issue obtaining a connection, execute query and release connection
                 connection.query('UPDATE `rapidrx`.`users` AS u SET u.username = ?, u.email = ?, u.name = ?, u.phone = ? WHERE u.userID = ?;', [username, email, name, phone, userID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error

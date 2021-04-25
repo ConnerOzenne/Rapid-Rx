@@ -9,19 +9,6 @@ h2 {
     padding: 5px;
 }
 
-/* #tableHeader {
-    background-color: #7CD5F3;
-} */
-
-/* table {
-    background: #B4E7F8;
-} */
-
-
-#medListHeader {
-    padding: 10px;
-}
-
 /* ul {
     background-color: #152528;
     margin: 0px;
@@ -71,12 +58,10 @@ button {
     padding:10px;
 }
 
-#btn-refill {
-    border-color: #229631;
+#myappointments {
+    background-color: #B4E7F8;
+}
+
+#btn-book {
     background-color: #229631;
-  }
-  
-#btn-moreinfo {
-    border-color: #3CB0CD;
-    background-color: #3CB0CD;
 }

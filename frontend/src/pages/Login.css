@@ -25,5 +25,6 @@ button, input {
 
 button {
     background-color: green;
+    border-color: green;
     border-radius: .25px;
  }
