@@ -3,6 +3,7 @@ import { Repository } from '../api/repository';
 import { Redirect } from 'react-router-dom'
 
 import { Navbar } from '../components/Navbar'
+import { Appointment } from '../models/appointment';
 
 export class BookAppt extends React.Component {
 
@@ -21,8 +22,15 @@ export class BookAppt extends React.Component {
         return loggedIn;
     }
 
-    getDates = () => {
+    formatDateTime = (date,time) => {
 
+        let hr12to24 = (parseInt(time.substring(0,time.indexOf(':'))) + 12)
+
+        let timeSub = + hr12to24 + (time.charAt(1) == '0' ? time.substring(2,5) : time.substring(1,4));
+    
+        // ONLY WORKS FOR 'pm' TIMES
+        let newTime = timeSub + ":00";
+        return date + "T" + newTime
     }
 
     checkConflict = date => {
@@ -61,8 +69,20 @@ export class BookAppt extends React.Component {
         };
     }
 
-    onSave = () => {
+    onSave() {
 
+        console.log("onSave")
+        debugger;
+        
+        let newAppointment = new Appointment(   localStorage.getItem("userID"), 
+                                                this.state.employee.userID,
+                                                this.formatDateTime(this.state.date,this.state.time),
+                                                0);
+
+        this.repo.createAppointment(newAppointment)
+        .then(data =>
+            console.log("New Appointment created")
+        )
         // const pattern = /.*\D+.*/;
 
         // // If price isn't a number, break out of the function and generate a warning somehow.
@@ -106,10 +126,6 @@ export class BookAppt extends React.Component {
 
     onCancel = () => {
         this.setState({redirect: '/appointments'})
-    }
-
-    getDates = () => {
-
     }
 
     render() {
@@ -179,15 +195,15 @@ export class BookAppt extends React.Component {
                                 value={this.state.time}
                                 onChange={e => this.setState({time: e.target.value})}>
                                     // TODO: Map this to a time array
-                                    <option value="volvo">1:00pm</option>
-                                    <option value="saab">1:30pm</option>
-                                    <option value="saab">2:00pm</option>
-                                    <option value="saab">2:30pm</option>
-                                    <option value="saab">3:00pm</option>
-                                    <option value="saab">3:30pm</option>
-                                    <option value="saab">4:00pm</option>
-                                    <option value="saab">4:30pm</option>
-                                    <option value="saab">5:00pm</option>
+                                    <option>1:00pm</option>
+                                    <option>1:30pm</option>
+                                    <option>2:00pm</option>
+                                    <option>2:30pm</option>
+                                    <option>3:00pm</option>
+                                    <option>3:30pm</option>
+                                    <option>4:00pm</option>
+                                    <option>4:30pm</option>
+                                    <option>5:00pm</option>
                         </select>
 
                         <button className="btn btn-primary me-3"

@@ -9,7 +9,13 @@ export class Appointments extends React.Component{
     repo = new Repository();
 
     state = {
-        users: []
+        users: [],
+        appointments: []
+    }
+
+    isLoggedIn = () => {
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
     }
 
     componentDidMount() {
@@ -22,6 +28,17 @@ export class Appointments extends React.Component{
             this.setState({users: res})
             console.log(this.state);
         });
+
+        if (this.isLoggedIn()) { 
+            this.repo.getAppointmentsForCustomer(localStorage.getItem("userID"))
+            .then (data => {
+                const res = data.data;
+                this.setState({appointments: res});
+                
+                console.log("appointments:")
+                console.log(this.state.appointments);
+            });
+        }
     }
 
     getPharmacyWorkers() {
@@ -35,13 +52,56 @@ export class Appointments extends React.Component{
         return pharmacyWorkers;
     }
 
+    // getPharmacyName = pharmacyID => {
+
+    //     this.repo.getPharmacyInfo(pharmacyID)
+    //     .then (data => {
+    //         const res = data.data;
+    //         return res.data[0].name;
+    //     })
+    // }
+
     render() {
         return (
             <>
                 <Navbar></Navbar>
                 <div id="myappointments" className="my-5 container-md jumbotron">
                     <h2 className="mb-5">My Appointments</h2>
-                    <table className="table table-striped">
+
+                    {
+                        this.state.appointments.length > 0 ?
+                            <div>
+                                <table className="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                        this.state.appointments.map(appointment => (
+                                            appointment.date.charAt(13) == '0' ? 
+                                            <tr>
+                                                <td>{appointment.date.substring(0, 10)}</td>
+                                                <td>{appointment.date.substring(12, 17)}</td>
+                                            </tr>    
+                                                :
+                                            <tr>
+                                                <td>{appointment.date.substring(0, 10)}</td>
+                                                <td>{appointment.date.substring(12, 16)}</td>
+                                            </tr> 
+                                        ))
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                        :
+                        <p>No appointments scheduled yet!</p>
+                        }
+
+                    {/* <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>Sunday</th>
@@ -58,7 +118,7 @@ export class Appointments extends React.Component{
                                 <td>Doctor one - 4pm</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
                 <div className="my-5 container-md">
 
@@ -76,7 +136,6 @@ export class Appointments extends React.Component{
                             <tr>
                                 <th>Name</th>
                                 <th>Pharmacy</th>
-                                <th>Pharmacy Address</th>
                                 <th>Phone Number</th>
                                 <th>Book Appointment</th>
                             </tr>
@@ -86,8 +145,8 @@ export class Appointments extends React.Component{
                                 this.getPharmacyWorkers().map(worker => (
                                     <tr className="">
                                         <td>{worker.name}</td>
+                                        {/* <td>{this.getPharmacyName(worker.pharmacyID)}</td> */}
                                         <td>{worker.pharmacyID}</td>
-                                        <td></td>
                                         <td>{worker.phone}</td>
                                         <td><Link to={"/appointments/"+worker.userID} id="btn-book" className="btn btn-primary">Book</Link></td>
                                     </tr>
