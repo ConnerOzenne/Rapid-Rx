@@ -150,9 +150,9 @@ module.exports = function request(app, logger) {
                 var isComplete = req.body.isComplete
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`requests` (requestID, pharmacyID_source, pharmacyID_dest, medicationID, quantity, date_requested, isComplete) VALUES(?, ?, ?, ?, ?, ?, 0)',[requestID, pharmacyID_source, pharmacyID_dest, medicationID, quantity, date_requested, isComplete], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) {
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating request: \n", err); 
                         res.status(400).json({
                             "data": [],
@@ -183,9 +183,9 @@ module.exports = function request(app, logger) {
                 var requestID = req.params.requestID;
                 // if there is no issue obtaining a connection, execute query
                 connection.query('UPDATE `rapidrx`.`requests` AS n SET n.quantity = ? WHERE n.requestID = ? (quantity, requestID) VALUES(?, ?)',[quantity, requestID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) { 
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while updating request: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"
@@ -211,9 +211,9 @@ module.exports = function request(app, logger) {
                 var requestID = req.params.requestID;
                 // if there is no issue obtaining a connection, execute query
                 connection.query('UPDATE `rapidrx`.`notifications` AS n SET isComplete = 1 WHERE n.requestID = ?',[requestID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) { 
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while updating request: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"

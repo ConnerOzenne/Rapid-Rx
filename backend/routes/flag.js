@@ -33,8 +33,36 @@ module.exports = function flag(app, logger) {
         });
     });
 
+    // GET /flags
+    //get all flags
+    app.get('/flags', (req, res) => {
+        // obtain a connection from our pool of connections
+        pool.getConnection(function (err, connection){
+            if(err){
+                // if there is an issue obtaining a connection, release the connection instance and log the error
+                logger.error('Problem obtaining MySQL connection',err)
+                res.status(400).send('Problem obtaining MySQL connection'); 
+            } else {
+                // if there is no issue obtaining a connection, execute query and release connection
+                connection.query('SELECT * FROM `rapidrx`.`flags`', function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
+                    if (err) {
+                        logger.error("Error while fetching users: \n", err);
+                        res.status(400).json({
+                            "data": [],
+                            "error": "Error obtaining values"
+                        })
+                    } else {
+                        res.status(200).json(rows);
+                    }
+                });
+            }
+        });
+    });
+
     //get flagid based on medid
-    app.get('/flag/medication/:medicationID', (req, res) => {
+    app.get('/flags/medication/:medicationID', (req, res) => {
         console.log(req.params.medicationID)
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -45,7 +73,7 @@ module.exports = function flag(app, logger) {
             } else {
                 var medicationID = req.params.medicationID
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT `rapidrx`.`flags`.`flagID` FROM `rapidrx`.`flags` where `rapidrx`.`flags`.`medicationID` =?; ', [medicationID], function (err, rows, fields) {
+                connection.query('SELECT * FROM `rapidrx`.`flags` AS f where f.medicationID = ?;', [medicationID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
@@ -142,9 +170,9 @@ module.exports = function flag(app, logger) {
                 var flagID = req.params.flagID;
                 // if there is no issue obtaining a connection, execute query
                 connection.query('DELETE FROM `rapidrx`.`flags` AS f WHERE f.flagID = ?', [flagID], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) { 
-                        // if there is an error with the query, release the connection instance and log the error
                         logger.error("Error while deleting flag: \n", err); 
                         res.status(400).json({
                             "error": "MySQL error"

@@ -52,9 +52,9 @@ module.exports = function notification(app, logger) {
                 }
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`notifications` (userID, message, date, authorityLevel, seen) VALUES(?, ?, ?, ?, 0)',[userID, message, date, authorityLevel], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) { 
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating notification: \n", err); 
                         res.status(400).json({
                             "data": [],

@@ -30,7 +30,7 @@ export class UserProfile extends React.Component{
 			country: this.state.country
 		};
 		this.repo.updateAccount(this.state.id, user);
-		this.repo.updateAddress(this.state.addressID, address);
+		//this.repo.updateAddress(this.state.addressID, address);
 	}
 	
 	componentDidMount() {
@@ -102,8 +102,8 @@ export class UserProfile extends React.Component{
 							<div class="form-group">
 								<label for="phone">Phone</label>
 								<input type="text" class="form-control" id="phone" placeholder="Enter phone number"
-								value={this.state.contactInfo}
-                    			onChange={event => this.state.contactInfo =  event.target.value}/>
+								value={this.state.phone}
+                    			onChange={event => this.state.phone =  event.target.value}/>
 							</div>
 						</div>
 					</div>
@@ -115,8 +115,8 @@ export class UserProfile extends React.Component{
 							<div class="form-group">
 								<label for="street">Street</label>
 								<input type="name" class="form-control" id="street" placeholder="Enter Street"
-								value={this.state.streetAddress}
-                    			onChange={event => this.state.streetAddress =  event.target.value}/>
+								value={this.state.address}
+                    			onChange={event => this.state.address =  event.target.value}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -147,7 +147,7 @@ export class UserProfile extends React.Component{
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="text-right">
-								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update}>Save</button>
+								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update()}>Update</button>
 							</div>
 						</div>
 					</div>
