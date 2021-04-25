@@ -137,7 +137,6 @@ export class Repository {
     }
     
     getUserOrderDetails(orderID) {
-        // debugger;
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/order/${orderID}/details`, this.config)
             .then(x => {
@@ -210,7 +209,42 @@ export class Repository {
         });
     }
 
-    // // am i using this?
+    getFlagID(medicationID) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/flag/medication/${medicationID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    //get flag using id
+
+    updateFlagType(flagID, flagType) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/flag/${flagID}/update`, flagType, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    getFlag(flagID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/flag/${flagID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+
     // getPharmacy(pharmacyName) {
     //     return new Promise((resolve, reject) => {
     //         axios.get(`${this.url}/pharmacies/:pharmacyName`, this.config).then(resp => {
@@ -261,7 +295,7 @@ export class Repository {
 
     updateAccount(id, account) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/${id}`, account, this.config)
+            axios.put(`${this.url}/profile/${id}`, account, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);
@@ -270,6 +304,60 @@ export class Repository {
         });
     }
 
+    getUserOrders(state) {
+        var userID = state.userID
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}/medications`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    getUser(state) {
+        var userID = state.userID
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    // getting pharmacies to sort by zip
+    getPharmacies() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/pharmacies/locations`, this.config).then(resp => {
+                console.log(resp);
+                resolve(resp);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
+
+    getPharmacyOrderHistory(pharmacyID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/orders/${pharmacyID}/history`, this.config).then(resp => {
+                console.log(resp.data);
+                resolve(resp.data);
+            })
+            .catch(e => {
+                console.log("Axios error");
+                console.log(e);
+            });
+        })
+    }
     updateAddress(id, address) {
         return new Promise((resolve, reject) => {
             axios.put(`${this.url}/address${id}`, address, this.config)
@@ -284,6 +372,17 @@ export class Repository {
     getMedications() {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/medications`, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
+    getInventory(id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/inventory/${id}`, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);

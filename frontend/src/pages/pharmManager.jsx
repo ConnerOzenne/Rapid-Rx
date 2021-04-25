@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
+import { Inventory } from '../components/inventory'
 
 export class PharmManager extends React.Component {
 
@@ -12,38 +13,25 @@ export class PharmManager extends React.Component {
         
     };
 
+    isLoggedIn = () => {
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        return loggedIn;
+    }
+
     componentDidMount() {
         console.log("Pharmacy Manager: componentDidMount()")
         if (this.isLoggedIn()) {
-            this.repo.getUserInfo(localStorage.getItem("userID"))
-                .then(data => {
-                    const res = data.data;
-                    console.log("PharmManager - componentDidMount(): res...")
-                    console.log(res);
-                    this.setState({username: res.data[0].name, authorityLevel: res.data[0].authorityLevel})
-                })
-                .catch(err => {
-                    console.log("No user info found")
-                })
+            //do nothing for now
         }
     }
 
     render() {
         return (
             <>
-                               
-                <div>
+                <Navbar/>           
+                <div className="Container" id="header">
                     <h1>Medication Inventory</h1>
-                    <h2>Placeholder for broken code:</h2>
-
-                    <thead>
-                        <tr>
-                            {this.medInfo.map(header => <td>{header}</td>)}
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
+                    <Inventory/>
                 </div>
             </>
         );
