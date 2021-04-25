@@ -62,7 +62,7 @@ module.exports = function flag(app, logger) {
     });
 
     //get flagid based on medid
-    app.get('/flag/medication/:medicationID', (req, res) => {
+    app.get('/flags/medication/:medicationID', (req, res) => {
         console.log(req.params.medicationID)
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -73,7 +73,7 @@ module.exports = function flag(app, logger) {
             } else {
                 var medicationID = req.params.medicationID
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT `rapidrx`.`flags`.`flagID` FROM `rapidrx`.`flags` where `rapidrx`.`flags`.`medicationID` =?; ', [medicationID], function (err, rows, fields) {
+                connection.query('SELECT * FROM `rapidrx`.`flags` AS f where f.medicationID = ?;', [medicationID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
