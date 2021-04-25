@@ -79,6 +79,8 @@ export class Inventory extends React.Component {
                         <th>Medication Name</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Update Inventory</th>
+                        <th>Request Inventory</th>
                     </thead>
                     <tbody>
                         {
@@ -100,9 +102,10 @@ export class Inventory extends React.Component {
                                         <td>{currMed.name}</td>
                                         <td>
                                             {currMed.quantity}
-                                            <button type="button" id="update" name="update" class="btn btn-primary">Update</button>
                                         </td>
                                         <td>${currMed.price}</td>
+                                        <td><button className="btn btn-secondary">Update</button></td>
+                                        <td><button className="btn btn-secondary">Request</button></td>
                                     </tr> 
                                     : <>{console.log("FALSE")}</>
                                 )

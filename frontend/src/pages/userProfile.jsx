@@ -29,7 +29,7 @@ export class UserProfile extends React.Component{
 			zip: this.state.zip,
 			country: this.state.country
 		};
-		this.repo.updateAccount(user);
+		this.repo.updateAccount(this.state.id, user);
 		//this.repo.updateAddress(this.state.addressID, address);
 	}
 	
@@ -147,7 +147,7 @@ export class UserProfile extends React.Component{
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="text-right">
-								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update}>Save</button>
+								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.update()}>Update</button>
 							</div>
 						</div>
 					</div>

@@ -42,7 +42,7 @@ export class Navbar extends React.Component {
     }
 
     isManager = () => {
-        if (this.isLoggedIn() && this.state.authorityLevel >= 2) {
+        if (this.isLoggedIn() && this.state.authorityLevel >= 1) {
             return true;
         }
         return false;
@@ -75,17 +75,13 @@ export class Navbar extends React.Component {
                         <ol className="navbar-nav me-auto mb-lg-0 d-flex w-100">
                             <li><a className="nav-link text-white mx-3" href="/">Home</a></li>
                             {(this.isManager() && this.isLoggedIn() ?
-<<<<<<< HEAD
-                                <li><a className="nav-link text-white" href={this.state.pharmPath}>MyPharmacyManager</a></li> : ''
-=======
                                 <li><a className="nav-link text-white mx-3" href="/medlist">EditMedications</a></li>
                                 :
                                 <li><a className="nav-link text-white mx-3" href="/medlist">MyPrescriptions</a></li>
                             )}
                             <li><a className="nav-link text-white mx-3" href="/pharmacyPortal">Pharmacy Portal</a></li>
                             {(this.isManager() && this.isLoggedIn() ?
-                                <li><a className="nav-link text-white mx-3" href="/pharmacy-manager">MyPharmacyManager</a></li> : ''
->>>>>>> origin/main
+                                <li><a className="nav-link text-white mx-3" href={this.state.pharmPath}>MyPharmacyManager</a></li> : ''
                             )}
                             {this.isLoggedIn() && <li><a className="nav-link text-white mx-3" href="/appointments">Appointments</a></li>}
                         </ol>
@@ -97,11 +93,7 @@ export class Navbar extends React.Component {
                                 :   <li><a className="nav-link text-white mx-5" href="/create">Sign Up</a></li>
                             )}
                             {(this.isLoggedIn() ? 
-<<<<<<< HEAD
                                 <li><a className="nav-link text-white" href={this.state.profilePath}>Profile</a></li>
-=======
-                                <li><a className="nav-link text-white mx-3" href={this.state.path}>Profile</a></li>
->>>>>>> origin/main
                                 :
                                 <li><a className="nav-link text-whit mx-3" href="/login">Log In</a></li>
                             )}

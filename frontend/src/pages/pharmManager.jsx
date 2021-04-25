@@ -29,10 +29,8 @@ export class PharmManager extends React.Component {
         return (
             <>
                 <Navbar/>           
-                <div>
+                <div className="Container" id="header">
                     <h1>Medication Inventory</h1>
-                    <h2>Placeholder for broken code:</h2>
-
                     <Inventory/>
                 </div>
             </>
