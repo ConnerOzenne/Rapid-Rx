@@ -83,7 +83,7 @@ export class Navbar extends React.Component {
                             {(this.isManager() && this.isLoggedIn() ?
                                 <li><a className="nav-link text-white mx-3" href={this.state.pharmPath}>MyPharmacyManager</a></li> : ''
                             )}
-                            {this.isLoggedIn() && <li><a className="nav-link text-white mx-3" href="/appointments">Appointments</a></li>}
+                            {/* {this.isLoggedIn() && <li><a className="nav-link text-white mx-3" href="/appointments">Appointments</a></li>} */}
                         </ol>
                         <ol className="navbar-nav me-auto mb-lg-0 d-flex w-25">
                             {(this.isLoggedIn() ? 
@@ -95,7 +95,7 @@ export class Navbar extends React.Component {
                             {(this.isLoggedIn() ? 
                                 <li><a className="nav-link text-white" href={this.state.profilePath}>Profile</a></li>
                                 :
-                                <li><a className="nav-link text-whit mx-3" href="/login">Log In</a></li>
+                                <li><a className="nav-link text-white px-3" href="/login">Log In</a></li>
                             )}
                         </ol>
                     </div>
