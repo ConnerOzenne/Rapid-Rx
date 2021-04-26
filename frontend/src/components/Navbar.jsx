@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Repository } from '../api/repository';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import './Navbar.css'
+import { HomePage } from '../pages/HomePage';
 
 export class Navbar extends React.Component {
 
@@ -15,12 +16,13 @@ export class Navbar extends React.Component {
     componentDidMount() {
         console.log("USER ID:", localStorage.getItem("userID"))
         console.log("Logged in: ", this.isLoggedIn())
-        if (this.isLoggedIn()) {
+        if (localStorage.getItem("userID") != -1 && localStorage.getItem("userID") != "") {
             this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
                 const res = data.data;
                 console.log("Navbar: componentDidMount(): res...");
                 console.log(res);
-                this.setState({authorityLevel: res.data[0].authorityLevel,
+                this.setState({
+                    authorityLevel: res.data[0].authorityLevel,
                     profilePath: "/profile/" + localStorage.getItem("userID"),
                     pharmPath: "/pharmacyManager/" + res.data[0].pharmacyId
                 })
