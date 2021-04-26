@@ -44,7 +44,6 @@ export class MedList extends React.Component {
 
 
     getMeds = (id) => {
-        // debugger;
         this.repository.getUserMedications(id)
         .then(x => {
             console.log("getting prescriptions")
@@ -68,7 +67,6 @@ export class MedList extends React.Component {
             // assuming that a medication will be available for refill one month after refilling
             this.repository.createOrderAndOrderDetails({userID: localStorage.getItem("userID"), pharmacyID: med.pharmacyID, medicationID: med.medicationID, quantity: med.quantity, monthsTillRefill: 1, refillLeft: med.refillLeft})
             .then(x => {
-                // debugger;
                 console.log("Test func")
 
                 window.alert(`Refill placed, pick up in 24 hours at ${med.pharmacyName}`);
@@ -118,12 +116,12 @@ export class MedList extends React.Component {
                                     <td className="text-center" scope="row" id="totalCost">${med.totalCost}</td>
                                     <td className="text-center" scope="row" id="refillDate">{med.refillDate && med.refillDate.substring(0, 10)}</td>
                                     <td className="text-center" scope="row" id="refillRx">
-                                        <button className="btn btn-secondary"
+                                        <button className="btn btn-success"
                                         onClick={ () => this.checkRefill(med) }>
                                             REFILL
                                             </button>
                                     </td>
-                                    <td className="text-center" scope="row" id="moreInfo"> <Link className="btn btn-secondary" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
+                                    <td className="text-center" scope="row" id="moreInfo"> <Link className="btn btn-info" to={"/medinfo/" + med.medicationID}>More Information</Link> </td>
                                 </tr>
                             ))
                         }

@@ -232,7 +232,7 @@ export class Repository {
 
     updateFlagType(flagID, flagType) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/flag/${flagID}/update`, flagType, this.config)
+            axios.put(`${this.url}/flag/${flagID}/update`, {flagType}, this.config)
             .then(x => resolve(x.data))
             .catch(error => {
                 alert(error);
