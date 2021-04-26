@@ -49,7 +49,7 @@ export class PharmacyPortal extends React.Component {
         if (this.state.auth === 0) {
             return (
                 <>
-                <Navbar norender={false}></Navbar>
+                <Navbar></Navbar>
                 <div className="container" id="header">
                     <h2 id="Name">{this.state.username}'s Orders</h2>
                     <table className="table table-striped table-condensed table-bordered" id="orderDetails">
