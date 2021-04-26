@@ -162,9 +162,9 @@ module.exports = function order(app, logger) {
                 var dateOrdered = req.body.dateOrdered
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`orders` (userID, pharmacyID, dateOrdered) VALUES(?, ?, ?)',[userID, pharmacyID, dateOrdered], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) {
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating order: \n", err); 
                         res.status(400).json({
                             "data": [],

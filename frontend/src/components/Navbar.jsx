@@ -13,6 +13,8 @@ export class Navbar extends React.Component {
     }
 
     componentDidMount() {
+        console.log("USER ID:", localStorage.getItem("userID"))
+        console.log("Logged in: ", this.isLoggedIn())
         if (this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
                 const res = data.data;
