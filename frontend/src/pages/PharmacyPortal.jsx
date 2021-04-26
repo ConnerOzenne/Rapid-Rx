@@ -44,7 +44,7 @@ export class PharmacyPortal extends React.Component {
             return (
                 <>
                 <Navbar norender={false}></Navbar>
-                <div className="Container" id="header">
+                <div className="container" id="header">
                     <h2 id="Name">{this.state.username}'s Orders</h2>
                     <table className="table table-striped table-condensed table-bordered" id="orderDetails">
                         <thead>

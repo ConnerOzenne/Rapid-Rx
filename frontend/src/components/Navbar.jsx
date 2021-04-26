@@ -20,6 +20,7 @@ export class Navbar extends React.Component {
                 const res = data.data;
                 console.log("Navbar: componentDidMount(): res...");
                 console.log(res);
+                debugger;
                 this.setState({authorityLevel: res.data[0].authorityLevel,
                     profilePath: "/profile/" + localStorage.getItem("userID"),
                     pharmPath: "/pharmacyManager/" + res.data[0].pharmacyId
