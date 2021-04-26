@@ -12,7 +12,7 @@ export class UpdateInventory extends React.Component{
         id: localStorage.getItem("userID"),
         meds: [],
         pharmacyID: 0,
-        medID: 0
+        medID: 0,
     };
 
 	isLoggedIn = () => {
@@ -31,7 +31,7 @@ export class UpdateInventory extends React.Component{
         let json = {
             pharmacyID: this.state.pharmacyID,
             medicationID: this.state.medID,
-            quantity: this.state.quantity
+            quantity: parseInt(this.state.quantity)
         }
         console.log(json);
         this.repo.updateInventory(json).then(data => {
@@ -97,7 +97,7 @@ export class UpdateInventory extends React.Component{
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 								<div class="form-group">
 									<label for="fullName">Quantity:</label>
-									<input type="text" class="form-control" id="fullName" placeholder={this.state.name}
+									<input type="number" class="form-control" id="fullName" placeholder={this.state.name}
 									onChange={event => this.setState({quantity: event.target.value})}/>
 								</div>
 							</div>
