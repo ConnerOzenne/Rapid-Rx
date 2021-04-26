@@ -22,7 +22,7 @@ export class HomePage extends React.Component {
     };
 
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != "null";
+        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != -1;
         return loggedIn;
     }
 
@@ -76,10 +76,12 @@ export class HomePage extends React.Component {
                             </button>
                         </div>
                         <div className="position-absolute homepage-links">
-                            {this.state.authorityLevel > 0 ?
+                            {this.isLoggedIn() && this.state.authorityLevel > 0 ?
                                 <a className="d-block" href="/medlist">Edit Prescriptions</a>
                                 : <a className="d-block" href="/medlist">View Prescriptions</a>}
-                            <a className="d-block" href="/pharmacyPortal">Pharmacies</a>
+                            {this.isLoggedIn() && 
+                                <a className="d-block" href="/pharmacyPortal">Pharmacies</a>}
+                            
                         </div>
                     </div>
                     <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>

@@ -31,13 +31,13 @@ export class Navbar extends React.Component {
     }
 
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == -1);
         return loggedIn;
     }
 
     logout = () => {
         console.log("Logout attempt")
-        localStorage.setItem("userID", null);
+        localStorage.setItem("userID", -1);
         this.setState({redirect: '/'});
     }
 
@@ -74,11 +74,12 @@ export class Navbar extends React.Component {
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ol className="navbar-nav me-auto mb-lg-0 d-flex w-100">
                             <li><a className="nav-link text-white mx-3" href="/">Home</a></li>
-                            {(this.isManager() && this.isLoggedIn() ?
-                                <li><a className="nav-link text-white mx-3" href="/medlist">EditMedications</a></li>
-                                :
+                            {this.isLoggedIn() && this.state.authorityLevel >= 2 &&
+                                <li><a className="nav-link text-white mx-3" href="/medlist">EditMedications</a></li>    
+                            }
+                            {this.isLoggedIn() && this.state.authorityLevel == 0 &&
                                 <li><a className="nav-link text-white mx-3" href="/medlist">MyPrescriptions</a></li>
-                            )}
+                            }
                             <li><a className="nav-link text-white mx-3" href="/pharmacyPortal">Pharmacy Portal</a></li>
                             {(this.isManager() && this.isLoggedIn() ?
                                 <li><a className="nav-link text-white mx-3" href={this.state.pharmPath}>MyPharmacyManager</a></li> : ''
