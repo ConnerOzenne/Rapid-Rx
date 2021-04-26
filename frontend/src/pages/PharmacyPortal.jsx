@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Repository } from '../api/repository';
-import {Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { ClosestPharmacies } from '../models/ClosestPharmacies'
 import { Navbar } from '../components/Navbar'
 
@@ -22,20 +22,26 @@ export class PharmacyPortal extends React.Component {
     }
 
     componentDidMount() {
-        this.repo.getUser(this.state)
-        .then(x => {
-            console.log(x.data.data)
-            this.setState({ 
-                username: x.data.data[0].name,
-                auth: x.data.data[0].authorityLevel
-            })
-        })
-        this.repo.getUserOrders(this.state)
-        .then(x => {
-            var res = x.data
-            console.log("User Orders:", x.data.data)
-            this.setState({ orders: res.data })
-        })
+        console.log("STATE:", this.state)
+        if (this.state.userID != -1) {
+            this.repo.getUser(this.state)
+                .then(x => {
+                    console.log(x.data.data)
+                    this.setState({
+                        username: x.data.data[0].name,
+                        auth: x.data.data[0].authorityLevel
+                    })
+                })
+            this.repo.getUserOrders(this.state)
+                .then(x => {
+                    var res = x.data
+                    console.log("User Orders:", x.data.data)
+                    this.setState({ orders: res.data })
+                })
+        }
+        else {
+            this.setState({userID: -1})
+        }
     }
 
 
@@ -73,32 +79,40 @@ export class PharmacyPortal extends React.Component {
                     <br></br>
                 <ClosestPharmacies props={this.state.auth}></ClosestPharmacies>
 
-                </div>
+                    </div>
                 </>
             );
         }
         else if (this.state.auth === 1 || this.state.auth === 2) {
             return (
                 <>
-                <Navbar norender={false}></Navbar>
-                <div className="Container" id="header">
-                    <h2 className="mt-3">View Pharmacies</h2>
-                <ClosestPharmacies auth={this.state.auth}></ClosestPharmacies>
-                </div>
-            </>
+                    <Navbar norender={false}></Navbar>
+                    <div className="Container" id="header">
+                        <h2 className="mt-3">View Pharmacies</h2>
+                        <ClosestPharmacies auth={this.state.auth}></ClosestPharmacies>
+                    </div>
+                </>
+            )
+        }
+        else if (this.state.userID === -1) {
+            return (
+                <>
+                    <Navbar norender={false}></Navbar>
+                    <ClosestPharmacies auth={0}></ClosestPharmacies>
+                </>
             )
         }
         else {
             return (
-                <> 
+                <>
                     <Navbar norender={false}></Navbar>
                     <h2>Loading Pharmacy Details</h2>
                 </>
             )
         }
-        }
-        
-        
+    }
+
+
 }
 
 export default PharmacyPortal;

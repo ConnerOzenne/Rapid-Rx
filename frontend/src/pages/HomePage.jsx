@@ -18,9 +18,10 @@ export class HomePage extends React.Component {
         authorityLevel: 0,
         searchOption: '',
         searchText: '',
-        message:''
+        message:'',
+        isLoggedIn: ''
     };
-
+    
     isLoggedIn = () => {
         let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != -1;
         return loggedIn;
@@ -35,15 +36,19 @@ export class HomePage extends React.Component {
                     
                     let spaceLoc = res.data[0].name.indexOf(" ");
                     if (spaceLoc >= 0) {
-                        this.setState({firstName: res.data[0].name.substring(0, spaceLoc), authorityLevel: res.data[0].authorityLevel});
+                        this.setState({firstName: res.data[0].name.substring(0, spaceLoc), authorityLevel: res.data[0].authorityLevel, isLoggedIn: true});
                     }
                     else {
-                        this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel});
+                        this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel, isLoggedIn: true});
                     }
                 })
                 .catch(err => {
                     console.log("No user info found")
                 })
+        }
+        else {
+            this.setState({isLoggedIn: false})
+            console.log("No user info found. ID returned -1")
         }
     }
 
