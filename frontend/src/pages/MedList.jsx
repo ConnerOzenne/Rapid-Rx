@@ -54,8 +54,8 @@ export class MedList extends React.Component {
 
     
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
-        return loggedIn;
+            let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == -1);
+            return loggedIn;
     }
 
 
