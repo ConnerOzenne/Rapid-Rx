@@ -209,6 +209,14 @@ export class Repository {
         });
     }
 
+    createFlag(flag) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/flags/create`, flag).then(resp => {
+                resolve(resp.data);
+            }).catch(err => alert(err));
+        });
+    }
+
     getFlagID(medicationID) {
         return new Promise((resolve, reject) => {
             axios.post(`${this.url}/flag/medication/${medicationID}`, this.config)
@@ -247,6 +255,17 @@ export class Repository {
     getPharmacy(pharmacyID) {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/pharmacy/${pharmacyID}`, this.config)
+            .then(x => resolve(x.data))
+            .catch(error => {
+                alert(error);
+                reject(error);
+            });
+        });
+    }
+
+    getUserFlags(userID) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/user/${userID}/flags`, this.config)
             .then(x => resolve(x.data))
             .catch(error => {
                 alert(error);
