@@ -21,18 +21,18 @@ export class UserProfile extends React.Component{
 	updateProfile() {
 		debugger;
 		let user = {
-			userID: this.state.id,
-			username: this.state.username,  
-		 	email: this.state.email, 
-			name: this.state.name, 
-			phone: this.state.phone
+			userID: 18,
+			username: "Conner2019",  
+		 	email: "conner@email.com", 
+			name: "Tex Avery", 
+			phone: "8314555089"
 		};
 		let address = {
-			city: this.state.city,
-			state: this.state.state,
-			address: this.state.streetAddress,
-			zip: this.state.zip,
-			country: this.state.country
+			city: "this.state.city",
+			state: "this.state.state",
+			address: "this.state.streetAddress",
+			zip: "this.state.zip",
+			country: "this.state.country"
 		};
 		console.log(user);
 		this.repo.updateAccount(user);
