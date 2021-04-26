@@ -13,6 +13,8 @@ export class Navbar extends React.Component {
     }
 
     componentDidMount() {
+        console.log("USER ID:", localStorage.getItem("userID"))
+        console.log("Logged in: ", this.isLoggedIn())
         if (this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
                 const res = data.data;
@@ -31,13 +33,13 @@ export class Navbar extends React.Component {
     }
 
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == "null");
+        let loggedIn = localStorage.getItem("userID") != -1 && localStorage.getItem("userID") != "";
         return loggedIn;
     }
 
     logout = () => {
         console.log("Logout attempt")
-        localStorage.setItem("userID", null);
+        localStorage.setItem("userID", -1);
         this.setState({redirect: '/'});
     }
 

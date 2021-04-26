@@ -22,7 +22,7 @@ export class HomePage extends React.Component {
     };
 
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != "null";
+        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != "-1";
         return loggedIn;
     }
 
