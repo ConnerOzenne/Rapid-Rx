@@ -304,9 +304,9 @@ export class Repository {
 
     
 
-    updateAccount(user) {
+    updateAccount(userID, user) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/profile/${user.id}`, user, this.config)
+            axios.put(`${this.url}/profile/${userID}`, user, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     console.log(user);

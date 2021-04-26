@@ -3,20 +3,17 @@ import axios from 'axios';
 import {Repository} from '../api/repository';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import { Navbar } from '../components/Navbar.jsx'
-import {User} from '../models/user';
 import './userProfile.css';
 import { event } from 'jquery';
 
-export class UserProfile extends React.Component{
+export class EditProfile extends React.Component{
     repo = new Repository();
     state = {
-		id: -1,
-		authorityLevel: '',
 		name: '',
 		email: '',
 		phone: '',
 		username: '',
-		path: '/edit'
+        path: `profile/${localStorage.getItem("userID")}`
     };
 
 	isLoggedIn = () => {
@@ -25,12 +22,33 @@ export class UserProfile extends React.Component{
     }
 
 	
+	updateProfile(event) {
+		debugger;
+		const user = {
+			username: this.state.username,  
+		 	email: this.state.email, 
+			name: this.state.name, 
+			phone: this.state.phone
+		}
+		const address = {
+			city: "this.state.city",
+			state: "this.state.state",
+			address: "this.state.streetAddress",
+			zip: "this.state.zip",
+			country: "this.state.country"
+		}
+		console.log(user);
+		this.repo.updateAccount(this.state.id, user).then( data => {
+            this.setState({redirect: this.state.path})
+        });
+		event.preventDefault();
+		//this.repo.updateAddress(this.state.addressID, address);
+	}
 	
 	componentDidMount() {
 		debugger;
         console.log("User Profile: componentDidMount()")
         if (this.isLoggedIn()) {
-			this.setState({id: localStorage.getItem("userID")})
             this.repo.getUserInfo(this.state.id)
                 .then(data => {
                     const res = data.data;
@@ -66,14 +84,9 @@ export class UserProfile extends React.Component{
                 })
         }
     }
-
-	handleRedirect= () => {
-		this.setState({redirect: this.state.path});
-	}
-
   
     render() {
-		if (this.state.redirect) {
+        if (this.state.redirect) {
             return <Redirect to={ this.state.redirect } />;
         }
 
@@ -82,25 +95,32 @@ export class UserProfile extends React.Component{
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
 			<div class="card h-100">
 				<div class="card-body">
+                <form onSubmit={this.updateProfile}>
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<h6 class="mb-2 text-primary">Personal Details</h6>
 						</div>
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-							<div class="form-group">
-								<p>Name: {this.state.name}</p>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="fullName">Full Name</label>
+									<input type="text" class="form-control" id="fullName" placeholder={this.state.name}
+									onChange={event => this.setState({name: event.target.value})}/>
+								</div>
 							</div>
-						</div>
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-							<div class="form-group">
-								<p>Email: {this.state.email}</p>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="eMail">Email</label>
+									<input type="text" class="form-control" id="email" placeholder={this.state.email}
+									onChange={event => this.setState({email: event.target.value})}/>
+								</div>
 							</div>
-						</div>
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-							<div class="form-group">
-								<p>Phone: {this.state.phone}</p>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="phone">Phone</label>
+									<input type="text" class="form-control" id="phone" placeholder={this.state.phone}
+									onChange={event => this.setState({phone: event.target.value})}/>
+								</div>
 							</div>
-						</div>
 					</div>
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -108,35 +128,38 @@ export class UserProfile extends React.Component{
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Street Address:{this.state.address}</p>
+								<label for="street">Street</label>
+								<input type="name" class="form-control" id="street" placeholder={this.state.address}
+                    			onChange={event => this.setState({street: event.target.value})}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>City: {this.state.city}</p>
+								<label for="city">City</label>
+								<input type="name" class="form-control" id="city" placeholder={this.state.city}
+                    			onChange={event => this.setState({city: event.target.value})}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>State: {this.state.state}</p>
+								<label for="state">State</label>
+								<input type="text" class="form-control" id="state" placeholder={this.state.state}
+                    			onChange={event => this.setState({state: event.target.value})}/>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Zipcode: {this.state.zip}</p>
+								<label for="zip">Zip Code</label>
+								<input type="text" class="form-control" id="zip" placeholder={this.state.zip}
+                    			onChange={event => this.setState({zip: event.target.value})}/>
 							</div>
 						</div>
 					</div>
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="text-right">
-								<button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.handleRedirect}>Update</button>
-							</div>
-						</div>
-					</div>
+                    <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+				</form>
 				</div>
 			</div>
-			</div>
+		</div>
         </>
 		);
     }

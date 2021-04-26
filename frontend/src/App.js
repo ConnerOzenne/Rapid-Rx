@@ -8,6 +8,7 @@ import { CreateAccount } from './pages/CreateAccount.jsx'
 import { MedList } from './pages/MedList.jsx';
 import { MedInfo } from './pages/MedInfo.jsx';
 import { UserProfile } from './pages/userProfile.jsx';
+import { EditProfile } from './pages/EditProfile.jsx';
 import { PharmManager } from './pages/pharmManager.jsx'
 import { PharmacyHistory } from './pages/PharmacyHistory.jsx'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/pharmacyHistory/:pharmacyID/history" component={PharmacyHistory}/>
             <Route path="/pharmacyPortal" component={PharmacyPortal}/>
             <Route path="/profile/:userId" component={UserProfile}/>
+            <Route path="/edit" component={EditProfile}/>
             <Route path="/medlist/edit/:medId" component={EditMed}/>
             <Route path="/login" render={() => <Login />}/>
             <Route path="/medlist" component={MedList}/>
