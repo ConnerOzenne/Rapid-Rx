@@ -9,6 +9,7 @@ import { event } from 'jquery';
 export class EditProfile extends React.Component{
     repo = new Repository();
     state = {
+		id: localStorage.getItem("userID"),
 		name: '',
 		email: '',
 		phone: '',
@@ -22,7 +23,7 @@ export class EditProfile extends React.Component{
     }
 
 	
-	updateProfile(event) {
+	updateProfile = () =>  {
 		debugger;
 		const user = {
 			username: this.state.username,  
@@ -39,10 +40,9 @@ export class EditProfile extends React.Component{
 		}
 		console.log(user);
 		this.repo.updateAccount(this.state.id, user).then( data => {
+			this.repo.updateAddress(this.state.addressID, address);
             this.setState({redirect: this.state.path})
         });
-		event.preventDefault();
-		//this.repo.updateAddress(this.state.addressID, address);
 	}
 	
 	componentDidMount() {
@@ -95,7 +95,7 @@ export class EditProfile extends React.Component{
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
 			<div class="card h-100">
 				<div class="card-body">
-                <form onSubmit={this.updateProfile}>
+                <form>
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<h6 class="mb-2 text-primary">Personal Details</h6>
@@ -155,7 +155,7 @@ export class EditProfile extends React.Component{
 							</div>
 						</div>
 					</div>
-                    <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                    <button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.updateProfile}>Update</button>
 				</form>
 				</div>
 			</div>

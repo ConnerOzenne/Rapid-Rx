@@ -335,6 +335,17 @@ export class Repository {
         });
     }
 
+    updateAddress(id, address) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${this.url}/${id}/addresses`, address, this.config)
+                .then(x => resolve(x.data))
+                .catch(error => {
+                    alert(error);
+                    reject(error);
+                });
+        });
+    }
+
     updateInventory(json) {
         return new Promise((resolve, reject) => {
             axios.put(`${this.url}/inventories/update`, json, this.config)
@@ -400,16 +411,7 @@ export class Repository {
             });
         })
     }
-    updateAddress(id, address) {
-        return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/address${id}`, address, this.config)
-                .then(x => resolve(x.data))
-                .catch(error => {
-                    alert(error);
-                    reject(error);
-                });
-        });
-    }
+    
 
     getMedications() {
         return new Promise((resolve, reject) => {

@@ -12,7 +12,8 @@ export class PharmManager extends React.Component {
     employee = ["Name"];
 
     state = {
-        pharmacyID: +this.props.match.params.pharmacyID,
+        id: localStorage.getItem("userID"),
+        pharmacyID: 0,
         medicationID: 1,
         meds: [],
         searchOption: 'Medication ID',
@@ -37,7 +38,7 @@ export class PharmManager extends React.Component {
     componentDidMount() {
         //console.log();
         //debugger;
-        this.repo.getUserInfo(18)
+        this.repo.getUserInfo(this.state.id)
             .then(data => {
                 const res = data.data;
                 console.log("User Profile - componentDidMount(): res...")
@@ -56,9 +57,10 @@ export class PharmManager extends React.Component {
         })
     }
 
-    updateActive = (currMed) => {
-        this.setState({medicationID: currMed.medicationID,
-            redirect: '/update'});
+    updateActive = () => {
+        this.setState({
+            redirect: '/update'
+        });
     }
 
 
@@ -106,6 +108,11 @@ export class PharmManager extends React.Component {
                             className="form-control mb-5"
                             value={this.state.searchText}
                             onChange= {event => this.setState({searchText: event.target.value})}></input>
+                    {this.state.authorityLevel > 1 ? 
+                    <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update Inventory</button> : 
+                    <p></p>
+                    }
+                    <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update Inventory</button>
 
                     <table className="table table-striped">
                         <thead>
@@ -113,7 +120,6 @@ export class PharmManager extends React.Component {
                             <th>Medication Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
-                            <th>Update Inventory</th>
                         </thead>
                         <tbody>
                             {
@@ -127,9 +133,6 @@ export class PharmManager extends React.Component {
                                             {currMed.quantity}
                                             </td>
                                             <td>${currMed.price}</td>
-                                            <td>
-                                            <button className="btn btn-secondary" onClick={() => this.updateActive(currMed)}>Update</button>
-                                            </td>
                                         </tr> 
                                         : <>{console.log("FALSE")}</>
                                     )
