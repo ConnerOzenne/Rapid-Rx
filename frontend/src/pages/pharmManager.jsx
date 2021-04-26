@@ -13,10 +13,11 @@ export class PharmManager extends React.Component {
 
     state = {
         pharmacyID: +this.props.match.params.pharmacyID,
+        medicationID: 1,
         meds: [],
         searchOption: 'Medication ID',
         searchText: '',
-        update: false
+        update: false,
     };
     
 
@@ -55,20 +56,12 @@ export class PharmManager extends React.Component {
         })
     }
 
-    updateActive(){
-        this.setState({update: true});
+    updateActive = (currMed) => {
+        this.setState({medicationID: currMed.medicationID,
+            redirect: '/update'});
     }
 
-    submitChange(medID, quantity){
-        let json = {
-            pharmacyID: this.state.pharmacyID,
-            medID: medID,
-            quantity: quantity
-        }
-        console.log(json);
-        this.repo.updateInventory(json);
-        this.setState({update: false})
-    }
+
 
     filter(currMed) {
         if (this.state.searchText == '') return true;
@@ -82,6 +75,9 @@ export class PharmManager extends React.Component {
     render() {
         if (!this.state.meds) {
             return <p>Loading...</p>
+        }
+        if (this.state.redirect) {
+            return <Redirect to={ this.state.redirect } />;
         }
 
         return (
@@ -118,7 +114,6 @@ export class PharmManager extends React.Component {
                             <th>Quantity</th>
                             <th>Price</th>
                             <th>Update Inventory</th>
-                            <th>Request Inventory</th>
                         </thead>
                         <tbody>
                             {
@@ -126,31 +121,15 @@ export class PharmManager extends React.Component {
                                     (
                                         this.filter(currMed) ? 
                                         <tr>
-                                            {
-                                                this.props.authorityLevel > 0 ?
-                                                <td>
-                                                    <Link   className="btn btn-light border"
-                                                            to={"/medlist/edit/"+currMed.medicationID}>
-                                                        {currMed.medicationID}
-                                                    </Link>
-
-                                                </td> 
-                                                :<td>{currMed.medicationID}</td>
-                                            }
+                                            <td>{currMed.medicationID}</td>
                                             <td>{currMed.name}</td>
                                             <td>
-                                            {this.state.update  ?
-                                                <input type="text" class="form-control" id="quantity" placeholder={currMed.quantity} 
-                                                onChange={event => this.setState({quantity: event.target.value})}/>
-                                            : currMed.quantity}
+                                            {currMed.quantity}
                                             </td>
                                             <td>${currMed.price}</td>
                                             <td>
-                                            {this.state.update  ?
-                                            <button className="btn btn-secondary" onClick={this.submitChange(currMed.medicationID, currMed.quantity)}>Submit</button>
-                                            : <button className="btn btn-secondary" onClick={this.updateActive()}>Update</button>}
+                                            <button className="btn btn-secondary" onClick={() => this.updateActive(currMed)}>Update</button>
                                             </td>
-                                            <td><button className="btn btn-secondary">Request</button></td>
                                         </tr> 
                                         : <>{console.log("FALSE")}</>
                                     )

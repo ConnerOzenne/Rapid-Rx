@@ -28,6 +28,7 @@ export class HomePage extends React.Component {
     }
 
     componentDidMount() {
+        debugger;
         console.log("Homepage: componentDidMount()")
         if (this.isLoggedIn()) {
             this.repo.getUserInfo(localStorage.getItem("userID"))

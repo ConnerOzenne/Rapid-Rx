@@ -10,12 +10,12 @@ import { event } from 'jquery';
 export class UserProfile extends React.Component{
     repo = new Repository();
     state = {
-		id: -1,
+		id: localStorage.getItem("userID"),
 		authorityLevel: '',
 		name: '',
 		email: '',
 		phone: '',
-		username: '',
+		username: ' ',
 		path: '/edit'
     };
 
@@ -30,7 +30,6 @@ export class UserProfile extends React.Component{
 		debugger;
         console.log("User Profile: componentDidMount()")
         if (this.isLoggedIn()) {
-			this.setState({id: localStorage.getItem("userID")})
             this.repo.getUserInfo(this.state.id)
                 .then(data => {
                     const res = data.data;
@@ -88,17 +87,17 @@ export class UserProfile extends React.Component{
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Name: {this.state.name}</p>
+								<p><strong>Name:  </strong> {this.state.name}</p>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Email: {this.state.email}</p>
+								<p><strong>Email:  </strong> {this.state.email}</p>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Phone: {this.state.phone}</p>
+								<p><strong>Phone:  </strong> {this.state.phone}</p>
 							</div>
 						</div>
 					</div>
@@ -108,22 +107,22 @@ export class UserProfile extends React.Component{
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Street Address:{this.state.address}</p>
+								<p><strong>Street Address:  </strong> {this.state.address}</p>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>City: {this.state.city}</p>
+								<p><strong>City:  </strong> {this.state.city}</p>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>State: {this.state.state}</p>
+								<p><strong>State:  </strong> {this.state.state}</p>
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<p>Zipcode: {this.state.zip}</p>
+								<p><strong>Zipcode:  </strong> {this.state.zip}</p>
 							</div>
 						</div>
 					</div>

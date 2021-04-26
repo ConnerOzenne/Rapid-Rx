@@ -20,6 +20,7 @@ import { PharmacyPortal } from './pages/PharmacyPortal';
 import { EditMed } from './pages/EditMed';
 import { Appointments } from './pages/Appointments';
 import { BookAppt } from './pages/BookAppt'
+import { UpdateInventory } from './pages/updateInventory';
 // import { Home } from ./pages/Home.jsx
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Switch>
             <Route path="/create" component={CreateAccount}/>
             <Route path="/pharmacyManager/:pharmacyID" component={PharmManager}/>
+            <Route path="/update" component={UpdateInventory}/>
             <Route path="/pharmacyHistory/:pharmacyID/history" component={PharmacyHistory}/>
             <Route path="/pharmacyPortal" component={PharmacyPortal}/>
             <Route path="/profile/:userId" component={UserProfile}/>
