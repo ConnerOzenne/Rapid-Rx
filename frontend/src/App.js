@@ -22,9 +22,6 @@ import { BookAppt } from './pages/BookAppt'
 // import { Home } from ./pages/Home.jsx
 
 function App() {
-
-  
-
   return (
     <div>
       <Router>
@@ -32,8 +29,6 @@ function App() {
         {/* <div path="/login" component={Login}/> */}
         <Switch>
             <Route path="/create" component={CreateAccount}/>
-            {/* <Route path= "/distInfo/:listingID" component={DistContact}/>
-            <Route path="/orders/:orderId" component={OrderHistory}/> */}
             <Route path="/pharmacyManager/:pharmacyID" component={PharmManager}/>
             <Route path="/pharmacyHistory/:pharmacyID/history" component={PharmacyHistory}/>
             <Route path="/pharmacyPortal" component={PharmacyPortal}/>

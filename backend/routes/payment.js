@@ -83,9 +83,9 @@ module.exports = function payment(app, logger) {
                 var amount = req.body.amount
                 // if there is no issue obtaining a connection, execute query
                 connection.query('INSERT INTO `rapidrx`.`payments` (paymentID, userID, paymentDate, amount) VALUES(?, ?, ?, ?)',[paymentID, userID, paymentDate, amount], function (err, rows, fields) {
+                    // if there is an error with the query, release the connection instance and log the error
+                    connection.release()
                     if (err) {
-                        // if there is an error with the query, release the connection instance and log the error
-                        connection.release()
                         logger.error("Error while creating payment: \n", err); 
                         res.status(400).json({
                             "data": [],
