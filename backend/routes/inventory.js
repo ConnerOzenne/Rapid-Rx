@@ -139,7 +139,7 @@ module.exports = function inventory(app, logger) {
                 var medicationID = req.body.medicationID
                 var quantity = req.body.quantity
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('UPDATE `rapidrx`.`inventory` AS u SET u.quantity = ? WHERE u.pharmacyID = ? AND u.medicationID = ? (quantity, pharmacyID, medicationID) VALUES(?, ?, ?)', [quantity, pharmacyID, medicationID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`inventory` AS u SET u.quantity = ? WHERE u.pharmacyID = ? AND u.medicationID = ?;', [quantity, pharmacyID, medicationID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
