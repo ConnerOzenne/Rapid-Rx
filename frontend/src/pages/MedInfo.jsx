@@ -103,7 +103,7 @@ export class MedInfo extends React.Component {
                         </div>
                         </div>
                     </div>
-                    <Link to="/medlist" className="btn btn-secondary btn-block">Return to Prescriptions</Link>
+                    <Link to="/medlist" className="btn btn-primary btn-block">Return to Prescriptions</Link>
                 </div> 
             </>
         );

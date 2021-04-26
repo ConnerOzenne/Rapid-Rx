@@ -23,8 +23,8 @@ export class Login extends React.Component {
     }
 
     handleLogin = () => {
-      this.checkError();
-      if (!this.state.error) {
+      let err = this.checkError()
+      if (!err.error) {
 
         let newUserID = -1;
 
@@ -74,15 +74,18 @@ export class Login extends React.Component {
           this.setState({error: true, errorMsg: e});
         });
       }
+      else {
+        this.setState({error: err.error, errorMsg: err.errorMsg});
+      }
     }
 
     checkError = () => {
       if (this.state.username == "")
-        this.setState({errorMsg: "Username is required", error: true})
+        return {errorMsg: "Username is required", error: true}
       else if (this.state.password == "")
-        this.setState({errorMsg: "Password is required", error: true})
+        return {errorMsg: "Password is required", error: true}
       else {
-        this.setState({error: false})
+        return {error: false}
       }
       //Fill in errors from post request
     }

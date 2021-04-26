@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Repository } from '../api/repository';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import './Navbar.css'
+import { HomePage } from '../pages/HomePage';
 
 export class Navbar extends React.Component {
 
@@ -15,7 +16,7 @@ export class Navbar extends React.Component {
     componentDidMount() {
         console.log("USER ID:", localStorage.getItem("userID"))
         console.log("Logged in: ", this.isLoggedIn())
-        if (this.isLoggedIn()) {
+        if (localStorage.getItem("userID") != -1 && localStorage.getItem("userID") != "") {
             this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
                 const res = data.data;
                 console.log("Navbar: componentDidMount(): res...");
@@ -33,7 +34,7 @@ export class Navbar extends React.Component {
     }
 
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") != -1 && localStorage.getItem("userID") != "";
+        let loggedIn = localStorage.getItem("userID") && !(localStorage.getItem("userID") == -1);
         return loggedIn;
     }
 
@@ -76,11 +77,12 @@ export class Navbar extends React.Component {
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ol className="navbar-nav me-auto mb-lg-0 d-flex w-100">
                             <li><a className="nav-link text-white mx-3" href="/">Home</a></li>
-                            {(this.isManager() && this.isLoggedIn() ?
-                                <li><a className="nav-link text-white mx-3" href="/medlist">EditMedications</a></li>
-                                :
+                            {this.isLoggedIn() && this.state.authorityLevel >= 2 &&
+                                <li><a className="nav-link text-white mx-3" href="/medlist">EditMedications</a></li>    
+                            }
+                            {this.isLoggedIn() && this.state.authorityLevel == 0 &&
                                 <li><a className="nav-link text-white mx-3" href="/medlist">MyPrescriptions</a></li>
-                            )}
+                            }
                             <li><a className="nav-link text-white mx-3" href="/pharmacyPortal">Pharmacy Portal</a></li>
                             {(this.isManager() && this.isLoggedIn() ?
                                 <li><a className="nav-link text-white mx-3" href={this.state.pharmPath}>MyPharmacyManager</a></li> : ''

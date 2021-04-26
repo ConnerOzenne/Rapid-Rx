@@ -65,6 +65,7 @@ export class PharmManager extends React.Component {
             medID: medID,
             quantity: quantity
         }
+        console.log(json);
         this.repo.updateInventory(json);
         this.setState({update: false})
     }
@@ -147,7 +148,7 @@ export class PharmManager extends React.Component {
                                             <td>
                                             {this.state.update  ?
                                             <button className="btn btn-secondary" onClick={this.submitChange(currMed.medicationID, currMed.quantity)}>Submit</button>
-                                            : <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update</button>}
+                                            : <button className="btn btn-secondary" onClick={this.updateActive()}>Update</button>}
                                             </td>
                                             <td><button className="btn btn-secondary">Request</button></td>
                                         </tr> 

@@ -18,11 +18,12 @@ export class HomePage extends React.Component {
         authorityLevel: 0,
         searchOption: '',
         searchText: '',
-        message:''
+        message:'',
+        isLoggedIn: ''
     };
-
+    
     isLoggedIn = () => {
-        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != "-1";
+        let loggedIn = localStorage.getItem("userID") && localStorage.getItem("userID") != -1;
         return loggedIn;
     }
 
@@ -35,15 +36,19 @@ export class HomePage extends React.Component {
                     
                     let spaceLoc = res.data[0].name.indexOf(" ");
                     if (spaceLoc >= 0) {
-                        this.setState({firstName: res.data[0].name.substring(0, spaceLoc), authorityLevel: res.data[0].authorityLevel});
+                        this.setState({firstName: res.data[0].name.substring(0, spaceLoc), authorityLevel: res.data[0].authorityLevel, isLoggedIn: true});
                     }
                     else {
-                        this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel});
+                        this.setState({firstName: res.data[0].name, authorityLevel: res.data[0].authorityLevel, isLoggedIn: true});
                     }
                 })
                 .catch(err => {
                     console.log("No user info found")
                 })
+        }
+        else {
+            this.setState({isLoggedIn: false})
+            console.log("No user info found. ID returned -1")
         }
     }
 
@@ -75,10 +80,12 @@ export class HomePage extends React.Component {
                             </button>
                         </div>
                         <div className="position-absolute homepage-links">
-                            {this.state.authorityLevel > 0 ?
+                            {this.isLoggedIn() && this.state.authorityLevel > 0 ?
                                 <a className="d-block" href="/medlist">Edit Prescriptions</a>
                                 : <a className="d-block" href="/medlist">View Prescriptions</a>}
-                            <a className="d-block" href="/pharmacyPortal">Pharmacies</a>
+                            {this.isLoggedIn() && 
+                                <a className="d-block" href="/pharmacyPortal">Pharmacies</a>}
+                            
                         </div>
                     </div>
                     <img className="position-absolute mobile-none w-100 homepage-img2" src="img/Homepage-2.svg"></img>
