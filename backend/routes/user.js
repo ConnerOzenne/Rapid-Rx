@@ -321,7 +321,7 @@ app.put('/user/:userID/addresses', (req, res) => {
             } else {
                 var userID = req.params.userID
                 var username = req.body.username
-                var email = req.body.mail
+                var email = req.body.email
                 var name = req.body.name
                 var phone = req.body.phone 
                 // if there is no issue obtaining a connection, execute query and release connection

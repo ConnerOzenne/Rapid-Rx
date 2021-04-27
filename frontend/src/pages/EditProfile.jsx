@@ -32,19 +32,22 @@ export class EditProfile extends React.Component{
 			phone: this.state.phone
 		}
 		const address = {
-			userID: this.state.id,
 			city: this.state.city,
 			state: this.state.state,
-			address: this.state.streetAddress,
+			address: this.state.street,
 			zipcode: this.state.zip,
 			country: this.state.country
 		}
-		//console.log(user);
-		//console.log(address);
+		console.log(user);
+		console.log(address);
 		this.repo.updateAccount(this.state.id, user).then( data => {
 			this.repo.updateAddress(this.state.addressID, address);
             this.setState({redirect: this.state.path})
         });
+	}
+
+	cancelUpdate = () => {
+		this.setState({redirect: this.state.path})
 	}
 	
 	componentDidMount() {
@@ -72,8 +75,8 @@ export class EditProfile extends React.Component{
 							console.log(res);
 							this.setState({state: res2.data[0].state, 
 								city: res2.data[0].city,
-								streetAddress: res2.data[0].address,
-								zip: res2.data[0].zip,
+								street: res2.data[0].address,
+								zip: res2.data[0].zipcode,
 								country: res2.data[0].country
 							})
 						})
@@ -131,7 +134,7 @@ export class EditProfile extends React.Component{
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="street">Street</label>
-								<input type="name" class="form-control" id="street" placeholder={this.state.address}
+								<input type="name" class="form-control" id="street" placeholder={this.state.street}
                     			onChange={event => this.setState({street: event.target.value})}/>
 							</div>
 						</div>
@@ -157,7 +160,10 @@ export class EditProfile extends React.Component{
 							</div>
 						</div>
 					</div>
-                    <button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.updateProfile}>Update</button>
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<button type="button" id="submit" name="submit" class="btn btn-secondary" onClick={this.updateProfile}>Update</button>
+						<button type="button" id="cancel" name="cancel" class="btn btn-primary" onClick={this.cancelUpdate}>Cancel</button>
+					</div>
 				</form>
 				</div>
 			</div>

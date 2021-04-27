@@ -24,9 +24,7 @@ export class PharmManager extends React.Component {
 
     searchOptions = [
         'Medication ID',
-        'Medication Name',
-        'Quantity',
-        'Price'
+        'Medication Name'
     ]
 
     isLoggedIn = () => {
@@ -37,16 +35,18 @@ export class PharmManager extends React.Component {
 
     componentDidMount() {
         //console.log();
-        //debugger;
+        debugger;
+        let path = this.props.history.location.pathname;
+        let pID = parseInt(path.substr(17));
         this.repo.getUserInfo(this.state.id)
             .then(data => {
                 const res = data.data;
                 console.log("User Profile - componentDidMount(): res...")
                 console.log(res);
                 this.setState({authorityLevel: res.data[0].authorityLevel,
-                    pharmacyID: res.data[0].pharmacyID,
+                    pharmacyID: pID,
                 })
-                this.repo.getInventory(this.state.pharmacyID)
+                this.repo.getInventory(pID)
                     .then(x => {
                         const res2 = x.data;
                         this.setState({meds: res2});
@@ -69,8 +69,6 @@ export class PharmManager extends React.Component {
         if (this.state.searchText == '') return true;
         if (this.state.searchOption == this.searchOptions[0] && currMed.medicationID == parseInt(this.state.searchText)) return true;
         if (this.state.searchOption == this.searchOptions[1] && currMed.name.includes(this.state.searchText)) return true;
-        if (this.state.searchOption == this.searchOptions[4] && currMed.quantity.includes(this.state.searchText)) return true;
-        if (this.state.searchOption == this.searchOptions[5] && currMed.price == parseInt(this.state.searchText)) return true;
         return false;
     }
 
@@ -86,7 +84,7 @@ export class PharmManager extends React.Component {
             <>
                 <Navbar/>           
                 <div className="Container" id="header">
-                    <h1>Medication Inventory</h1>
+                    <h1 class="text-center">Medication Inventory</h1>
                     <div className="mx-5 p-5">
                     {
                     this.props.authorityLevel && this.props.authorityLevel > 0 ?
@@ -112,8 +110,7 @@ export class PharmManager extends React.Component {
                     <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update Inventory</button> : 
                     <p></p>
                     }
-                    <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update Inventory</button>
-
+                    
                     <table className="table table-striped">
                         <thead>
                             <th>Medication ID</th>
