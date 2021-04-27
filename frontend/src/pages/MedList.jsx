@@ -20,9 +20,11 @@ export class MedList extends React.Component {
             meds: [],
             // username: user.name,
             username: "John Doe",
-            authorityLevel: 0
+            authorityLevel: 0,
+            monthNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         }
     }
+    
 
     componentDidMount() {
         let id = localStorage.getItem("userID");
@@ -58,12 +60,20 @@ export class MedList extends React.Component {
             return loggedIn;
     }
 
+    getDate() {
+        let date = new Date()
+        let m = (date.getUTCMonth() + 1)
+        let d = date.getUTCDate()
+        let y = date.getUTCFullYear()
+        return y + '-' + 0 + m + '-' + d
+    }
+
 
     checkRefill = (med) => {
-        let d = new Date();
-        // let d = "2021-05-24T20:59:01.000Z";
+        let d = this.getDate()
+        let newRefillDate = med.refillDate.substring(0, 10);
 
-        if(d == med.refillDate) {
+        if(d == newRefillDate) {
             // assuming that a medication will be available for refill one month after refilling
             this.repository.createOrderAndOrderDetails({userID: localStorage.getItem("userID"), pharmacyID: med.pharmacyID, medicationID: med.medicationID, quantity: med.quantity, monthsTillRefill: 1, refillLeft: med.refillLeft})
             .then(x => {
