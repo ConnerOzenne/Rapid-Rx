@@ -337,7 +337,7 @@ export class Repository {
 
     updateAddress(id, address) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.url}/user/${id}/addresses`, address, this.config)
+            axios.put(`${this.url}/address/${id}`, address, this.config)
                 .then(x => resolve(x.data))
                 .catch(error => {
                     alert(error);

@@ -51,8 +51,8 @@ export class UserProfile extends React.Component{
 							console.log(res);
 							this.setState({state: res2.data[0].state, 
 								city: res2.data[0].city,
-								streetAddress: res2.data[0].address,
-								zip: res2.data[0].zip,
+								address: res2.data[0].address,
+								zip: res2.data[0].zipcode,
 								country: res2.data[0].country
 							})
 						})
