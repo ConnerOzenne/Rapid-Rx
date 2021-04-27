@@ -62,15 +62,6 @@ td {
     padding:5px;
 } 
 
-button {
-    font-size: 10px;
-    background-color: #adffbc;
-    color: black;
-    border: 1px;
-    width: fit-content;
-    padding:10px;
-}
-
 #btn-refill {
     border-color: #229631;
     background-color: #229631;
