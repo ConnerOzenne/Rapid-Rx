@@ -32,13 +32,15 @@ export class EditProfile extends React.Component{
 			phone: this.state.phone
 		}
 		const address = {
-			city: "this.state.city",
-			state: "this.state.state",
-			address: "this.state.streetAddress",
-			zip: "this.state.zip",
-			country: "this.state.country"
+			userID: this.state.id,
+			city: this.state.city,
+			state: this.state.state,
+			address: this.state.streetAddress,
+			zipcode: this.state.zip,
+			country: this.state.country
 		}
-		console.log(user);
+		//console.log(user);
+		console.log(address);
 		this.repo.updateAccount(this.state.id, user).then( data => {
 			this.repo.updateAddress(this.state.addressID, address);
             this.setState({redirect: this.state.path})
