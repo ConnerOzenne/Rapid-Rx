@@ -40,7 +40,7 @@ export class EditProfile extends React.Component{
 			country: this.state.country
 		}
 		//console.log(user);
-		console.log(address);
+		//console.log(address);
 		this.repo.updateAccount(this.state.id, user).then( data => {
 			this.repo.updateAddress(this.state.addressID, address);
             this.setState({redirect: this.state.path})
