@@ -168,9 +168,9 @@ module.exports = function request(app, logger) {
         });
     });
 
-    // PUT /request/:quantity/changeTo
+    // PUT /request/:requestID/updateQuantity
     // Add / change quantity of medication in a request
-    app.put('/request/:quantity/changeTo', (req, res) => {
+    app.put('/request/:requestID/updateQuantity', (req, res) => {
         console.log(req.params);
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -179,10 +179,10 @@ module.exports = function request(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var quantity = req.params.quantity;
                 var requestID = req.params.requestID;
+                var quantity = req.body.quantity;
                 // if there is no issue obtaining a connection, execute query
-                connection.query('UPDATE `rapidrx`.`requests` AS n SET n.quantity = ? WHERE n.requestID = ? (quantity, requestID) VALUES(?, ?)',[quantity, requestID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`requests` AS r SET r.quantity = ? WHERE r.requestID = ?;', [quantity, requestID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) { 
@@ -198,7 +198,7 @@ module.exports = function request(app, logger) {
         });
     });
 
-    // PUT /request/:isComplete/setComplete
+    // PUT /request/:requestID/setComplete
     app.put('/request/:quantity/setComplete', (req, res) => {
         console.log(req.params);
         // obtain a connection from our pool of connections
@@ -210,7 +210,7 @@ module.exports = function request(app, logger) {
             } else {
                 var requestID = req.params.requestID;
                 // if there is no issue obtaining a connection, execute query
-                connection.query('UPDATE `rapidrx`.`notifications` AS n SET isComplete = 1 WHERE n.requestID = ?',[requestID], function (err, rows, fields) {
+                connection.query('UPDATE `rapidrx`.`requests` AS r SET r.isComplete = 1 WHERE r.requestID = ?', [requestID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) { 

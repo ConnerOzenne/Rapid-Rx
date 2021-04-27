@@ -35,7 +35,7 @@ module.exports = function payment(app, logger) {
 
     // GET / payment/userPayments
     // Access payments associated with userID
-    app.get('/payment/userPayments', (req, res) => {
+    app.get('/payments/user/:userID', (req, res) => {
         console.log(req.body)
         // obtain a connection from our pool of connections
         pool.getConnection(function (err, connection){
@@ -44,10 +44,9 @@ module.exports = function payment(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var paymentID = req.body.paymentID
-                var userID = req.body.userID
+                var userID = req.params.userID
                 // if there is no issue obtaining a connection, execute query and release connection
-                connection.query('SELECT * FROM `rapidrx`.`payments` AS p WHERE p.paymentID = ? AND p.userID = ? (paymentID, userID) VALUES(?, ?)', [paymentID, userID], function (err, rows, fields) {
+                connection.query('SELECT * FROM `rapidrx`.`payments` AS p WHERE p.userID = ?;', [userID], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
@@ -77,12 +76,11 @@ module.exports = function payment(app, logger) {
                 logger.error('Problem obtaining MySQL connection',err)
                 res.status(400).send('Problem obtaining MySQL connection'); 
             } else {
-                var paymentID = req.body.paymentID
                 var userID = req.body.userID
                 var paymentDate = req.body.paymentDate
                 var amount = req.body.amount
                 // if there is no issue obtaining a connection, execute query
-                connection.query('INSERT INTO `rapidrx`.`payments` (paymentID, userID, paymentDate, amount) VALUES(?, ?, ?, ?)',[paymentID, userID, paymentDate, amount], function (err, rows, fields) {
+                connection.query('INSERT INTO `rapidrx`.`payments` (userID, paymentDate, amount) VALUES(?, ?, ?)',[paymentID, userID, paymentDate, amount], function (err, rows, fields) {
                     // if there is an error with the query, release the connection instance and log the error
                     connection.release()
                     if (err) {
