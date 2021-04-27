@@ -4,6 +4,8 @@ services:
   backend-api:
     # location of docker file for node container
     build: ./backend
+    environment:
+      CHOKIDAR-USEPOLLING: "true"
     # restart on crashes
     restart: always
     # working directory in container to place files

@@ -16,7 +16,7 @@ export class Navbar extends React.Component {
     componentDidMount() {
         console.log("USER ID:", localStorage.getItem("userID"))
         console.log("Logged in: ", this.isLoggedIn())
-        if (localStorage.getItem("userID") != -1 && localStorage.getItem("userID") != "") {
+        if (localStorage.getItem("userID") && localStorage.getItem("userID") != -1) {
             this.repo.getUserInfo(localStorage.getItem("userID")).then(data => {
                 const res = data.data;
                 console.log("Navbar: componentDidMount(): res...");
