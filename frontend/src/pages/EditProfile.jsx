@@ -45,6 +45,10 @@ export class EditProfile extends React.Component{
             this.setState({redirect: this.state.path})
         });
 	}
+
+	cancelUpdate = () => {
+		this.setState({redirect: this.state.path})
+	}
 	
 	componentDidMount() {
 		debugger;
@@ -156,7 +160,10 @@ export class EditProfile extends React.Component{
 							</div>
 						</div>
 					</div>
-                    <button type="button" id="submit" name="submit" class="btn btn-primary" onClick={this.updateProfile}>Update</button>
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<button type="button" id="submit" name="submit" class="btn btn-secondary" onClick={this.updateProfile}>Update</button>
+						<button type="button" id="cancel" name="cancel" class="btn btn-primary" onClick={this.cancelUpdate}>Cancel</button>
+					</div>
 				</form>
 				</div>
 			</div>
