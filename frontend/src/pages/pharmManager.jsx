@@ -37,16 +37,18 @@ export class PharmManager extends React.Component {
 
     componentDidMount() {
         //console.log();
-        //debugger;
+        debugger;
+        let path = this.props.history.location.pathname;
+        let pID = parseInt(path.substr(17));
         this.repo.getUserInfo(this.state.id)
             .then(data => {
                 const res = data.data;
                 console.log("User Profile - componentDidMount(): res...")
                 console.log(res);
                 this.setState({authorityLevel: res.data[0].authorityLevel,
-                    pharmacyID: res.data[0].pharmacyID,
+                    pharmacyID: pID,
                 })
-                this.repo.getInventory(this.state.pharmacyID)
+                this.repo.getInventory(pID)
                     .then(x => {
                         const res2 = x.data;
                         this.setState({meds: res2});
