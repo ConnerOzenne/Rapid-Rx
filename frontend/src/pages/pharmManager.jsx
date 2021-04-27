@@ -112,8 +112,7 @@ export class PharmManager extends React.Component {
                     <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update Inventory</button> : 
                     <p></p>
                     }
-                    <button className="btn btn-secondary" onClick={() => this.updateActive()}>Update Inventory</button>
-
+                    
                     <table className="table table-striped">
                         <thead>
                             <th>Medication ID</th>
