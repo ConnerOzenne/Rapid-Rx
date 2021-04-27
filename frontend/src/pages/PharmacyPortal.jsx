@@ -58,8 +58,8 @@ export class PharmacyPortal extends React.Component {
                                 <th>Pharmacy</th>
                                 <th>Medication</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Date</th>
+                                <th>Total Cost</th>
+                                <th>Refill Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,7 +69,7 @@ export class PharmacyPortal extends React.Component {
                                 <td id="pharmacy">{row.pharmacyName}</td>
                                 <td id="medication">{row.medName}</td>
                                 <td id="quantity">{row.quantity}</td>
-                                <td id="price">{row.price}.00</td>
+                                <td id="price">{row.totalCost}.00</td>
                                 <td id="date">{row.refillDate.substring(0, 10)}</td>
                             </tr>
                         ))}
