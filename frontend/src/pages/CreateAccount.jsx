@@ -113,7 +113,7 @@ export class CreateAccount extends React.Component {
                 {!this.state.success && <div>
                     <h3>Create Account</h3>
 
-                    <label htmlFor="name">Email</label>
+                    <label htmlFor="name">Name</label>
                     <input className="form-control"
                     type="text" 
                     name="name" 
