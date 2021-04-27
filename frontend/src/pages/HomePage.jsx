@@ -82,7 +82,7 @@ export class HomePage extends React.Component {
                         </div>
                         <div className="position-absolute homepage-links">
                             {this.isLoggedIn() && this.state.authorityLevel > 0 ?
-                                <a className="d-block" href="/medlist">Edit Prescriptions</a>
+                                this.state.authorityLevel != 1 && <a className="d-block" href="/medlist">Edit Prescriptions</a>
                                 : <a className="d-block" href="/medlist">View Prescriptions</a>}
                             {this.isLoggedIn() && 
                                 <a className="d-block" href="/pharmacyPortal">Pharmacies</a>}
