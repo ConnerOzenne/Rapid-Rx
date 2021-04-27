@@ -24,9 +24,7 @@ export class PharmManager extends React.Component {
 
     searchOptions = [
         'Medication ID',
-        'Medication Name',
-        'Quantity',
-        'Price'
+        'Medication Name'
     ]
 
     isLoggedIn = () => {
@@ -71,8 +69,6 @@ export class PharmManager extends React.Component {
         if (this.state.searchText == '') return true;
         if (this.state.searchOption == this.searchOptions[0] && currMed.medicationID == parseInt(this.state.searchText)) return true;
         if (this.state.searchOption == this.searchOptions[1] && currMed.name.includes(this.state.searchText)) return true;
-        if (this.state.searchOption == this.searchOptions[4] && currMed.quantity.includes(this.state.searchText)) return true;
-        if (this.state.searchOption == this.searchOptions[5] && currMed.price == parseInt(this.state.searchText)) return true;
         return false;
     }
 
@@ -88,7 +84,7 @@ export class PharmManager extends React.Component {
             <>
                 <Navbar/>           
                 <div className="Container" id="header">
-                    <h1>Medication Inventory</h1>
+                    <h1 class="text-center">Medication Inventory</h1>
                     <div className="mx-5 p-5">
                     {
                     this.props.authorityLevel && this.props.authorityLevel > 0 ?
